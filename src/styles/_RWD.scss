@@ -1,0 +1,670 @@
+// -------------- Home
+@media screen and (max-width: 1920px) {
+    .landing-page-wrap .landing-page-layout .landing-page-layout-main .landing-page-layout-content .landing-page-agenda-wrap .landing-page-agenda-slide-container .ant-tabs .slick-slider .slick-list .slick-track .slick-slide>div {
+        padding: 30px 30px;
+    }
+}
+
+// -------------- Home
+@media screen and (max-width: 1440px) {
+    .landing-page-wrap .landing-page-layout .landing-page-layout-main .landing-page-layout-content .landing-page-agenda-wrap .landing-page-agenda-slide-container .ant-tabs .slick-slider .slick-list .slick-track .slick-slide>div {
+        padding: 30px 30px;
+    }
+}
+
+@media screen and (max-width: 1180px) {
+    .landing-page-wrap {
+        .landing-page-layout {
+            .interactive-modal {
+                .interactive-modal-btn-gp {
+                    display: flex;
+                    flex-direction: column;
+                    width: 60%;
+                    justify-content: space-between;
+                    margin: 0 auto;
+
+                    .interactive-modal-agree {
+                        background-color: color(blue500);
+                        border-radius: 10px;
+                        border: none;
+                        color: color(white);
+                        height: 50px;
+                        width: 100%;
+                        transition: 0.5s;
+                        font-size: 1rem;
+
+                        &:hover {
+                            background-color: color(blue400);
+                        }
+                    }
+
+                    .interactive-modal-disagree {
+                        background-color: transparent;
+                        border: none;
+                        box-shadow: none;
+                        cursor: pointer;
+                        color: color(grey500);
+                        transition: 0.5s;
+
+                        &:hover {
+                            color: color(grey300);
+                        }
+                    }
+                }
+            }
+
+            .lottie-content {
+                width: 90%;
+                margin: 0 auto;
+                position: fixed;
+                top: 0%;
+                left: 0;
+                right: 0;
+
+                #rocket-opening-desktop {
+                    display: none;
+                }
+
+                #rocket-opening-640 {
+                    width: 100%;
+                    display: block;
+                }
+
+                .lottie-add-fuel {
+                    width: 50%;
+                    grid-template-columns: 100%;
+                    grid-template-rows: 55% 45%;
+                }
+            }
+
+            .landing-page-layout-main {
+
+                // ----------------- header -----------------
+                .landing-page-layout-header {
+                    background-color: #fff;
+                    z-index: 800;
+                    @include flexBox(row, center, space-between);
+                    padding: 0 30px;
+                    position: fixed;
+                    right: 0;
+                    left: 0;
+                    top: 0;
+                    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+                    height: 60px;
+
+                    // ----------------- logo -----------------
+                    .landing-page-header-logo {
+                        .google-svg {
+                            height: 30px;
+                        }
+                    }
+
+                    // ----------------- navbar list -----------------
+                    .landing-page-header-lang-selector-container {
+                        @include flexBox(row, center, flex-end);
+
+                        .sidebar-nav {
+                            .MO_show {
+                                display: block;
+                            }
+
+                            .label_ham_svgBox {
+                                line-height: 1;
+                                padding: 5px;
+                                border-radius: 40px;
+
+                                &:hover {
+                                    transition: 0.5s;
+                                    background-color: color(grey100);
+                                }
+
+                                .ham_svgBox {
+                                    cursor: pointer;
+                                    background-color: rgba(0, 0, 0, 0);
+
+                                    .ham_svg {
+                                        display: block;
+                                        width: 22px;
+                                        height: 22px;
+                                        color: color(grey500);
+                                    }
+                                }
+                            }
+
+                            .sidebar-menu {
+                                @include flexBox(column, stretch, center);
+                                background-color: color(white);
+                                width: 100%;
+                                position: fixed;
+                                top: 59px;
+                                left: 0;
+                                max-height: 0;
+                                overflow: hidden;
+                                transition: 0.5s;
+
+                                .link-a {
+                                    margin: 0px;
+                                    border-radius: 0px;
+                                    padding: 20px;
+
+                                    .sidebar-menu-item {
+                                        @include flexBox(row, flex-end, flex-end);
+
+                                        .navIcon_svg {
+                                            display: none;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .menu-input:checked~.sidebar-menu {
+                                max-height: 300px;
+                            }
+                        }
+
+                        // -----------------  切换语言 -----------------
+                        .ant-select {
+                            color: color(grey400);
+                            order: -1;
+
+                            &:hover {
+                                color: color(grey600);
+                            }
+                        }
+                    }
+                }
+
+                // ----------------- main content -----------------
+                .landing-page-layout-content {
+                    width: 100%;
+                    // height: calc(100% - 60px);
+                    height: 100%;
+
+                    // agenda & speaker & faq 标题大小
+                    .page-title {
+                        font-size: 30px !important;
+                        padding: 0px 0 0px 0px !important;
+                        margin: 0 !important;
+                    }
+
+                    // content 尺寸設定
+                    .landing-page-faq-wrap,
+                    .landing-page-agenda-wrap {
+                        width: 100%;
+                        height: 100%;
+                        padding: 80px 30px 0;
+                    }
+
+                    // Home & login
+                    .landing-page-home-background {
+                        background: none;
+
+                        .landing-page-home-kv-lottie {
+                            display: none;
+                        }
+
+                        .landing-page-home-wrap {
+                            width: 100%;
+                            @include flexBox(column, center, flex-start);
+                            gap: 0;
+                            padding: 75px 0px 0;
+
+                            .landing-page-home-content {
+                                @include flexBox(column, center, flex-start);
+                                padding: 0 0px;
+                                height: auto;
+
+                                .landing-page-home-title {
+                                    padding: 0 0px;
+                                    margin: 0 0px;
+
+                                    .landing-page-home-title-box {
+                                        .landing-page-home-title-box-title {
+                                            text-align: center;
+                                            font-size: 32px;
+                                        }
+
+                                        .landing-page-google-content {
+                                            margin: 10px 0;
+                                            width: 100%;
+
+                                            .landing-page-home-intro {
+                                                text-align: center;
+                                                font-size: 17px;
+                                                // @include flexBox(row, center, center);
+
+                                                // // 活動說明
+                                                // .intro-content {
+                                                //     display: none;
+                                                // }
+
+                                                // //時間
+                                                // .intro-time-box {
+
+                                                //     .intro-date-title,
+                                                //     .intro-date {
+                                                //         font-size: 14px;
+                                                //     }
+
+                                                //     .intro-time {
+                                                //         display: none;
+                                                //     }
+                                                // }
+
+                                                .calendar_btn_mo {
+                                                    display: block;
+                                                    background-color: color(blue500);
+                                                    border-radius: 50px;
+                                                    margin: 0 0 0 10px;
+                                                    width: 28px;
+                                                    height: 28px;
+                                                    @include flexBox(row, center, center);
+
+                                                    .calendarIconBox {
+                                                        margin: 3px auto 0;
+                                                        animation: beat 0.5s infinite alternate;
+                                                        transform-origin: center;
+
+                                                        .bellsvg {
+                                                            width: 14px;
+                                                            color: color(white);
+                                                        }
+                                                    }
+
+                                                    @keyframes beat {
+                                                        to {
+                                                            transform: scale(1.2);
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            .landing-page-home-intro-time {
+                                                @include title-intro(color(grey700));
+                                                font-size: 14px;
+                                                margin-top: 2px;
+                                                text-align: center;
+                                            }
+                                        }
+
+                                        // .landing-page-home-title-box-mo-intro {
+                                        //     display: inline-block;
+                                        //     text-align: center;
+                                        //     font-size: 14px;
+                                        //     font-weight: 500;
+                                        //     color: color(grey700);
+                                        // }
+
+                                        // .sm {
+                                        //     font-weight: 400;
+                                        //     font-size: 12px;
+                                        // }
+                                    }
+                                }
+
+                                .landing-page-home-kv-lottie-mo {
+                                    display: block;
+                                }
+
+                                .landing-page-login-content-top {
+                                    @include flexBox(column, center, flex-start);
+
+                                    .landing-page-home-time {
+                                        display: block;
+
+                                        .landing-page-home-time-date {
+                                            margin: 15px 0px 0px;
+                                            padding: 0 5px 0 0;
+                                            font-size: 14px;
+                                            color: color(grey600);
+                                        }
+
+                                        .landing-page-home-time-hour {
+                                            display: inline-block;
+                                            font-size: 14px;
+                                            color: color(grey600);
+                                            padding: 0;
+                                        }
+                                    }
+                                }
+
+                                .landing-page-home-add-to-calendar-dropdown {
+                                    display: none;
+                                }
+
+                                .landing-page-home-calendarBtn-mo {
+                                    display: inline-block;
+                                    border-radius: 50px;
+                                    padding: 8px 20px 5px;
+                                    background-color: color(blue500);
+                                    color: color(white);
+                                    font-weight: 500;
+                                    font-size: 15px;
+                                    line-height: 1;
+                                    cursor: pointer;
+                                    white-space: nowrap;
+                                    transition: 0.3s;
+
+                                    .calendarIconBox {
+                                        width: 17px;
+                                        display: inline-block;
+                                        vertical-align: middle;
+                                        margin-right: 5px;
+                                        margin-bottom: 3px;
+                                        transition: 0.3s;
+
+                                        .bellsvg {
+                                            width: 100%;
+                                            color: color(white);
+                                        }
+                                    }
+                                }
+
+                                .kv_img_box_mo {
+                                    display: block;
+                                    width: 100%;
+                                    margin: 20px auto 10px;
+                                    text-align: center;
+
+                                    .kv {
+                                        width: 100%;
+                                    }
+                                }
+
+                                .landing-page-login-content {
+                                    margin: 0;
+
+                                    .landing-page-login-content-box {
+                                        padding: 0 30px;
+
+                                        .login-form {
+                                            flex-direction: column;
+                                            align-items: stretch;
+
+                                            .login-input {
+                                                text-align: center;
+                                                margin: 15px 0 10px;
+                                            }
+
+                                            .login-btn {
+                                                margin: 0 0 0;
+                                            }
+
+                                            .login-input-gp {
+                                                width: 100%;
+
+                                                .googler {
+                                                    width: 60% !important;
+                                                }
+
+                                                .googleAppend {
+                                                    text-align: center;
+                                                    width: 40%;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                // Count down
+                                .landing-page-count-down {
+                                    margin: 0px 0 0;
+
+                                    .landing-page-count-col {
+                                        margin: 0 2px 0;
+
+                                        .count-down-num {
+                                            font-size: 24px;
+                                            width: 70px;
+                                            height: 70px;
+                                        }
+
+                                        .landing-page-count-down-word {
+                                            margin: 5px 0 0;
+                                            font-size: 12px;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .landing-page-home-content-right {
+                                .kv_img_box {
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
+
+                    // ----------- Agenda
+                    .landing-page-agenda-background {
+                        .landing-page-agenda-wrap {
+                            .landing-page-agenda-slide-container {
+                                margin: 0px;
+
+                                .ant-tabs {
+
+                                    // 開發日..Tab
+                                    .ant-tabs-nav {
+                                        margin: 0px;
+
+                                        .ant-tabs-nav-wrap {
+                                            .ant-tabs-nav-operations {
+                                                display: none;
+                                            }
+
+                                            .ant-tabs-nav-list {
+
+                                                // tab文字樣式
+                                                .ant-tabs-tab {
+                                                    font-size: 13px;
+                                                    padding: 7px 15px;
+                                                }
+
+                                                .ant-tabs-tab+.ant-tabs-tab {
+                                                    margin: 0 0 0 10px;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    // card
+                                    .slick-slider {
+                                        margin: 0;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // ----------- Speaker
+                    .landing-page-speaker-wrap {
+                        .ant-tabs {
+
+                            //  card
+                            .ant-tabs-content-holder {
+                                .ant-tabs-content {
+                                    .slick-slider {
+
+                                        // speaker 的箭头距离
+                                        .slick-prev {
+                                            left: -15px !important;
+                                        }
+
+                                        .slick-next {
+                                            right: -17px !important;
+                                        }
+
+                                        .slick-list {
+                                            margin: 0 0;
+
+                                            .slick-track {
+                                                .slick-slide {
+                                                    &>div {
+                                                        height: 320px;
+                                                        padding: 40px 20px 0;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // ----------- FAQs
+                    .landing-page-faq-wrap {
+                        .ant-tabs {
+                            height: 85%;
+                            overflow: visible;
+
+                            // tab
+                            .ant-tabs-nav {
+                                margin: 10px 0;
+
+                                .ant-tabs-nav-wrap {
+                                    .ant-tabs-nav-operations {
+                                        display: none;
+                                    }
+
+                                    .ant-tabs-nav-list {
+
+                                        // tab文字樣式
+                                        .ant-tabs-tab {
+                                            font-size: 13px;
+                                        }
+
+                                        .ant-tabs-tab+.ant-tabs-tab {
+                                            margin: 0 0 0 5px;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .landing-page-faq-collapse {
+                                .landing-page-faq-collapse-header {
+
+                                    // Question
+                                    .ant-collapse-header {
+                                        font-size: 14px;
+                                        padding: 10px 40px 10px 0px;
+                                    }
+
+                                    // answer
+                                    .ant-collapse-content-box {
+                                        font-size: 15px;
+                                        padding: 15px 20px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // card dots
+    .slick-dots li {
+        margin: 0 2px !important;
+
+        button:before {
+            font-size: 13px !important;
+        }
+    }
+}
+
+// 背景
+@media screen and (max-width: 650px) {
+    .landing-page-wrap {
+        .landing-page-layout {
+            .interactive-modal {
+                .ant-modal-content {
+                    .ant-modal-body {
+                        .interactive-modal-inner {
+                            .interactive-modal-desc {
+                                padding: 0 20px;
+
+                                div:first-child {
+                                    font-size: 1rem;
+                                }
+
+                                div:nth-child(2) {
+                                    font-size: 0.8rem;
+                                }
+                            }
+
+                            .interactive-modal-btn-gp {
+                                width: 75%;
+
+                                .interactive-modal-play-store-id-input {
+                                    input {
+                                        font-size: 0.6rem;
+                                    }
+
+                                    .interactive-modal-url-submit {
+                                        font-size: 0.6rem;
+                                    }
+                                }
+
+                                .interactive-modal-agree {
+                                    font-size: 0.8rem;
+                                }
+
+                                .interactive-modal-disagree {
+                                    font-size: 0.8rem;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .lottie-content {
+                width: 90%;
+                margin: 0 auto;
+                position: fixed;
+                top: 0%;
+                left: 0;
+                right: 0;
+
+                .lottie-add-fuel {
+                    width: 100%;
+                    grid-template-columns: 100%;
+                    grid-template-rows: 55% 45%;
+                }
+            }
+
+            .landing-page-layout-main {
+                min-width: 360px;
+
+                .landing-page-layout-content {}
+            }
+        }
+    }
+
+    //尺寸設定
+    .landing-page-home-background {
+        height: 100%;
+        min-height: 700px;
+    }
+
+    .landing-page-agenda-background {
+        height: 100%;
+        align-items: flex-start;
+        background: url("https://oss.uppmkt.com/cxo/img/kv/bg2_mo.svg");
+        background-repeat: no-repeat;
+        background-position: right 0px top 0px;
+        background-size: cover;
+        min-height: 700px;
+    }
+
+    .landing-page-faq-background {
+        height: 100%;
+        background: url("https://oss.uppmkt.com/cxo/img/kv/bg3_mo.svg");
+        background-repeat: no-repeat;
+        background-position: right bottom;
+        background-size: cover;
+        min-height: 600px;
+    }
+}

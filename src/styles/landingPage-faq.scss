@@ -1,0 +1,109 @@
+.landing-page-faq-wrap {
+    width: 75%;
+    max-width: 1500px;
+    margin: 0 auto;
+    // height: 100%;
+    // padding: 60px 0 0;
+    padding: 0px 0 0px;
+
+    .page-title {
+        @include title-main(color(grey800));
+        padding: 0 0 15px;
+        margin: 0px;
+    }
+
+    // tab 跟线的距离
+    .ant-tabs-large>.ant-tabs-nav .ant-tabs-nav-list .ant-tabs-tab {
+        padding: 0 0 5px;
+    }
+
+    .ant-tabs {
+        height: 50%;
+        min-height: 420px;
+        max-height: 700px;
+        overflow: visible;
+
+        // tab
+        .ant-tabs-nav {
+
+            // 底線
+            &::before {
+                border-bottom: 1px solid transparent;
+            }
+
+            .ant-tabs-nav-wrap {
+                .ant-tabs-nav-list {
+                    padding: 10px 0;
+
+                    // tab文字樣式
+                    .ant-tabs-tab {
+                        background-color: color(white);
+                        border-radius: 30px;
+                        padding: 7px 20px;
+                        font-size: 18px;
+                        font-weight: 400;
+                        color: color(blue500);
+                        box-shadow: 1px 0px 7px 0px color(grey200);
+
+                        // &:hover {
+                        //     background-color: color(blue100);
+                        // }
+                    }
+
+                    // tab - 被點選的 文字樣式
+                    .ant-tabs-tab-active {
+                        background-color: color(blue500);
+
+                        .ant-tabs-tab-btn {
+                            color: color(white);
+                        }
+                    }
+
+                    .ant-tabs-tab+.ant-tabs-tab {
+                        margin: 0 0 0 20px;
+                    }
+
+                    // tab - 被點選的 底線
+                    .ant-tabs-ink-bar {
+                        display: none;
+                    }
+                }
+            }
+        }
+
+        //问题区块的margin
+        .ant-tabs-content-holder {
+            margin: 20px 0 0;
+        }
+
+        .landing-page-faq-collapse {
+            background-color: transparent;
+            border-radius: 10px;
+
+            .landing-page-faq-collapse-header {
+                font-size: 17px;
+                text-align: left;
+                border-bottom: none;
+
+                // Question
+                .ant-collapse-header {
+                    @include faq-question;
+                    padding: 15px 50px 15px 0px;
+                    background-color: rgba($color: color(white), $alpha: 0.9);
+
+                    &:hover {
+                        color: color(grey900);
+                    }
+                }
+
+                // answer
+                .ant-collapse-content-box {
+                    @include faq-answer;
+                    background-color: rgba($color: color(white), $alpha: 0.9);
+                    border-radius: 10px;
+                    padding: 15px 20px;
+                }
+            }
+        }
+    }
+}

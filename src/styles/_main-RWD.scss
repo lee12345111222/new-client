@@ -1,0 +1,423 @@
+// 大於 1180
+@media screen and (min-width: 1180px) {
+    .main-left-player-mask {
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px color(grey100);
+
+        position: relative;
+
+        &:before {
+            display: block;
+            content: "";
+            width: 100% !important;
+            padding-top: calc(9 / 16) * 100% !important;
+        }
+
+        > .content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: auto !important;
+            height: auto !important;
+        }
+    }
+}
+
+// 小於 1440
+@media screen and (max-width: 1440px) {
+    .main-wrap {
+        .main-layout-header {
+            padding: 0 20px;
+            height: 60px;
+
+            .main-header-logo {
+                .google-svg {
+                    height: 34px;
+                    width: auto;
+                }
+            }
+
+            .main-header-admin-selector-container {
+                .ant-select-selector {
+                    padding: 0;
+                }
+
+                .ant-select-arrow {
+                    .anticon {
+                        padding-left: 10px;
+                    }
+                }
+            }
+        }
+
+        //除了 header 的全部內容
+        .main-body {
+            max-width: 1400px;
+            height: calc(100vh - 60px);
+            padding: 20px 30px;
+            grid-template-columns: calc(100% - 400px - 25px) 400px;
+
+            .interactive-wrap {
+                height: 700px;
+
+                .interactive-routers-wrap {
+                    .chat-wrap,
+                    .questionSec-wrap {
+                        max-width: 100%;
+                        height: 100%;
+                    }
+
+                    .after-event-survey-wrap {
+                        .after-event-survey-unlock-result {
+                            .after-event-survey-unlock-result-text {
+                                padding: 340px 30px 0px;
+                            }
+                        }
+                    }
+                }
+
+                .interactive-lucky-draw-animation {
+                    height: 700px;
+                    @include flexBox(column, center, center);
+                    width: 100%;
+
+                    img {
+                        width: 100%;
+                    }
+                }
+
+                .interactive-lucky-draw-winner {
+                    height: 700px;
+                    width: 100%;
+
+                    .interactive-lucky-draw-winner-container {
+                        .interactive-lucky-draw-winner-body {
+                            padding: 0 30px;
+
+                            .interactive-lucky-draw-winner-item {
+                                padding: 10px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .after-event-survey-wrap {
+                height: 645px;
+            }
+        }
+    }
+}
+
+// 小於 1179
+@media screen and (max-width: 1179px) {
+    .main-wrap {
+        width: 100vw;
+        height: calc((var(--vh, 1vh) * 100));
+        padding: 0px;
+        display: grid;
+        grid-template-rows: 50px 1fr;
+
+        .main-drawing-modal {
+            .ant-modal-content {
+                .ant-modal-body {
+                    .main-drawing-win-winners {
+                        width: 70% !important;
+                        grid-template-columns: 100% !important;
+
+                        .main-drawing-win-winner {
+                            margin-bottom: 10px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .main-layout-header {
+            height: 50px;
+        }
+
+        .main-layout-header {
+            .main-header-admin-selector-container {
+                .ant-select-selector {
+                    .ant-select-selection-item {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        min-width: 90px;
+                        max-width: 180px;
+                    }
+                }
+            }
+
+            .main-header-logo {
+                .google-svg {
+                    height: 25px;
+                    width: auto;
+                }
+            }
+
+            .main-header-right {
+                .main-header-user-detail {
+                    display: none;
+                }
+
+                .main-header-faqBtn {
+                    height: 24px;
+
+                    &:nth-child(3),
+                    &:nth-child(4) {
+                        margin-right: 6px;
+                    }
+
+                    & > span {
+                        display: none;
+                    }
+
+                    .navIcon_svg {
+                        width: 20px;
+                        margin: 0;
+                    }
+                }
+
+                .main-header-admin-share-walkin-btn {
+                    font-size: 11px;
+                    margin-left: 5px;
+                }
+            }
+        }
+
+        .main-body {
+            height: 100%;
+            padding: 0px;
+            align-items: start;
+            justify-content: center;
+            display: grid;
+            grid-template-rows: 56.25vw calc((var(--vh, 1vh) * 100) - 50px - 56.25vw);
+            grid-template-columns: 100%;
+            gap: 0;
+
+            .main-body-left {
+                height: inherit;
+
+                .main-left-player-mask {
+                    border-radius: 0px;
+                    height: 100%;
+
+                    .player {
+                        width: 100vw !important;
+                        height: 56.25vw !important;
+                    }
+                }
+
+                .main-agenda-container {
+                    display: none;
+                }
+            }
+
+            .interactive-wrap {
+                height: inherit;
+                // grid-template-rows: 45px minmax(250px, calc(100vh - 50px - 56.25vw - 45px));
+                grid-template-rows: 45px calc((var(--vh, 1vh) * 100) - 50px - 56.25vw - 45px);
+
+                overflow: scroll;
+
+                // .ant-menu-overflow {
+                //     max-width: 100vw;
+                // }
+
+                .interactive-routers-wrap {
+                    max-width: 100vw;
+                    height: 100%;
+
+                    .chat-wrap {
+                        width: 100vw;
+                        height: 100%;
+
+                        .message-list {
+                            height: inherit;
+
+                            .message-list-item-self,
+                            .message-list-item-self.googler,
+                            .message-list-item,
+                            .message-list-item.googler {
+                                margin-top: 3px;
+                                margin-bottom: 9px;
+                            }
+                        }
+                    }
+
+                    .after-event-survey-wrap {
+                        height: 100%;
+                        justify-content: flex-start;
+
+                        .after-event-startBox {
+                            height: 100%;
+                        }
+
+                        .after-event-Question {
+                            font-size: 16px;
+                            margin: 15px 0 10px;
+                        }
+
+                        .after-event-survey-body {
+                            padding: 0px 20px 35px;
+
+                            .after-event-survey-options {
+                                .after-event-survey-option {
+                                    .after-event-survey-label {
+                                        font-size: 13px;
+                                        margin: 2px 0;
+                                    }
+                                }
+                            }
+
+                            .after-event-survey-btn-group {
+                                margin: 10px 0 0;
+
+                                .after-event-survey-prev-btn {
+                                    margin-top: 5px;
+                                }
+                            }
+                        }
+
+                        .after-event-survey-unlock {
+                            justify-content: flex-start;
+                            transform: translateY(-165px);
+                        }
+
+                        .after-event-survey-unlock-result {
+                            background-position: center -165px;
+
+                            .after-event-survey-unlock-result-text {
+                                font-size: 16px;
+                                padding: 250px 30px 0px;
+                            }
+                        }
+                    }
+                }
+
+                .interactive-lucky-draw-winner {
+                    height: 100%;
+                    grid-row: 1 / 3;
+
+                    .interactive-lucky-draw-winner-container {
+                        // padding: 0 30px;
+
+                        h2 {
+                            font-size: 18px;
+                            margin: 0 0 15px;
+                        }
+
+                        .interactive-lucky-draw-winner-body {
+                            height: 50%;
+                            min-height: 280px;
+                            // max-height: 580px;
+
+                            .interactive-lucky-draw-winner-item {
+                                padding: 7px;
+
+                                .interactive-lucky-draw-winner-item-name {
+                                    font-size: 17px;
+                                }
+
+                                .interactive-lucky-draw-winner-item-company {
+                                    font-size: 11px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .main-wrap {
+        .main-open-animation-lottie {
+            .main-open-animation-container {
+                display: none;
+            }
+
+            .main-open-animation-container-mo {
+                display: block;
+                width: 100%;
+            }
+        }
+
+        .main-drawing-modal {
+            .ant-modal-content {
+                .ant-modal-body {
+                    .main-drawing-win-winners {
+                        width: 80% !important;
+                    }
+
+                    .main-drawing-win-text {
+                        flex-direction: column !important;
+                    }
+                }
+            }
+        }
+
+        .main-body {
+            .main-body-left {
+                .main-left-player-mask {
+                    .group-chat {
+                        padding: 15px;
+
+                        .group-chat-top {
+                            margin-bottom: 15px;
+
+                            .group-chat-title {
+                                width: 85%;
+
+                                h2 {
+                                    font-size: 18px;
+                                }
+
+                                p {
+                                    font-size: 9px;
+                                }
+                            }
+                        }
+
+                        .group-chat-body {
+                            justify-content: space-between;
+
+                            .group-chat-item {
+                                padding: 10px 5px;
+                                width: 31%;
+                                height: 80px;
+
+                                #group-chat-item-topic {
+                                    font-size: 10px;
+                                    margin-bottom: 5px;
+                                }
+
+                                .group-chat-item-qrcode,
+                                .group-chat-item-body-cfr-code {
+                                    display: none;
+                                }
+
+                                .group-chat-item-body {
+                                    height: auto;
+
+                                    button {
+                                        background-color: color(blue500);
+                                        height: 30px;
+                                        font-size: 11px;
+                                        padding: 5px 10px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,161 @@
+@import "./variables";
+@import "./font-style.scss";
+@import "./layout-style.scss";
+@import "./main-font-style.scss";
+
+.interactive-wrap {
+    background-color: color(white);
+    box-shadow: 0px 0px 10px color(grey100);
+    border-radius: 10px;
+    display: grid;
+    grid-template-rows: 55px 1fr;
+    width: 100%;
+    height: 755px;
+    overflow: hidden;
+
+    .interactive-lucky-draw-animation {
+        @include flexBox(column, center, center);
+        width: 100%;
+        height: inherit;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .interactive-lucky-draw-winner {
+        background: url("https://oss.uppmkt.com/202203/apac_finance/Lucky Draw _ 2 _ 600px.gif");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        @include flexBox(column, center, center);
+        width: 100%;
+        height: inherit;
+        max-width: 415px;
+
+        .interactive-lucky-draw-winner-container {
+            @include flexBox(column, center, center);
+            width: inherit;
+            height: inherit;
+            padding: 0 45px;
+            text-align: center;
+
+            h2 {
+                @include luckydraw-congratulations;
+                margin: 0 0 30px;
+            }
+
+            .interactive-lucky-draw-winner-body {
+                @include flexBox(column, center, center);
+                background-color: rgba($color: color(white), $alpha: 0.96);
+                padding: 0 40px;
+                width: inherit;
+                border: 1px solid color(grey50);
+                border-radius: 10px;
+                box-shadow: 0px 0px 10px color(grey100);
+                height: 65%;
+
+                .interactive-lucky-draw-winner-item {
+                    padding: 10px;
+                    width: inherit;
+                    text-align: center;
+
+                    &:not(:last-child) {
+                        border-bottom: 1px solid color(grey300);
+                    }
+
+                    .interactive-lucky-draw-winner-item-name {
+                        @include luckydraw-name;
+                    }
+
+                    .interactive-lucky-draw-winner-item-company {
+                        @include luckydraw-title;
+                    }
+                }
+            }
+        }
+    }
+
+    .ant-menu-overflow {
+        background-color: color(white);
+
+        .ant-menu-item {
+            &:nth-child(1) {
+                width: 22%;
+            }
+
+            &:nth-child(2) {
+                width: 24%;
+            }
+
+            &:nth-child(3) {
+                width: 27%;
+            }
+
+            &:nth-child(4) {
+                width: 27%;
+            }
+
+            @include flexBox(row, center, center);
+
+            padding: 0px 0px;
+
+            .ant-menu-title-content {
+                @include flexBox(row, center, center);
+
+                .navIcon_svg {
+                    width: 17px;
+                    color: color(grey500);
+                }
+
+                @media screen and (max-width: 374px) {
+                    .navIcon_svg {
+                        display: none;
+                    }
+                }
+
+                a {
+                    font-size: 13px;
+                    color: color(grey500);
+                    padding: 0 0 0 5px;
+                }
+            }
+        }
+
+        .ant-menu-item::after {
+            right: 0;
+            left: 0;
+        }
+
+        .ant-menu-submenu {
+            display: none;
+        }
+
+        .ant-menu-item-selected {
+            .ant-menu-title-content {
+                .navIcon_svg {
+                    color: color(grey900);
+                }
+
+                a {
+                    color: color(grey900);
+                }
+            }
+        }
+    }
+
+    .interactive-routers-wrap {
+        max-width: 415px;
+        width: 100%;
+        position: relative;
+        background-color: color(grey200);
+
+        @import "./chat.scss";
+        @import "./questionSec.scss";
+        @import "./survey.scss";
+        @import "./swag.scss";
+        @import "./main-network.scss";
+        @import "./score.scss";
+        @import "./leaderboard.scss";
+    }
+}

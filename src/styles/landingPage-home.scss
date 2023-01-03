@@ -1,0 +1,360 @@
+// home 左
+.landing-page-home-content {
+    width: 100%;
+    height: 100%;
+    padding: 40px 0px 0;
+
+    // 標題 & 簡介 ------------------------------------
+    .landing-page-home-title {
+        grid-area: left-top;
+        padding: 0 0 30px;
+        @include flexBox(column, flex-start, center);
+
+        .landing-page-home-title-box {
+            display: inline-block;
+            width: 100%;
+            max-width: 540px;
+
+            .landing-page-home-title-box-title {
+                @include title-main(color(grey700));
+            }
+
+            .landing-page-google-content {
+                width: 100%;
+                max-width: 500px;
+                margin-top: 15px;
+
+                .landing-page-home-intro {
+                    @include title-intro(color(grey700));
+
+                    // //時間
+                    // .intro-time-box {
+                    //     @include flexBox(row, center, flex-start);
+
+                    //     .intro-date-title {
+                    //         @include title-sub(color(blue500), 20px);
+                    //     }
+
+                    //     .intro-date {
+                    //         padding-left: 20px;
+                    //         @include title-sub(color(grey700), 20px);
+                    //     }
+
+                    //     .intro-time {
+                    //         border-left: 1px solid color(grey500);
+                    //         padding-left: 20px;
+                    //         margin-left: 10px;
+                    //         @include title-sub(color(grey700), 18px);
+
+                    //         .pc_block {
+                    //             display: block;
+                    //         }
+
+                    //         .title-sm {
+                    //             font-size: 17px;
+                    //         }
+                    //     }
+                    // }
+
+                    .calendar_btn_mo {
+                        display: none;
+                    }
+
+                }
+
+                .landing-page-home-intro-time {
+                    @include title-intro(color(grey700));
+                    font-size: 18px;
+                    margin-top: 2px;
+                }
+            }
+
+            // .landing-page-home-title-box-mo-intro {
+            //     display: none;
+            // }
+        }
+    }
+
+    .landing-page-home-kv-lottie-mo {
+        display: none;
+    }
+
+    .landing-page-home-calendarBtn-mo {
+        display: none;
+    }
+
+    //日曆下拉選單
+    .landing-page-home-add-to-calendar-dropdown {
+        display: inline-block;
+        position: relative;
+        // display: none;
+
+        .dd-button {
+            display: inline-block;
+            border-radius: 50px;
+            padding: 12px 32px 9px;
+            background-color: color(blue500);
+            color: color(white);
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 1;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.3s;
+
+            .calendarIconBox {
+                width: 19px;
+                display: inline-block;
+                vertical-align: middle;
+                margin-right: 5px;
+                margin-bottom: 3px;
+                transition: 0.3s;
+
+                .bellsvg {
+                    width: 100%;
+                    color: color(white);
+                }
+            }
+
+            &:hover {
+                background-color: color(blue600);
+
+                .calendarIconBox {
+                    transform: rotate(20deg);
+                }
+            }
+        }
+
+        .dd-input {
+            display: none;
+
+            &+.dd-menu {
+                display: none;
+            }
+
+            &:checked+.dd-menu {
+                display: block;
+            }
+        }
+
+        a {
+            text-decoration: none;
+            color: color(grey700);
+        }
+
+        a:hover {
+            color: color(grey800);
+        }
+
+        .dd-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            border-radius: 10px;
+            padding: 0;
+            margin: 4px 0 0 0;
+            box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            list-style-type: none;
+            transition: 0.5s;
+
+            li {
+                padding: 10px 20px;
+                cursor: pointer;
+                white-space: nowrap;
+
+                &:hover {
+                    background-color: color(blue50);
+                }
+
+                a {
+                    display: block;
+                    margin: -10px -20px;
+                    padding: 10px 20px;
+                }
+            }
+        }
+    }
+
+    // 時間＆加入日曆
+    .landing-page-login-content-top {
+        @include flexBox(row, flex-start, flex-start);
+
+        .landing-page-home-time {
+            @include flexBox(row, flex-start, space-between);
+
+            .landing-page-home-time-date,
+            .landing-page-home-time-hour {
+                @include title-sub(color(grey800), 24px);
+                margin: 0px 0px 0px 0;
+                padding: 0 15px 20px 0;
+                display: inline-block;
+            }
+        }
+    }
+
+    // 圈圈倒數
+    .landing-page-count-down {
+        margin: 25px 0 0;
+
+        .landing-page-count-col {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 9px 0;
+
+            .count-down-num {
+                @include Num;
+                font-size: 36px;
+                @include flexBox(column, center, center);
+                width: 95px;
+                height: 95px;
+            }
+
+            .landing-page-count-down-word {
+                margin: 8px 0 0;
+                @include unit;
+                font-size: 14px;
+            }
+
+            .landing-page-count-down-d {
+                background: no-repeat url("https://oss.uppmkt.com/soa/img/count_O.svg");
+                background-size: 100%;
+            }
+
+            .landing-page-count-down-h {
+                background: no-repeat url("https://oss.uppmkt.com/soa/img/count_O.svg");
+                background-size: 100%;
+            }
+
+            .landing-page-count-down-m {
+                background: no-repeat url("https://oss.uppmkt.com/soa/img/count_O.svg");
+                background-size: 100%;
+            }
+
+            .landing-page-count-down-s {
+                background: no-repeat url("https://oss.uppmkt.com/soa/img/count_O.svg");
+                background-size: 100%;
+            }
+        }
+    }
+
+    .kv_img_box_mo {
+        display: none;
+    }
+
+    // 登入
+    .landing-page-login-content {
+        @include flexBox(row, center, center);
+        width: 100%;
+        max-width: 500px;
+        margin: 30px 0 0;
+        padding: 0px;
+
+        .landing-page-login-content-box {
+            padding: 0px;
+            width: 100%;
+            z-index: 200;
+
+            .login-form {
+                @include flexBox(row, center, flex-start);
+
+                .login-input {
+                    @include inputBox(color(grey800), color(blue200));
+                    width: 100%;
+                    min-width: 240px;
+                    transition: 0.3s;
+
+                    &::placeholder {
+                        font-size: 1rem;
+                        color: color(grey400);
+                    }
+
+                    &:focus {
+                        border: 1px solid color(blue500);
+                        box-shadow: 0px 0px 10px color(blue100);
+                    }
+                }
+
+                .login-input-gp {
+                    width: 320px;
+                    display: flex;
+                    margin: 15px 0 10px;
+
+                    .googler {
+                        width: 200px !important;
+                        border-radius: 50px 0 0 50px;
+                        color: color(grey800);
+                        height: 55px;
+                        border: 1px solid color(blue200);
+                        padding: 0px 20px;
+                        font-size: 15px;
+                        font-weight: 400;
+                        outline: none;
+
+                        &+.googleAppend {
+                            line-height: 22.5px;
+                            width: 120px;
+                            color: color(grey800);
+                            background-color: color(grey200);
+                            border-radius: 0 50px 50px 0;
+                            height: 55px;
+                            padding-left: 5px;
+                            font-weight: 500;
+                            font-size: 15px;
+                            line-height: 55px;
+                        }
+                    }
+                }
+
+                .login-btn {
+                    @include btn(color(blue500));
+                    min-width: 150px;
+                    margin-left: 15px;
+                    font-size: 1rem;
+
+                    &:disabled {
+                        background-color: color(blue100);
+                        pointer-events: none;
+                    }
+
+                    &:hover {
+                        background-color: color(blue700);
+                    }
+                }
+            }
+
+            .login-form-walkin,
+            .login-form-googler {
+                @include flexBox(column, flex-end, flex-start);
+                margin-right: 0px;
+
+                .login-input {
+                    margin: 4px 0;
+                    max-width: 360px;
+                }
+
+                .login-btn {
+                    margin-top: 5px;
+                    min-width: 200px;
+                }
+            }
+        }
+    }
+}
+
+// home 右
+.landing-page-home-content-right {
+    width: 100%;
+
+    .kv_img_box {
+        width: 100%;
+        // max-width: 590px;
+        margin: 0 0 10px;
+
+        .kv {
+            width: 100%;
+        }
+    }
+}

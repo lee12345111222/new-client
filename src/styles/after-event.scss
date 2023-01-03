@@ -1,0 +1,137 @@
+@import "./main-font-style";
+@import "./layout-style.scss";
+
+.after-event-survey-wrap {
+    width: 100%;
+    height: 700px;
+    @include flexBox(column, center, center);
+    overflow: scroll;
+
+    //問卷未開放
+    .after-event-survey-before-start-text {
+        height: 100%;
+        @include flexBox(column, center, center);
+        color: color(grey700);
+        font-size: 18px;
+    }
+
+    .after-event-survey-unlock {
+        // background-color: color(white);
+        @include flexBox(column, center, center);
+        height: inherit;
+        width: 100%;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .after-event-survey-unlock-result {
+        background-color: color(white);
+        background-image: url("https://oss.uppmkt.com/soa/img/UnlockMotion_2_600px.png");
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        @include flexBox(column, center, flex-start);
+        height: inherit;
+        width: 100%;
+
+        .after-event-survey-unlock-result-text {
+            @include after-survey-title;
+            padding: 370px 30px 0px;
+        }
+    }
+
+    //問卷開放
+    .after-event-startBox {
+        @include flexBox(column, center, center);
+        padding: 15px;
+
+        .after-event-title {
+            @include after-survey-title;
+            margin: 0 0 15px;
+        }
+
+        .after-event-intro {
+            @include after-survey-content;
+        }
+
+        .after-event-survey-prev-btn {
+            margin: 30px 0 0px;
+            font-size: 60px;
+            @include after-survey-btn;
+        }
+    }
+
+    // Question
+    .after-event-Question {
+        width: 100%;
+        @include after-survey-q;
+        margin: 0 0 15px;
+        padding: 0 30px;
+    }
+
+    // Answer
+    .after-event-survey-body {
+        width: 100%;
+        padding: 0 30px;
+
+        // 進度條（先隱藏）
+        // .after-event-survey-steps-bar {}
+
+        .after-event-survey-options {
+            .after-event-survey-option {
+                .after-event-survey-checkbox {
+                    display: none;
+
+                    &:checked + label {
+                        @include survey-a-multiple-selected;
+                    }
+                }
+
+                .after-event-survey-label {
+                    @include survey-a-multiple;
+                }
+            }
+        }
+
+        // 按鈕們
+        .after-event-survey-btn-group {
+            @include flexBox(column, stretch, flex-start);
+            margin: 30px 0px 0px;
+
+            .after-event-survey-next-btn {
+                @include after-survey-btn;
+            }
+
+            .after-event-survey-prev-btn {
+                @include after-survey-btn;
+                background-color: color(grey400);
+                margin: 10px 0 0;
+
+                &:hover {
+                    background-color: color(grey600);
+                }
+            }
+
+            .after-event-survey-submit-btn {
+                @include after-survey-btn;
+                margin: 10px 0 0;
+            }
+        }
+
+        // 文字區
+        .after-event-survey-textarea-box {
+            .after-event-survey-textarea {
+                min-height: 150px;
+                border-radius: 10px;
+                resize: none;
+            }
+        }
+    }
+
+    // Thank you
+    .after-event-Thankyou {
+        @include after-survey-title;
+    }
+}

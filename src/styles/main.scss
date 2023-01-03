@@ -1,0 +1,331 @@
+@import "./reset";
+@import "./variables";
+@import "./font-style.scss";
+@import "./layout-style.scss";
+@import "./main-pop.scss";
+@import "./mixin";
+
+.main-wrap {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    @include flexBox(column, center, center);
+    background-color: white;
+
+    // @include main-pop-style;
+
+    .main-drawing-modal {
+        .ant-modal-content {
+            border-radius: 20px;
+
+            .ant-modal-body {
+                padding: 30px 20px;
+
+                @include drawing;
+            }
+        }
+    }
+
+    .main-open-animation-lottie {
+        height: 100vh;
+        width: 100vw;
+        // background-color: white;
+        position: fixed;
+        top: 0%;
+        z-index: 1100;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .main-open-animation-container {
+            width: 100%;
+            display: block;
+        }
+
+        .main-open-animation-container-mo {
+            display: none;
+        }
+    }
+
+    .main-layout-header {
+        width: 100%;
+        padding: 0px 35px;
+        @include flexBox(row, center, space-between);
+        position: sticky;
+        top: 0;
+        border-bottom: 1px solid color(grey100);
+        background-color: white;
+        height: 80px;
+        z-index: 1000;
+
+        .main-header-logo {
+            .google-svg {
+                height: 40px;
+                width: auto;
+            }
+        }
+
+        .main-header-right {
+            @include flexBox(row, center, flex-end);
+
+            .main-header-user-detail {
+                @include flexBox(row, center, flex-end);
+                margin-right: 15px;
+                padding-right: 20px;
+                border-right: 1px solid color(grey100);
+
+                .main-header-user-avatar {
+                    width: 30px;
+                    margin-right: 10px;
+
+                    img {
+                        width: 100%;
+                    }
+                }
+
+                .main-header-user-name {
+                    font-size: 14px;
+                    color: color(grey800);
+                }
+            }
+
+            // FAQ and share walkin btn
+            .main-header-faqBtn,
+            .main-header-admin-share-walkin-btn {
+                @include flexBox(row, center, center);
+                height: 20px;
+                font-size: 14px;
+                color: color(grey500);
+                border-radius: 15px;
+                box-shadow: none;
+                border: 0px;
+                padding: 0px;
+
+                &:nth-child(3),
+                &:nth-child(4) {
+                    margin-right: 10px;
+                }
+
+                .navIcon_svg {
+                    display: block;
+                    width: 20px;
+                    color: color(grey500);
+                    margin-right: 3px;
+                    transition: 0.5s;
+                }
+
+                &:hover,
+                &:focus,
+                &:hover .navIcon_svg,
+                &:focus .navIcon_svg {
+                    color: color(blue500);
+                }
+            }
+
+            .main-header-admin-share-walkin-btn {
+                margin-left: 15px;
+            }
+
+            .main-header-lang-selector-container,
+            .main-header-admin-selector-container {
+                margin-left: 15px;
+                padding: 0;
+                @include flexBox(row, center, flex-end);
+
+                .ant-select-selector,
+                .main-admin-selector {
+                    padding-left: 0;
+
+                    .ant-select-selection-item {
+                        color: color(grey500);
+                    }
+                }
+            }
+        }
+    }
+
+    .main-body {
+        padding: 30px 40px;
+        width: 100vw;
+        height: calc(100vh - 80px);
+        max-width: 1600px;
+        background-color: color(white);
+        display: grid;
+        grid-template-columns: calc(100% - 415px - 25px) 415px;
+        gap: 25px;
+        align-items: center;
+
+        .main-custom-avatar-btn {
+            position: fixed;
+            bottom: 14%;
+            right: 2%;
+            z-index: 1000;
+            background-color: transparent;
+            width: 120px;
+            height: 120px;
+            cursor: pointer;
+
+            .main-custom-avatar-btn-close {
+                position: absolute;
+                top: -10px;
+                right: 0;
+                display: block;
+                transition: 0.5s;
+                height: 20px;
+                width: 20px;
+                background-color: transparent;
+                cursor: pointer;
+
+                svg {
+                    width: 100%;
+                }
+
+                &:hover {
+                    color: color(grey400);
+                }
+            }
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .main-body-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            .main-left-player-mask {
+                overflow: hidden;
+                border-radius: 10px;
+                box-shadow: 0px 0px 10px color(grey100);
+
+                .player {
+                    .plv-live-player-container {
+                        // 解決 video 奇怪的黑邊
+                        background: rgba($color: color(white), $alpha: 0);
+
+                        .plv-live-player-big-play-btn {
+                            background: rgba($color: color(white), $alpha: 0);
+                        }
+
+                        .plv-live-player-big-play-btn {
+                            background-color: rgba($color: color(white), $alpha: 0) !important;
+                        }
+                    }
+
+                    .plwrap {
+                        background: rgba($color: color(white), $alpha: 0) !important;
+                    }
+
+                    video {
+                        background: rgba($color: color(white), $alpha: 0) !important;
+                        background-color: rgba($color: color(white), $alpha: 0) !important;
+                    }
+                }
+
+                .group-chat {
+                    @include flexBox(column, center, center);
+                    height: 100%;
+                    padding: 30px;
+                    background-image: url("https://oss.uppmkt.com/cxo/img/GroupChat.svg");
+                    background-position: center center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+
+                    .group-chat-top {
+                        width: 100%;
+                        margin-bottom: 20px;
+
+                        .group-chat-title {
+                            width: 80%;
+                            margin: 0 auto;
+
+                            h2 {
+                                font-size: 32px;
+                                color: color(grey800);
+                                margin: 0;
+                            }
+
+                            p {
+                                font-size: 16px;
+                                color: color(grey800);
+                            }
+                        }
+                    }
+
+                    .group-chat-body {
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-evenly;
+                        align-items: center;
+
+                        .group-chat-item {
+                            border-radius: 10px;
+                            box-shadow: 0 0 5px 3px color(grey100);
+                            padding: 20px;
+                            width: 30%;
+                            background-color: color(white);
+                            height: 330px;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+
+                            #group-chat-item-topic {
+                                font-size: 1.4rem;
+                                color: color(blue500);
+                                font-weight: 600;
+                                text-align: center;
+                            }
+
+                            .group-chat-item-qrcode {
+                                width: 70%;
+                                margin: 0 auto;
+
+                                img {
+                                    width: 100%;
+                                }
+                            }
+
+                            .group-chat-item-body {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+
+                                .group-chat-item-body-cfr-code {
+                                    margin: 5px 0;
+
+                                    img {
+                                        width: 20px;
+                                        margin: 0 5px 2px 0;
+                                        vertical-align: middle;
+                                    }
+
+                                    color: color(grey800);
+                                    font-size: 12px;
+                                }
+
+                                button {
+                                    background-color: color(blue400);
+                                    border: none;
+                                    color: color(white);
+                                    border-radius: 5px;
+                                    height: 40px;
+                                    font-weight: 700;
+
+                                    &:hover {
+                                        background-color: color(blue500);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            @import "./main-agenda.scss";
+        }
+    }
+}
+
+@import "./main-RWD.scss";

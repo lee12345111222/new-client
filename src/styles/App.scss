@@ -1,0 +1,54 @@
+@import "~antd/dist/antd.css";
+@import "./_variables";
+@import "./font-style.scss";
+@import "./layout-style.scss";
+@import "./main-pop.scss";
+
+.App {
+    background-color: color(white);
+    width: 100vw;
+    height: calc(var(--vh, 1vh) * 100);
+
+    @include main-pop-style;
+}
+
+// 隐藏滚动条
+* {
+    // 整个滚动条
+    &::-webkit-scrollbar {
+        display: none;
+        width: 0px;
+        height: 0px;
+    }
+
+    // 滚动条轨道
+    &::-webkit-scrollbar-track {
+        background: rgba($color: #ffffff, $alpha: 0);
+    }
+
+    // 滚动条没有滑块的轨道部分
+    &::-webkit-scrollbar-track-piece {
+        background: rgba($color: #ffffff, $alpha: 0);
+    }
+
+    // 滾動條滚动滑块
+    &::-webkit-scrollbar-thumb {
+        background-color: rgba($color: #ffffff, $alpha: 0);
+        border: 0px;
+    }
+
+    // 当同时有垂直滚动条和水平滚动条时交汇的部分
+    &::-webkit-scrollbar-corner {
+        border: 0px solid rgba($color: #ffffff, $alpha: 0);
+    }
+
+    // 滚动条上的按钮 (上下箭头)，Mac的瀏覽器沒有
+    &::-webkit-scrollbar-button {
+        background: rgba($color: #ffffff, $alpha: 0);
+    }
+
+    // 某些元素的corner部分的部分样式(例:textarea的可拖动按钮)
+    &::-webkit-resizer {
+        background: rgba($color: #ffffff, $alpha: 0);
+    }
+}

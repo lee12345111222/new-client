@@ -1,0 +1,20 @@
+@import './mixin';
+
+.drawing-view-wrap {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .drawing-view-body {
+        width: 80%;
+        margin: 0 auto;
+        padding: 30px;
+
+        @include drawing;
+    }
+}
+
+@media screen and (max-width: 798px) {
+}

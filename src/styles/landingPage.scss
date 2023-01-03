@@ -1,0 +1,177 @@
+@import "./reset";
+@import "./variables";
+@import "./font-style.scss";
+@import "./layout-style.scss";
+
+.landing-page-wrap {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    // background-color: color(white);
+
+    .landing-page-layout {
+        width: inherit;
+        height: inherit;
+
+        .landing-page-layout-main {
+            width: 100%;
+            height: 100%;
+            position: relative;
+
+            @import "./landingPage-nav.scss";
+
+            // ----------------- main content -----------------
+            .landing-page-layout-content {
+                width: 100%;
+                height: 100%;
+                padding: 0px;
+                position: absolute;
+                top: 0px;
+
+                .sailing-btn {
+                    background-color: transparent;
+                    position: fixed;
+                    right: 10px;
+                    bottom: 0;
+                    width: 140px;
+                    height: 140px;
+                    z-index: 50;
+                    cursor: pointer;
+
+                    .sailing-btn-close {
+                        position: absolute;
+                        top: -10px;
+                        right: 0;
+                        display: block;
+                        transition: 0.5s;
+                        height: 20px;
+                        width: 20px;
+                        background-color: transparent;
+                        cursor: pointer;
+
+                        svg {
+                            width: 100%;
+                        }
+
+                        &:hover {
+                            color: color(grey400);
+                        }
+                    }
+
+                    span {
+                        display: block;
+                        position: absolute;
+                        bottom: 34px;
+                        left: 0;
+                        right: 0;
+                        text-align: center;
+                        font-weight: bold;
+                        width: 100%;
+                        color: color(grey600);
+                        font-size: 0.6rem;
+                    }
+
+                    img {
+                        width: 100%;
+                    }
+                }
+
+                .Backdrop {
+                    width: 100%;
+                    height: 100%;
+                    position: fixed;
+                    z-index: 700;
+                    top: 0px;
+                    left: 0;
+                    right: 0;
+                    background-color: rgba(13, 13, 14, 0.7);
+                }
+
+                .landing-page-home-wrap {
+                    width: 75%;
+                    max-width: 1500px;
+                    height: 100%;
+                    margin: 0px auto 0;
+                    padding: 0 0px;
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    align-items: center;
+                    justify-content: center;
+                    align-content: center;
+                    justify-items: center;
+                    gap: 20px;
+
+                    @media screen and (max-width: 1350px) {
+                        width: 85%;
+                    }
+
+                    @import "./landingPage-home.scss";
+                }
+
+                @import "./landingPage-agenda.scss";
+                @import "./landingPage-faq.scss";
+                @import "./landingPage-speaker.scss";
+            }
+        }
+    }
+}
+
+.landing-page-home-background {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+
+    .landing-page-home-kv-lottie {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 0;
+    }
+}
+
+.landing-page-agenda-background {
+    width: 100%;
+    height: 100%;
+    @include flexBox(column, center, center);
+    background: url("https://oss.uppmkt.com/cxo/img/kv/bg2.svg");
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: cover;
+    height: 100vh;
+}
+
+.landing-page-faq-background {
+    width: 100%;
+    height: 100%;
+    @include flexBox(column, center, center);
+    background: url("https://oss.uppmkt.com/cxo/img/kv/bg3.svg");
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-size: cover;
+    height: 100vh;
+}
+
+@import "./RWD.scss";
+
+@keyframes progress {
+    0% {
+        width: 0%;
+    }
+
+    25% {
+        width: 25%;
+    }
+
+    50% {
+        width: 50%;
+    }
+
+    75% {
+        width: 75%;
+    }
+
+    100% {
+        width: 100%;
+    }
+}

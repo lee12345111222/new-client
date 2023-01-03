@@ -1,0 +1,147 @@
+.score-wrap {
+    overflow: scroll;
+    padding: 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-image: url("https://oss.uppmkt.com/cxo/img/energyBar_bg.svg");
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    .score-user-info {
+        background-color: transparent;
+        width: 90%;
+        margin: 0 auto;
+        padding: 10px;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+
+        .score-user-info-energy-bar {
+            width: 50%;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .score-user-info-avt {
+        }
+
+        .score-user-info-dtl {
+        }
+
+        .score-user-score {
+            color: color(grey800);
+        }
+    }
+
+    .score-user-awards-collapse {
+        width: 90%;
+        max-width: 90%;
+        margin: 10px auto 20px;
+        background-color: color(white);
+        border-radius: 10px;
+        border: 0px;
+        box-shadow: 0 0 5px 3px color(grey100);
+
+        .score-user-awards-panel {
+            max-width: 100%;
+            border-radius: 0px;
+            border: 0px;
+
+            .ant-collapse-header {
+                background-color: color(white);
+                padding: 10px 20px;
+                border-radius: 10px;
+                line-height: 1.5;
+                color: color(grey800);
+                font-size: 15px;
+                font-weight: 500;
+            }
+
+            .ant-collapse-content {
+                border-radius: 0 0 10px 10px;
+                border: 0px;
+                background-color: color(white);
+
+                .ant-collapse-content-box {
+                    padding: 0 20px;
+
+                    .score-user-awards-list {
+                        border-top: 1px solid color(grey300);
+                        margin: 0;
+
+                        li {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding: 10px 0;
+
+                            div:first-of-type {
+                                color: color(grey800);
+                            }
+
+                            .score-user-awards {
+                                color: color(blue500);
+                            }
+
+                            .score-user-not-win {
+                                color: color(grey500);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .score-user-awards-panel.panel-open {
+            .ant-collapse-header {
+                border-radius: 10px 10px 0 0;
+            }
+        }
+    }
+
+    .score-list {
+        width: 90%;
+        margin: 20px auto 10px;
+        height: 230px;
+        min-height: 230px;
+        overflow: scroll;
+        background-color: color(white);
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 5px 3px color(grey100);
+
+        &::-webkit-scrollbar {
+            display: block !important;
+            width: 7px !important;
+        }
+
+        &::-webkit-scrollbar-track {
+            border-radius: 0 10px 10px 0;
+            background: color(blue50) !important;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: color(blue400) !important;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: color(blue500) !important;
+        }
+
+        .score-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            border-bottom: 1px solid color(grey300);
+            padding: 20px 10px;
+            color: color(grey800);
+        }
+    }
+}

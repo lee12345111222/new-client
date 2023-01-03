@@ -1,0 +1,103 @@
+@import './variables';
+
+.main-agenda-container {
+    margin: 5px 0 0;
+    padding: 0 24px;
+
+    .main-agenda-slide {
+        .main-agenda-slide-item-current {
+            border: 2px solid color(blue400);
+
+            .main-agenda-slide-item-time-current {
+                font-size: 12px;
+                line-height: 1;
+                color: color(white);
+                background-color: color(blue500);
+                border-radius: 20px;
+                width: 105px;
+                text-align: center;
+                padding: 3px;
+                margin-bottom: 5px;
+            }
+        }
+
+        .main-agenda-slide-item {
+            border: 1px solid color(grey100);
+
+            .main-agenda-slide-item-time {
+                font-size: 12px;
+                line-height: 1;
+                color: color(grey600);
+                background-color: color(grey200);
+                border-radius: 20px;
+                width: 105px;
+                text-align: center;
+                padding: 3px;
+                margin-bottom: 10px;
+            }
+        }
+
+        .main-agenda-slide-item-current,
+        .main-agenda-slide-item {
+            border-radius: 15px;
+            padding: 15px;
+            height: 150px;
+            margin: 10px 5px;
+
+            .main-agenda-slide-item-topic {
+                font-weight: 700;
+                font-size: 16px;
+                line-height: 1.2;
+                color: color(grey800);
+                word-wrap: break-word;
+                min-height: 48px;
+            }
+
+            .main-agenda-slide-item-speaker {
+                display: inline-flex;
+                align-items: center;
+                width: 100%;
+
+                .main-agenda-slide-img-container {
+                    width: 40px;
+                    margin-right: 10px;
+
+                    .main-agenda-slide-img {
+                        width: 100%;
+                    }
+                }
+
+                .main-agenda-slide-content {
+                    &:not(:last-child) {
+                        margin-right: 10px;
+                    }
+
+                    .main-agenda-slide-content-name {
+                        font-size: 12px;
+                        line-height: 1.2;
+                        font-weight: 500;
+                        color: color(grey600);
+                    }
+
+                    .main-agenda-slide-content-title {
+                        color: color(grey500);
+                        font-size: 0.7rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .slick-prev:before,
+    .slick-next:before {
+        font-weight: 700;
+        color: color(grey300);
+        opacity: 1;
+    }
+
+    .slick-prev.slick-disabled:before,
+    .slick-next.slick-disabled:before {
+        cursor: default;
+        opacity: 0;
+    }
+}

@@ -1,0 +1,20 @@
+.console-jobs-wrap {
+    .console-jobs-body {
+        .console-jobs-body-form {
+            display: flex;
+            justify-content: space-between;
+
+            .console-jobs-body-cron-jobs-form {
+                width: 50%;
+                border: 1px solid color(grey200);
+                padding: 20px;
+            }
+
+            .console-jobs-body-agenda-form {
+                width: 30%;
+                border: 1px solid color(grey200);
+                padding: 20px;
+            }
+        }
+    }
+}

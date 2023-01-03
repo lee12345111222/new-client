@@ -1,0 +1,42 @@
+@import './mixin';
+@import './variables';
+@import './main-font-style';
+
+.sticker-dropdown-box {
+    background-color: color(white);
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px color(grey200);
+
+    .sticker-dropdown-emojiBox {
+        display: flex;
+        padding: 15px;
+        border-bottom: 1px solid color(grey100);
+
+        .emoji-item {
+            @include flexBox(row, center, center);
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+    }
+
+    .sticker-dropdown-bigStickerBox {
+        padding: 3px 6px 3px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+
+        .bigSticker-itemBox {
+            padding: 3px;
+            width: 80px;
+            height: 80px;
+            cursor: pointer;
+        }
+
+        .bigSticker-itemSvg {
+            width: 100%;
+            height: 100%;
+        }
+    }
+}

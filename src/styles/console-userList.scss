@@ -1,0 +1,102 @@
+.console-user-list-wrap {
+    width: 100%;
+    height: 94vh;
+
+    .console-user-list-registered-list-container {
+        width: 100%;
+        height: 80%;
+
+        .console-user-list-registered-list {
+            display: flex;
+            width: 100%;
+            height: 100%;
+
+            .console-user-list-user-locate-list {
+                border: 1px solid color(grey100);
+                overflow: scroll;
+                padding: 20px;
+                margin: 10px;
+                width: 25%;
+                height: 100%;
+
+                & > div:first-child {
+                    display: flex;
+                    justify-content: space-between;
+                }
+
+                .console-user-list-user-reload-all-btn {
+                    width: 70px;
+                    height: 25px;
+                    margin: 0;
+                    padding: 0;
+                    border-radius: 5px;
+                }
+
+                .console-user-list-user-locate-list-item {
+                    margin: 10px 0;
+
+                    .console-user-list-user-locate-list-top {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 5px;
+
+                        .console-user-list-user-locate-list-code {
+                            color: color(grey900);
+                            font-size: 0.9rem;
+                        }
+
+                        .console-user-list-user-locate-list-locate {
+                            color: color(blue400);
+                        }
+                    }
+
+                    .console-user-list-user-locate-list-bottom {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+
+                        .console-user-list-user-locate-list-socket {
+                            color: color(grey400);
+                            font-size: 0.5rem;
+                        }
+
+                        .console-user-list-user-reload-btn {
+                            width: 50px;
+                            height: 25px;
+                            margin: 0;
+                            padding: 0;
+                            border-radius: 5px;
+                        }
+                    }
+                }
+            }
+
+            .console-user-list-user-disconnected-list {
+                border: 1px solid color(grey100);
+                overflow: scroll;
+                padding: 20px;
+                margin: 10px;
+                width: 25%;
+                height: 100%;
+
+                .console-user-list-user-disconnected-list-item {
+                    margin: 10px 0;
+                }
+            }
+
+            .console-user-list-user-not-login-list {
+                border: 1px solid color(grey100);
+                overflow: scroll;
+                padding: 20px;
+                margin: 10px;
+                width: 25%;
+                height: 100%;
+
+                .console-user-list-user-not-login-list-item {
+                    margin: 10px 0;
+                }
+            }
+        }
+    }
+}

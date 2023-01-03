@@ -1,0 +1,299 @@
+.survey-collapse {
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    border-radius: 0 0 10px 10px;
+    border: 0px;
+    z-index: 900;
+    box-shadow: 0px 5px 5px color(grey200);
+
+    .survey-panel {
+        max-width: 100%;
+        border-radius: 0px;
+        border: 0px;
+
+        .survey-result-unlock {
+            background-image: url("https://oss.uppmkt.com/202203/apac_finance/lock-bg.png");
+            background-size: cover;
+            // height: 100px;
+            margin-top: 20px;
+
+            .survey-result-unlock-body {
+                @include flexBox(column, center, center);
+
+                .survey-result-unlock-img {
+                    margin-bottom: 10px;
+                }
+
+                .survey-result-unlock-content {
+                    vertical-align: sub;
+                    line-height: 1.4 !important;
+                    display: flex;
+                    align-items: center;
+                    color: color(grey800);
+                    width: 100%;
+                    word-break: break-all;
+
+                    img {
+                        margin: 0 5px 3px 0;
+                    }
+                }
+            }
+        }
+
+        .ant-collapse-header {
+            background-color: color(blue500);
+            padding: 10px 20px;
+            border-radius: 0px;
+            line-height: 1.5;
+            color: color(white);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .survey-question {
+            @include middle-survey-q;
+        }
+
+        .survey-done-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 0;
+
+            .survey-doneImg-box {
+                width: 70px;
+                margin: 0 0 15px;
+
+                .survey-doneImg {
+                    width: 100%;
+                    display: bloek;
+                }
+            }
+        }
+
+        .ant-collapse-content {
+            border-radius: 0 0 10px 10px;
+            border: 0px;
+        }
+
+        .survey-panel-total-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .survey-panel-total {
+                color: #3c4043;
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
+
+            .survey-panel-total-votes {
+                color: #9aa0a6;
+            }
+        }
+
+        .survey-process {
+            .survey-process-container {
+                margin: 10px 0 0;
+
+                .survey-process-text {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+
+                    .survey-process-q-text {
+                        width: 80%;
+                        @include middle-survey-result-q;
+                    }
+
+                    .survey-process-text-right {
+                        display: inline-block;
+
+                        .survey-process-text-percent {
+                            @include middle-survey-result-percent;
+                        }
+                    }
+                }
+
+                .ant-progress {
+                    .ant-progress-bg {
+                        height: 5px !important;
+                    }
+                }
+            }
+        }
+
+        .survey-options {
+            .survey-options-checkbox {
+                display: none;
+
+                &:checked + label {
+                    @include middle-survey-a-multiple-selected;
+                }
+            }
+
+            .survey-options-label {
+                @include middle-survey-a-multiple;
+            }
+        }
+    }
+
+    .survey-btn {
+        margin-top: 10px;
+        border-radius: 5px;
+        @include middle-survey-btn-able;
+    }
+}
+
+.during-event-survey-wrap {
+    height: 100%;
+
+    //問卷未開放
+    .during-event-survey-before-start {
+        height: 100%;
+        @include flexBox(column, center, center);
+
+        .during-event-survey-before-start-text {
+            color: color(grey700);
+            font-size: 18px;
+        }
+    }
+
+    //問卷開放
+    .after-event-startBox {
+        height: 100%;
+        padding: 15px;
+        @include flexBox(column, center, center);
+
+        .after-event-title {
+            @include after-survey-title;
+            margin: 0 0 30px;
+        }
+
+        .during-event-survey-prev-btn {
+            @include after-survey-btn;
+        }
+    }
+
+    //答題畫面
+    .during-event-survey-QuestionBox {
+        background-color: color(grey100);
+        height: 100%;
+        padding: 20px 15px;
+
+        .after-event-Question {
+            @include after-survey-q;
+            font-weight: 400;
+        }
+
+        .during-event-survey-body {
+            @include flexBox(column, flex-end, center);
+
+            .during-event-survey-options {
+                width: 100%;
+                margin: 15px 0;
+
+                .during-event-survey-option {
+                    .during-event-survey-checkbox {
+                        display: none;
+
+                        &:checked + label {
+                            @include survey-a-multiple-selected;
+                        }
+                    }
+
+                    .during-event-survey-label {
+                        @include survey-a-multiple;
+                    }
+                }
+            }
+
+            .during-event-survey-btn-group {
+                width: 100%;
+                margin: 30px 0px 0px;
+                @include flexBox(column, stretch, flex-start);
+
+                .during-event-survey-next-btn {
+                    @include after-survey-btn;
+                }
+
+                .during-event-survey-prev-btn {
+                    @include after-survey-btn;
+                    background-color: color(blue400);
+                    margin: 10px 0 0;
+                }
+
+                .during-event-survey-submit-btn {
+                    @include after-survey-btn;
+                    margin: 10px 0 0;
+                }
+            }
+        }
+    }
+
+    //問卷填完 等待其他人作答
+    .during-event-survey-waitingBox {
+        height: 100%;
+        @include flexBox(column, center, center);
+
+        .during-event-survey-waitingImg {
+            width: 140px;
+            display: block;
+            margin: 0 0 15px;
+        }
+
+        .during-event-survey-waitingText {
+            @include after-survey-title;
+            font-weight: 400;
+            color: color(grey700);
+        }
+    }
+
+    // 問卷結果
+    .during-event-survey-unlock {
+        padding: 10px 15px;
+
+        .during-event-survey-result-title {
+            @include after-survey-title;
+            font-weight: 500;
+            color: color(grey900);
+            margin: 15px 0;
+        }
+
+        .survey-process-container {
+            width: 100%;
+            margin: 0px auto 10px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: white;
+
+            .survey-question {
+                margin: 0 0 15px;
+                color: color(grey900);
+            }
+
+            .survey-process-text {
+                @include flexBox(row, flex-end, space-between);
+                width: 100%;
+                margin-top: 10px;
+                margin-bottom: -2px;
+
+                .survey-process-q-text {
+                    padding-right: 15px;
+                    font-size: 12px;
+                    color: color(grey700);
+                }
+
+                .survey-process-text-right {
+                    font-size: 12px;
+                    color: color(grey400);
+                }
+            }
+        }
+    }
+}

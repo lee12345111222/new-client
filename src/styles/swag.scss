@@ -1,0 +1,149 @@
+.swag-collapse {
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-width: 100%;
+    border-radius: 0 0 10px 10px;
+    border: 0px;
+    z-index: 800;
+    box-shadow: 0px 5px 5px color(grey200);
+
+    .swag-panel {
+        max-width: 100%;
+        border-radius: 0px;
+        border: 0px;
+
+        .ant-collapse-header {
+            background-color: color(blue500);
+            padding: 10px 20px;
+            border-radius: 0px;
+            line-height: 1.5;
+            color: color(white);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .ant-collapse-content {
+            border-radius: 0 0 10px 10px;
+            border: 0px;
+
+            .swag-collapse-body {
+                .swag-collapse-drawing {
+                    .swag-collapse-drawing-animation {
+                        width: 90%;
+                        margin: 20px auto;
+
+                        img {
+                            width: 100%;
+                        }
+                    }
+
+                    .swag-collapse-drawing-text {
+                        margin: 20px 0;
+                        text-align: center;
+                        font-size: 1rem;
+                        font-weight: 500;
+
+                        span {
+                            color: color(blue500);
+                        }
+                    }
+                }
+
+                .swag-collapse-add-receipt {
+                    .swag-collapse-add-receipt-img {
+                        width: 80%;
+                        margin: 0 auto;
+
+                        img {
+                            width: 100%;
+                        }
+                    }
+
+                    .swag-collapse-add-receipt-prize {
+                        text-align: center;
+                        margin: 30px 0;
+
+                        .swag-collapse-prize {
+                            color: color(grey900);
+                            font-weight: 500;
+                            font-size: 1.2rem;
+
+                            span {
+                                color: color(blue500);
+                            }
+                        }
+
+                        p {
+                            color: color(grey700);
+                            font-size: 0.8rem;
+                        }
+                    }
+
+                    .swag-collapse-add-receipt-form {
+                        height: 220px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+
+                        .swag-collapse-add-receipt-input {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+
+                            div {
+                                flex-basis: 20%;
+                                color: color(grey800);
+                            }
+
+                            input {
+                                flex-basis: 70%;
+                                border-radius: 5px;
+                                height: 40px;
+                            }
+                        }
+                    }
+
+                    button {
+                        width: 100%;
+                        background-color: color(blue100);
+                        border: 1px solid color(blue400);
+                        color: color(blue400);
+                        height: 40px;
+
+                        &:disabled {
+                            background-color: color(grey100);
+                            border: 1px solid color(grey400);
+                            color: color(grey300);
+                        }
+                    }
+                }
+
+                .swag-collapse-swag-success {
+                    padding: 20px 0;
+
+                    .swag-collapse-swag-success-img {
+                        width: 80%;
+                        margin: 0 auto;
+
+                        img {
+                            width: 100%;
+                        }
+                    }
+
+                    .swag-collapse-swag-success-text {
+                        margin: 20px 0;
+                        text-align: center;
+                        color: color(grey800);
+
+                        div:first-child {
+                            font-size: 1.2rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

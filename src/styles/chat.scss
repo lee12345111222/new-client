@@ -1,0 +1,150 @@
+@import './mixin';
+@import './variables';
+@import './main-font-style';
+
+.chat-wrap {
+    width: 100%;
+    max-width: 415px;
+    height: 700px;
+    display: grid;
+    grid-template-rows: 1fr 70px;
+
+    .message-list {
+        overflow: scroll;
+        background-color: color(grey200);
+        padding: 0 0px;
+
+        .message-list-loading {
+            height: 25px;
+            margin: 5px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .message-list-item-dot-btn {
+            position: absolute;
+            background-color: transparent;
+            border-radius: 20px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.5s;
+            color: color(grey400);
+
+            .replybtn {
+                width: 14px;
+                opacity: 0.5;
+            }
+
+            &:hover {
+                color: color(grey500);
+                background-color: color(grey300);
+            }
+        }
+
+        .message-list-replied-hint {
+            margin-left: 30px;
+            justify-content: flex-start;
+            @include who-reply-who;
+        }
+
+        .message-list-replied-hint-self {
+            justify-content: flex-end;
+            margin-right: 30px;
+            @include who-reply-who;
+        }
+
+        .message-list-item-self {
+            width: 76%;
+            margin: 3px 4% 10px 20%;
+            padding: 12px 15px;
+            background-color: color(white);
+            border: 2px solid color(grey300);
+            border-radius: 15px 15px 1px 15px;
+            position: relative;
+
+            .message-list-item-user-replied-content {
+                @include reply-text;
+            }
+
+            @include message-list-items;
+
+            .message-list-item-dot-btn {
+                left: -30px;
+                top: 0;
+            }
+
+            .message-list-item-user-time {
+                left: -38px;
+                @include message-time;
+            }
+        }
+
+        .message-list-item-self.googler {
+            width: 76%;
+            margin: 3px 4% 10px 20%;
+            padding: 12px 15px;
+            background-color: color(blue100);
+            border-radius: 15px 15px 1px 15px;
+            position: relative;
+            border: 2px solid color(blue400);
+
+            .message-list-item-user-replied-content {
+                @include reply-text;
+            }
+
+            @include message-list-items-googler;
+
+        }
+
+        .message-list-item {
+            width: 76%;
+            margin: 3px 20% 10px 4%;
+            padding: 12px 15px;
+            background-color: color(white);
+            border-radius: 15px 15px 15px 1px;
+            position: relative;
+
+            .message-list-item-user-replied-content {
+                @include reply-text;
+            }
+
+            @include message-list-items;
+
+            .message-list-item-dot-btn {
+                right: -30px;
+                top: 0;
+            }
+
+            .message-list-item-user-time {
+                right: -38px;
+                @include message-time;
+            }
+        }
+
+        .message-list-item.googler {
+            width: 76%;
+            margin: 3px 20% 10px 4%;
+            padding: 12px 15px;
+            background-color: color(blue100);
+            border-radius: 15px 15px 15px 1px;
+            position: relative;
+            border: 2px solid color(blue400);
+
+            .message-list-item-user-replied-content {
+                @include reply-text;
+            }
+
+            @include message-list-items-googler;
+
+        }
+
+        .message-list-holder {
+            height: 1px;
+        }
+    }
+
+    @include message-input-box;
+}

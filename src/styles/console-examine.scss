@@ -1,0 +1,93 @@
+.console-examine-section {
+    display: flex;
+    width: 100%;
+    height: 94vh;
+
+    .console-examine-users {
+        border: 1px solid color(grey200);
+        margin: 10px 20px;
+        padding: 10px;
+        width: 30%;
+        min-height: 80%;
+        overflow: scroll;
+
+        .console-examine-users-ul {
+            width: 100%;
+            padding: 0;
+
+            .console-examine-users-list {
+                margin: 10px;
+                list-style: none;
+                border: 1px solid color(grey200);
+                padding: 10px;
+                border-radius: 10px;
+                background-color: color(grey50);
+                max-width: 100%;
+
+                .console-examine-item {
+                    display: flex;
+                    justify-content: space-between;
+                    max-width: 100%;
+
+                    .console-examine-item-body {
+                        display: flex;
+                        flex-direction: column;
+                        padding: 0 5px;
+                        max-width: 250px;
+
+                        .console-examine-item-user-replied {
+                            padding: 5px;
+                            color: color(grey600);
+                            border-bottom: 1px solid color(grey400);
+                            word-wrap: break-word;
+                        }
+
+                        .console-examine-item-user-detail {
+                            margin-top: 5px;
+                            max-width: 100%;
+
+                            .console-examine-item-user-from {
+                                display: flex;
+                                align-items: center;
+
+                                .console-examine-user-img-container {
+                                    width: 10%;
+                                    margin-right: 5px;
+
+                                    img {
+                                        width: 90%;
+                                    }
+                                }
+
+                                .console-examine-user-name {
+                                    color: color(grey900);
+                                    font-size: 0.8rem;
+                                }
+                            }
+
+                            .console-examine-user-message-content {
+                                padding: 5px;
+                                word-wrap: break-word;
+                                width: 100%;
+                            }
+                        }
+                    }
+
+                    .console-examine-item-btn-gp {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        width: 20%;
+
+                        .console-examine-item-btn {
+                            width: 100%;
+                            margin: 3px;
+                            height: 30px;
+                            font-size: 0.6rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

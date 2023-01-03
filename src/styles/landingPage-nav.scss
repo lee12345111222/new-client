@@ -1,0 +1,105 @@
+// ----------------- header -----------------
+.landing-page-layout-header {
+    width: 100%;
+    padding: 0px 35px;
+    height: 80px;
+    @include flexBox(row, center, space-between);
+    position: fixed;
+    top: 0;
+    background-color: color(white);
+    z-index: 800;
+    box-shadow: 0px 0px 5px 0px rgba(232, 234, 237, 1);
+
+    // ----------------- logo -----------------
+    .landing-page-header-logo {
+        .google-svg {
+            height: 40px;
+            width: auto;
+        }
+    }
+
+    // ----------------- navbar list -----------------
+    .landing-page-header-lang-selector-container {
+        @include flexBox(row, center, flex-end);
+
+        .sidebar-nav {
+
+            .PC_non,
+            .displayNon {
+                display: none;
+            }
+
+            .sidebar-menu {
+                @include flexBox(row, center, center);
+
+                .link-a {
+                    display: block;
+                    background-color: rgb(255, 255, 255);
+                    border-radius: 15px;
+                    padding: 8px 15px;
+                    margin-right: 5px;
+                    text-decoration: none;
+                    transition: 0.5s;
+
+                    .sidebar-menu-item {
+                        outline-style: none !important;
+                        @include flexBox(row, center, center);
+
+                        .navIcon_svg {
+                            display: block;
+                            width: 20px;
+                            color: color(grey600);
+                            margin-right: 5px;
+                            transition: 0.5s;
+                        }
+
+                        .sidebar-menu-item-text {
+                            @include navbar-original;
+                            transition: 0.5s;
+                        }
+                    }
+
+                    &:hover {
+                        background-color: color(grey100);
+
+                        .sidebar-menu-item {
+
+                            .navIcon_svg,
+                            .sidebar-menu-item-text {
+                                color: color(grey900);
+                            }
+                        }
+                    }
+
+                    &:active {
+                        background-color: color(blue50) !important;
+
+                        .sidebar-menu-item {
+
+                            .navIcon_svg,
+                            .sidebar-menu-item-text {
+                                color: color(blue500) !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // -----------------  切换语言 -----------------
+        .ant-select {
+            color: color(grey400);
+            margin-left: 30px;
+            z-index: 20000000;
+
+            // --- RWD ---
+            @media screen and (max-width: 1000px) {
+                order: -1;
+            }
+
+            &:hover {
+                color: color(grey600);
+            }
+        }
+    }
+}

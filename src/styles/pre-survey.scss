@@ -1,0 +1,145 @@
+@import "./mixin";
+@import "./variables";
+
+.pre-event-survey-page-wrap {
+    width: 100vw;
+    height: 1000px;
+    padding: 30px 0;
+    background: url("https://oss.uppmkt.com/cxo/img/survey_mockup_PC.png");
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-size: cover;
+
+    .pre-event-survey-page-title {
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    .pre-event-survey-page-bg {
+        padding: 20px;
+        margin: 0px auto;
+        width: 375px;
+        max-width: 375px;
+        border-radius: 10px;
+
+        .pre-event-survey-page-google {
+            width: 80px;
+            margin: 0 auto;
+            margin-bottom: 10px;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .pre-event-survey-page-top {
+            border-bottom: 1px solid color(grey300);
+            text-align: center;
+            padding: 30px 0;
+
+            div {
+                width: 100%;
+                margin: 0 auto;
+                color: color(grey700);
+
+                span:first-child {
+                    color: color(blue500);
+                    font-size: 1.8rem;
+
+                    img {
+                        margin-right: 10px;
+                        vertical-align: baseline;
+                    }
+                }
+
+                span {
+                    display: block;
+                    line-height: 2.3rem;
+                    font-size: 1rem;
+                    color: color(grey900);
+                }
+            }
+        }
+        .pre-event-survey-page-body {
+            .pre-event-survey-page-section {
+                padding: 30px 0;
+
+                .pre-event-survey-page-section-title {
+                    color: color(grey700);
+                    font-size: 1rem;
+                    margin-bottom: 10px;
+
+                    span:first-child {
+                        color: color(blue500);
+                    }
+
+                    span:last-child {
+                        font-size: 0.6rem;
+                    }
+                }
+
+                .pre-event-survey-options {
+                    .pre-event-survey-option {
+                        .pre-event-survey-checkbox {
+                            display: none;
+
+                            &:checked + label {
+                                @include survey-a-multiple-selected;
+                            }
+                        }
+
+                        .pre-event-survey-label {
+                            @include survey-a-multiple(12px);
+                        }
+                    }
+                }
+
+                .pre-event-survey-page-textarea {
+                    height: 120px;
+                    border: 1px solid color(grey300);
+                    border-radius: 10px;
+                    padding: 10px 15px;
+                    color: color(grey800);
+                    background-color: color(white);
+                }
+            }
+
+            .pre-event-survey-page-btn {
+                width: 100%;
+                background-color: color(blue400);
+                border: none;
+                border-radius: 10px;
+                height: 40px;
+                color: color(white);
+
+                &:hover {
+                    background-color: color(blue500);
+                }
+
+                &:disabled {
+                    background-color: color(grey100);
+                    color: color(grey500);
+                }
+            }
+
+            .pre-event-survey-page-section:first-child {
+                border-bottom: 1px solid color(grey300);
+            }
+        }
+    }
+
+    .pre-event-survey-page-submit-success-body {
+        padding: 20px 0;
+
+        .pre-event-survey-page-submit-success-app-logo {
+            width: 120px;
+            margin: 30px auto;
+        }
+
+        .pre-event-survey-page-submit-success-text {
+            font-size: 1.5rem;
+            color: color(grey700);
+            text-align: center;
+        }
+    }
+}

@@ -1,0 +1,187 @@
+@import './mixin';
+@import './variables';
+
+.questionSec-wrap {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr 70px;
+    @include message-input-box;
+
+    .message-box-container {
+        background-color: color(grey100);
+
+        .message-form {
+            width: calc(100% - 40px);
+
+            .message-textarea {
+                background-color: color(white);
+            }
+        }
+
+        .send-message-button {
+            background-color: color(grey100);
+
+            .sendbtn_svg {
+                background-color: color(grey100);
+            }
+        }
+    }
+
+    .question-list {
+        width: 100%;
+        height: 100%;
+        overflow: scroll;
+        background-color: color(grey100);
+        padding: 15px;
+        @include flexBox(column, center, flex-start);
+
+        .question-list-loading {
+            height: 25px;
+            margin: 5px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .question-list-loading {
+            width: 100%;
+            height: 25px;
+            margin: 5px 0;
+        }
+
+        .question-list-item {
+            width: 100%;
+            background-color: color(white);
+            border: 1px solid color(grey100);
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 7px;
+            border: 1px solid color(grey200);
+
+            &:last-child {
+                margin-bottom: 0px;
+            }
+
+            .question-list-item-user-main {
+                width: 100%;
+                display: grid;
+                grid-template-columns: 33px 1fr;
+
+                .question-list-item-user-container {
+                    width: 24px;
+
+                    .question-list-item-user-avatar {
+                        width: 100%;
+                    }
+                }
+
+                .question-list-item-user-right {
+                    width: 100%;
+
+                    .question-list-item-user-detail {
+                        width: 100%;
+                        margin-top: 3px;
+                        @include flexBox(row, flex-start, flex-start);
+
+                        .question-list-item-user-name {
+                            @include message-name;
+                            margin-right: 7px;
+                        }
+
+                        .question-list-item-user-time {
+                            font-size: 11px;
+                            color: color(grey400);
+                            line-height: 1;
+                            margin: 4px 0 0;
+                        }
+                    }
+
+                    .question-list-item-content {
+                        width: 100%;
+                        @include message-text;
+                        margin: 5px 0 0;
+                        word-break: break-all;
+                    }
+                }
+            }
+
+            // 回覆的讯息框
+            .question-list-item-user-response {
+                border-left: 2px solid #e8eaed;
+                padding: 2px 0 0px 20px;
+                margin: 18px 0 8px 13px;
+                // background-color: pink;
+
+                .question-list-item-user-response-main {
+                    width: 100%;
+                    display: grid;
+                    grid-template-columns: 33px 1fr;
+                    margin: 0 0 10px;
+
+                    .question-list-item-user-response-container {
+                        width: 24px;
+
+                        .question-list-item-user-response-avatar {
+                            width: 100%;
+                        }
+                    }
+
+                    .question-list-item-user-response-right {
+                        width: 100%;
+
+                        .question-list-item-user-response-detail {
+                            width: 100%;
+                            margin-top: 3px;
+                            @include flexBox(row, flex-start, flex-start);
+
+                            .question-list-item-user-response-name {
+                                @include message-name;
+                                margin-right: 7px;
+                            }
+
+                            .question-list-item-user-response-time {
+                                font-size: 11px;
+                                color: color(grey400);
+                                line-height: 1;
+                                margin: 4px 0 0;
+                            }
+                        }
+
+                        .question-list-item-content {
+                            width: 100%;
+                            @include message-text;
+                            margin: 5px 0 0;
+                            word-break: break-all;
+                        }
+                    }
+                }
+            }
+
+            //回覆讯息框
+            .message-box-container {
+                background-color: color(white);
+                padding: 0;
+
+                div {
+                    margin: 0;
+                }
+
+                .ant-form-item-label {
+                    display: none;
+                }
+
+                .send-message-button {
+                    background-color: color(white);
+
+                    .sendbtn_svg {
+                        background-color: color(white);
+                    }
+                }
+            }
+        }
+    }
+
+    .message-textarea {
+        background-color: color(white);
+    }
+}

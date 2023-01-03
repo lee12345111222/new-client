@@ -1,0 +1,275 @@
+// main-font-style
+
+@mixin title-main($color) {
+    font-size: 45px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: $color;
+    line-height: 1.4;
+}
+
+@mixin title-subb($color) {
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: 0;
+    color: $color;
+}
+
+@mixin title-sub($color, $fontsize) {
+    font-size: $fontsize;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: $color;
+    line-height: 1.5;
+}
+
+@mixin title-intro($color) {
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: $color;
+    line-height: 1.6;
+}
+
+// navbar
+@mixin navbar-original {
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: color(grey600);
+    line-height: 1;
+}
+
+// button-style
+@mixin btn($bgcolor) {
+    cursor: pointer;
+    display: block;
+    height: 55px;
+    padding: 0 20px;
+    font-size: 20px;
+    font-weight: 500;
+    background-color: $bgcolor;
+    border-radius: 50px;
+    color: color(white);
+    transition: 0.5s;
+}
+
+@mixin btn_mo($bgcolor) {
+    cursor: pointer;
+    display: block;
+    padding: 15px 30px !important;
+    font-size: 15px !important;
+    font-weight: 500;
+    background-color: $bgcolor;
+    border-radius: 10px;
+    color: color(white);
+    transition: 0.5s;
+}
+
+@mixin btn-addCalender($fontcolor, $bgcolor) {
+    cursor: pointer;
+    display: table-cell;
+    vertical-align: middle;
+    height: 55px;
+    padding: 0 40px;
+    font-size: 20px;
+    font-weight: 500;
+    background-color: $bgcolor;
+    border-radius: 10px;
+    color: $fontcolor;
+    transition: 0.5s;
+}
+
+@mixin btn-onlyText($fontcolor) {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 400;
+    color: $fontcolor;
+
+    &:hover {
+        text-shadow: color(blue200) 0 0 0.1em;
+    }
+}
+
+// input
+@mixin inputBox($color, $borderColor) {
+    color: $color;
+    height: 55px;
+    border: 1px solid $borderColor;
+    border-radius: 50px;
+    padding: 0px 20px;
+    font-size: 20px;
+    font-weight: 400;
+    outline: none;
+}
+
+@mixin inputBox_mo($color, $borderColor) {
+    color: $color;
+    border: 1px solid $borderColor;
+    border-radius: 50px;
+    padding: 15px 20px !important;
+    font-size: 15px !important;
+    font-weight: 400;
+    outline: none;
+}
+
+// agenda card
+@mixin agenda-label($fontcolor, $bgcolor, $bordercolor) {
+    color: $fontcolor;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0;
+    background-color: $bgcolor;
+    border: 2px solid $bordercolor;
+    border-radius: 20px;
+    padding: 2px 15px;
+    display: inline-block;
+}
+
+@mixin agenda-time {
+    color: color(blue500);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0;
+}
+
+@mixin agenda-topic {
+    color: color(grey800);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-align: center;
+    line-height: 135%;
+
+    @media screen and (max-width: 1280px) {
+        font-size: 20px;
+    }
+}
+
+@mixin agenda-sname {
+    color: color(blue500);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+
+@mixin agenda-scompany {
+    color: color(grey700);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0;
+    margin: 2px 0 0;
+}
+
+@mixin agenda-stitle {
+    color: color(grey500);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0;
+}
+
+// speaker card
+
+@mixin speaker-name {
+    color: color(grey800);
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0;
+    margin: 10px 0 0px;
+}
+
+@mixin speaker-title {
+    color: color(grey700);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+}
+
+// FAQs
+
+@mixin faq-question {
+    color: color(grey600);
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.6;
+}
+
+@mixin faq-answer {
+    color: color(grey700);
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.6;
+}
+
+// CountDown
+@mixin Num {
+    color: color(grey800);
+    font-size: 60px;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    line-height: 1;
+}
+
+@mixin unit {
+    color: color(grey700);
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1;
+}
+
+@mixin Num_min {
+    color: color(grey800);
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    line-height: 1;
+}
+
+@mixin unit_min {
+    color: color(grey700);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1;
+}
+
+// Network 
+@mixin network-name {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0;
+    color: color(grey800);
+    line-height: 1;
+    text-align: center;
+}
+
+@mixin network-title {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: color(grey800);
+    line-height: 1.5;
+    text-align: center;
+}
+
+@mixin network-btn {
+    cursor: pointer;
+    display: block;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    background-color: color(blue500);
+    border-radius: 5px;
+    color: color(white);
+    transition: 0.5s;
+    height: auto;
+    border: 0px;
+
+    &:hover {
+        background-color: color(blue700);
+    }
+}

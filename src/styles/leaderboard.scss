@@ -1,0 +1,93 @@
+.leader-board-wrap {
+    overflow: scroll;
+    padding: 20px;
+    height: 100%;
+    background-image: url("https://oss.uppmkt.com/cxo/img/leaderBoard_bg.svg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    .leader-board-title {
+        width: 100%;
+        text-align: center;
+        color: color(grey800);
+        font-size: 20px;
+        margin: 15px 0;
+    }
+
+    .leader-board-item-header {
+        background-color: color(blue400);
+        color: color(white);
+        display: grid;
+        grid-template-columns: 15% 51% 20%;
+        grid-gap: 7%;
+        justify-items: center;
+        align-items: center;
+        margin: 7px auto 0;
+        padding: 5px;
+        border-radius: 10px;
+        height: 40px;
+        width: 97%;
+
+        div:nth-of-type(2) {
+            justify-self: flex-start;
+        }
+    }
+
+    .leader-board-list {
+        overflow: scroll;
+        height: 78%;
+        margin-top: 10px;
+
+        .leader-board-item {
+            display: grid;
+            grid-template-columns: 15% 51% 20%;
+            grid-gap: 7%;
+            justify-items: center;
+            align-items: center;
+            margin: 7px auto 0;
+            padding: 5px;
+            border-radius: 10px;
+            border: 1px solid color(grey100);
+            color: color(grey900);
+            height: 55px;
+            width: 97%;
+            background-color: color(white);
+
+            .leader-board-item-rank {
+                img,
+                span {
+                    width: 30px;
+                    display: inline-block;
+                }
+
+                span {
+                    text-align: center;
+                }
+            }
+
+            .leader-board-item-info {
+                word-wrap: break-word;
+                justify-self: flex-start;
+
+                div:first-child {
+                    font-weight: 500;
+                    color: color(grey900);
+                }
+
+                div:last-child {
+                    font-size: 0.5rem;
+                    color: color(grey600);
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .leader-board-wrap {
+        .leader-board-title {
+            margin: 0 0 5px;
+        }
+    }
+}

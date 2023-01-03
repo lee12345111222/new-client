@@ -1,0 +1,268 @@
+@import "./variables";
+
+// main-font-style
+
+@mixin message-name {
+    font-size: 14px;
+    color: color(grey800);
+    font-weight: 700;
+    line-height: 1.4;
+    padding: 0;
+    margin: 0;
+    word-wrap: break-word;
+}
+
+@mixin message-company {
+    font-size: 12px;
+    color: color(grey600);
+    line-height: 1.4;
+    padding: 0;
+    margin: 3px 0px 0px 10px;
+    word-wrap: break-word;
+}
+
+@mixin message-company-googler {
+    font-size: 12px;
+    color: #fff;
+    line-height: 1;
+    padding: 5px 10px;
+    margin: 0px 0 5px 7px;
+
+    border-radius: 20px;
+    background-color: color(blue500);
+    word-wrap: break-word;
+}
+
+@mixin message-text {
+    font-size: 14px;
+    color: color(grey800);
+    line-height: 1.4;
+    padding: 0;
+    margin: 3px 0 0;
+    word-wrap: break-word;
+}
+
+@mixin reply-text {
+    font-size: 13px;
+    color: color(grey500);
+    line-height: 1.4;
+    border-bottom: 1px solid color(grey300);
+    padding: 0 0 10px;
+    margin: 0 0 10px;
+    word-wrap: break-word;
+}
+
+@mixin who-reply-who {
+    font-size: 11px;
+    color: color(grey500);
+    line-height: 1.2;
+    margin-top: 12px;
+
+    display: flex;
+    word-wrap: break-word;
+}
+
+@mixin message-time {
+    font-size: 10px;
+    color: color(grey400);
+    line-height: 1;
+    position: absolute;
+    bottom: 5px;
+}
+
+// after event survey
+@mixin after-survey-title {
+    font-size: 18px;
+    color: color(grey700);
+    font-weight: 400;
+    line-height: 1.4;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+@mixin after-survey-content {
+    font-size: 14px;
+    color: color(grey900);
+    font-weight: 400;
+    line-height: 1.4;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+@mixin after-survey-q {
+    font-size: 18px;
+    color: color(grey900);
+    font-weight: 500;
+    line-height: 1.4;
+    word-wrap: break-word;
+    text-align: left;
+}
+
+@mixin survey-a-multiple($fontsz: 14px) {
+    background-color: color(white);
+    width: 100%;
+    font-size: $fontsz;
+    color: color(grey800);
+    font-weight: 400;
+    line-height: 1.4;
+    word-wrap: break-word;
+    text-align: left;
+    display: inline-block;
+    border: 1px solid color(grey200);
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin: 5px 0;
+    transition: all 0.5s;
+
+    &:hover {
+        background-color: color(grey50);
+    }
+}
+
+@mixin survey-a-multiple-selected {
+    background-color: color(blue50);
+    border: 1px solid color(blue500);
+}
+
+@mixin after-survey-btn {
+    cursor: pointer;
+    display: inline-block;
+    padding: 12px 15px;
+    min-width: 130px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1;
+    background-color: color(blue500);
+    border-radius: 10px;
+    color: color(white);
+    transition: 0.5s;
+    height: auto;
+    border: 0px;
+
+    &:hover {
+        background-color: color(blue600);
+    }
+
+    &:disabled {
+        background-color: color(white);
+        border: 1px solid color(grey300);
+        color: color(grey300);
+    }
+
+    &:disabled:hover {
+        background-color: color(white);
+        cursor: not-allowed;
+    }
+}
+
+// 会中问卷
+
+@mixin middle-survey-q {
+    font-size: 16px;
+    color: color(grey900);
+    font-weight: 500;
+    line-height: 1.4;
+    word-wrap: break-word;
+    text-align: left;
+    margin: 0 0 3px;
+}
+
+@mixin middle-survey-a-multiple {
+    width: 100%;
+    font-size: 14px;
+    color: color(grey900);
+    font-weight: 400;
+    line-height: 1.4;
+    word-wrap: break-word;
+    text-align: left;
+    display: inline-block;
+    background-color: #fff;
+    border: 1px solid color(grey200);
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0;
+
+    &:hover {
+        background-color: color(grey50);
+    }
+}
+
+@mixin middle-survey-a-multiple-selected {
+    background-color: color(blue50);
+    border: 1px solid color(blue500);
+}
+
+@mixin middle-survey-btn-able {
+    background-color: color(blue500);
+    border: 1px solid color(blue500);
+    color: color(white);
+
+    &:disabled {
+        background-color: color(white);
+        border: 1px solid color(grey300);
+        color: color(grey300);
+    }
+}
+
+@mixin middle-survey-thankyou-content {
+    font-size: 16px;
+    color: color(grey800);
+    font-weight: 500;
+    line-height: 1.4;
+    word-wrap: break-word;
+    text-align: center;
+    margin: 10px 0 0px;
+}
+
+@mixin middle-survey-result-q {
+    font-size: 13px;
+    color: color(grey800);
+    font-weight: 400;
+    line-height: 1.3;
+    word-wrap: break-word;
+    text-align: left;
+    margin: 0px;
+}
+
+@mixin middle-survey-result-percent {
+    font-size: 14px;
+    color: color(blue500);
+    font-weight: 400;
+    line-height: 1.3;
+    word-wrap: break-word;
+    text-align: right;
+    margin: 0px;
+}
+
+// lucky draw
+@mixin luckydraw-congratulations {
+    width: inherit;
+    font-size: 28px;
+    color: color(grey900);
+    font-weight: 500;
+    line-height: 1.3;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+@mixin luckydraw-name {
+    width: inherit;
+    font-size: 24px;
+    color: color(grey900);
+    font-weight: 700;
+    line-height: 1.4;
+    word-wrap: break-word;
+    text-align: center;
+}
+
+@mixin luckydraw-title {
+    width: inherit;
+    font-size: 13px;
+    color: color(grey700);
+    font-weight: 400;
+    line-height: 1.4;
+    word-wrap: break-word;
+    text-align: center;
+}

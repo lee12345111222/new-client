@@ -1,0 +1,353 @@
+@import "./main-font-style";
+@import "./layout-style";
+
+@mixin message-list-items {
+    .message-list-item-user-main {
+        @include flexBox(row, flex-start, flex-start);
+        // display: flex;
+        // justify-content: flex-start;
+
+        .message-list-item-user-container {
+            .message-list-item-user-avatar {
+                width: 25px;
+                height: 25px;
+                margin-right: 10px;
+            }
+        }
+
+        .message-list-item-user-right {
+            text-align: left;
+            width: 85%;
+
+            .message-list-item-user-detail {
+                @include flexBox(row, center, flex-start);
+                // display: flex;
+                // flex-direction: column;
+                // align-items: flex-start;
+
+                .message-list-item-user-name {
+                    @include message-name;
+                    margin-top: 3px;
+                }
+
+                .message-list-item-user-break {
+                    color: color(grey700);
+                    font-size: 14px;
+                    margin: 0 5px;
+                }
+
+                .message-list-item-user-company {
+                    @include message-company;
+                }
+            }
+
+            .message-list-item-content {
+                @include message-text;
+            }
+
+            .message-list-item-content-sticker {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+
+                img {
+                    width: 80px;
+                    height: 80px;
+                }
+            }
+        }
+    }
+}
+
+@mixin message-list-items-googler {
+    .message-list-item-user-main {
+        @include flexBox(row, flex-start, flex-start);
+        // display: flex;
+        // justify-content: flex-start;
+
+        .message-list-item-user-container {
+            .message-list-item-user-avatar {
+                width: 25px;
+                height: 25px;
+                margin-right: 10px;
+            }
+        }
+
+        .message-list-item-user-right {
+            text-align: left;
+            width: 85%;
+
+            .message-list-item-user-detail {
+                @include flexBox(row, flex-start, flex-start);
+                // display: flex;
+                // align-items: flex-start;
+
+                .message-list-item-user-name {
+                    @include message-name;
+                    margin-top: 3px;
+                }
+
+                .message-list-item-user-break {
+                    color: color(grey700);
+                    font-size: 14px;
+                    margin: 0 5px;
+                }
+
+                .message-list-item-user-company {
+                    @include message-company-googler;
+                }
+            }
+        }
+    }
+}
+
+@mixin message-input-box {
+    .message-box-container {
+        width: 100%;
+        @include flexBox(row, center, center);
+        // display: flex;
+        // justify-content: center;
+        padding: 15px;
+        height: 70px;
+        background-color: color(white);
+        position: relative;
+        border-radius: 0 0 10px 10px;
+
+        //回覆訊息
+        .message-list-replied-section {
+            position: absolute;
+            bottom: 70px;
+            left: 0;
+            right: 0;
+            background-color: rgba(color(white), 0.96);
+            padding: 10px 15px 10px 15px;
+
+            .message-list-replied-section-body {
+                @include flexBox(row, center, flex-start);
+                // display: flex;
+                // align-items: center;
+                position: relative;
+
+                .message-list-replied-section-img-container {
+                    display: none;
+
+                    img {
+                        width: 90%;
+                    }
+                }
+
+                .message-list-replied-section-content-container {
+                    padding: 0 25px 0 0;
+
+                    .message-list-replied-section-name {
+                        color: color(grey500);
+                        font-weight: 500;
+                        font-size: 14px;
+                    }
+
+                    .message-list-replied-section-content {
+                        color: color(grey500);
+                        font-weight: 400;
+                        font-size: 12px;
+                    }
+                }
+            }
+
+            .message-list-replied-section-close-btn {
+                color: color(grey500);
+                position: absolute;
+                right: 0px;
+                top: 5px;
+                background-color: transparent;
+                border: none;
+                cursor: pointer;
+
+                &:hover {
+                    color: color(grey700);
+                }
+            }
+        }
+
+        //輸入框
+        .message-form {
+            width: calc(100% - 80px);
+            padding: 0px 5px 0px 0px;
+            height: 40px;
+
+            .message-textarea {
+                width: 100%;
+                height: 40px;
+                background-color: color(grey50);
+                border-radius: 20px;
+                padding: 10px 15px;
+                resize: none;
+                outline: none;
+                color: #202124;
+                overflow: scroll;
+                font-size: 14px;
+                line-height: 1.4;
+
+                &::placeholder {
+                    font-size: 14px;
+                    color: color(grey500);
+                }
+            }
+        }
+
+        .send-message-button {
+            @include flexBox(row, center, flex-start);
+            border-radius: 20px !important;
+            padding: 8px;
+            border: 0;
+            box-shadow: none;
+            background-color: color(white);
+            width: 40px;
+            height: 40px;
+
+            .sendbtn_svg,
+            .stickerbtn_svg {
+                border-radius: 20px;
+                border: none;
+                width: 100%;
+                color: color(blue500);
+                background: color(white);
+                cursor: pointer;
+                padding: 0;
+                transition: 0.5s;
+            }
+
+            &:disabled .sendbtn_svg {
+                color: color(grey500);
+                pointer-events: none;
+            }
+
+            &:disabled:hover .sendbtn_svg {
+                color: color(grey500);
+            }
+
+            &:hover .sendbtn_svg {
+                color: color(blue700);
+            }
+
+            &:hover .stickerbtn_svg {
+                color: color(blue500);
+                background: color(blue50);
+            }
+        }
+    }
+}
+
+@mixin drawing {
+    .main-drawing-award-page {
+        .main-drawing-award-img {
+            width: 100%;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .main-drawing-award-prize {
+            text-align: center;
+            padding: 25px 0;
+            background-color: color(grey50);
+
+            span {
+                color: color(blue500);
+                font-weight: 600;
+                font-size: 1.5rem;
+            }
+        }
+    }
+
+    .main-drawing-win {
+        .main-drawing-win-img {
+            width: 100%;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .main-drawing-win-body {
+            background-color: color(grey50);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            // height: 300px;
+            min-height: 310px;
+
+            .main-drawing-win-text {
+                display: flex;
+                flex-direction: row;
+                text-align: center;
+                font-size: 1.5rem;
+                color: color(grey800);
+                margin: 0 0 15px;
+
+                span {
+                    color: color(blue500);
+                    font-weight: 600;
+                }
+            }
+
+            .main-drawing-win-winners {
+                width: 90%;
+                display: grid;
+                grid-template-columns: 47% 47%;
+                justify-content: space-between;
+
+                .main-drawing-win-winner {
+                    width: 100%;
+                    background-color: color(white);
+                    padding: 10px 20px 10px 40px;
+                    border-radius: 25px;
+                    border: 1px solid color(grey300);
+                    position: relative;
+                    margin: 6px auto;
+
+                    .main-drawing-win-winner-icon {
+                        position: absolute;
+                        left: -30px;
+                        top: -6px;
+                        width: 60px;
+
+                        img {
+                            width: 100%;
+                        }
+                    }
+
+                    #winner-name {
+                        font-size: 1.5rem;
+                        color: color(grey800);
+                        font-weight: 600;
+                    }
+
+                    #winner-company {
+                        font-size: 1.5rem;
+                        color: color(grey800);
+                    }
+                }
+            }
+
+            .main-drawing-win-winners.only-winner {
+                margin: 0 auto;
+                width: 45%;
+                grid-template-columns: 100%;
+            }
+
+            .main-drawing-win-note-container {
+                .main-drawing-win-note {
+                    margin-top: 10px;
+                    background-color: color(grey200);
+                    color: color(grey800);
+                    padding: 10px 20px;
+                    border-radius: 20px;
+                }
+            }
+        }
+    }
+}

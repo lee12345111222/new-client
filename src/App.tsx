@@ -12,8 +12,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateState } from './app/globalSlice';
 
 const LandingPage = lazy(() => import('./container/landingPage/LandingPage'))
+const Main = lazy(() => import('./container/main/Main'))
 
-// export const socketContext = createContext({ socket: initialSkt, socketOn: false, socketId: '' })
 
 const socket = initialSkt;
 
@@ -52,6 +52,7 @@ const App = memo(() => {
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/landingPage" element={<LandingPage />} />
+          <Route path="/main/*" element={<Main />} />
         </Routes>
       </Suspense>
 

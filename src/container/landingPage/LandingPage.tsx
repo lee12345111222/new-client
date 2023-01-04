@@ -4,12 +4,12 @@ import { useIntl } from 'react-intl'
 import xss from 'xss'
 // import momenttz from 'moment-timezone';
 
-// import Backdrop from '../../../../client/src/components/ui/Backdrop'
+import Backdrop from '../../components/ui/Backdrop'
 // import { useTypedSelector, useActions } from '../../../../client/src/hooks'
-// import CustomModal from '../../../../client/src/components/ui/CustomModal'
-// import Agenda from './agenda/Agenda'
-// import FAQ from './faq/FAQ'
-// import Home from './home/Home'
+import CustomModal from '../../components/ui/CustomModal'
+import Agenda from './agenda/Agenda'
+import FAQ from './faq/FAQ'
+import Home from './home/Home'
 import HeaderNav from './HeaderNav'
 import '../../styles/landingPage.scss'
 
@@ -64,22 +64,23 @@ const LandingPage: FC = () => {
     /**
      * 初始化定時任務，設定倒數至活動開始開啟輸入框
      */
-    // useEffect(() => {
-    //     const now = timeNow
-    //     let timer = 0
+    useEffect(() => {
+        setEventOpen(true)
+        // const now = new Date('2020').valueOf()
+        // let timer = 0
 
-    //     if (now > 0) {
-    //         if (parseInt(process.env.REACT_APP_EVENT_START_DATE as string) >= now) {
-    //             timer = window.setTimeout(() => {
-    //                 return setEventOpen(true)
-    //             }, parseInt(process.env.REACT_APP_EVENT_START_DATE as string) - now)
-    //         } else return setEventOpen(true)
-    //     }
+        // if (now > 0) {
+        //     if (parseInt(process.env.REACT_APP_EVENT_START_DATE as string) >= now) {
+        //         timer = window.setTimeout(() => {
+        //             return setEventOpen(true)
+        //         }, parseInt(process.env.REACT_APP_EVENT_START_DATE as string) - now)
+        //     } else return setEventOpen(true)
+        // }
 
-    //     return () => {
-    //         clearTimeout(timer)
-    //     }
-    // }, [timeNow])
+        // return () => {
+        //     clearTimeout(timer)
+        // }
+    }, [])
 
     /**
      * 根據語言及活動 id 訂定初始畫面
@@ -135,59 +136,6 @@ const LandingPage: FC = () => {
     //     }
     // }, [auth, isWalkin, isCreatingGoogler])
 
-    // const getCalendarLink = () => {
-    //     const res = {
-    //         st: 1654506000000, // event start time
-    //         et: 1654509600000, // event end time
-    //         allday: false, // is allday event?
-    //         subject: 'test123', // event title
-    //         body: '123456', // event description
-    //         location: 'Taipei', // location
-    //         timezone: 'Asia/Taipei', // event timezone
-    //     };
-
-    //     const subject = encodeURIComponent(res.subject);
-    //     const body = encodeURIComponent(res.body);
-    //     const location = res.location;
-    //     const isAllDay = res.allday;
-    //     const timezone = res.timezone;
-
-    //     const begin = momenttz.tz(res.st, timezone);
-    //     const end = momenttz.tz(res.et, timezone);
-
-    //     let calStart;
-    //     let calEnd;
-    //     let mscalStart;
-    //     let mscalEnd;
-
-    //     if (isAllDay) {
-    //         end.add(1, 'days');
-    //         calStart = begin.format('YYYYMMDD');
-    //         calEnd = end.format('YYYYMMDD');
-
-    //         mscalStart = encodeURIComponent(begin.format('YYYY-MM-DD') + 'T00:00:00+00:00');
-    //         mscalEnd = encodeURIComponent(end.format('YYYY-MM-DD') + 'T00:00:00+00:00');
-    //     } else {
-    //         calStart = begin.utc().format('YYYYMMDDTHHmm[00Z]');
-    //         calEnd = end.utc().format('YYYYMMDDTHHmm[00Z]');
-
-    //         mscalStart = encodeURIComponent(begin.format());
-    //         mscalEnd = encodeURIComponent(end.format());
-    //     }
-
-    //     const dates = encodeURIComponent(calStart + '/' + calEnd);
-
-    //     const ycalStart = encodeURIComponent(calStart);
-    //     const ycalEnd = encodeURIComponent(calEnd);
-
-    //     const generatedGoogleLink = `https://calendar.google.com/calendar/render?action=TEMPLATE&dates=${dates}&details=${body}&location=${location}&text=${subject}`;
-
-    //     const generatedOutlookLink = `https://outlook.live.com/calendar/0/deeplink/compose?allday=${isAllDay}&body=${body}&enddt=${mscalEnd}&location=${location}&path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&startdt=${mscalStart}&subject=${subject}`;
-
-    //     const generatedYahooLink = `https://calendar.yahoo.com/?desc=${body}&dur=${
-    //         isAllDay ? 'allday' : null
-    //     }&et=${ycalEnd}&in_loc=${location}&st=${ycalStart}&title=${subject}&v=60`;
-    // };
 
     /**
      * 若存在錯誤訊息，顯示提示框。若訊息為重複登入初始化用戶登入資訊。
@@ -224,15 +172,15 @@ const LandingPage: FC = () => {
      * @param search query string
      */
     const handleCheckSearch = (search: string): void => {
-        // const queryStr = new URLSearchParams(search)
+        const queryStr: any = new URLSearchParams(search)
 
-        // for (const params of queryStr.entries()) {
-        //     if (params[0] === 'uid') {
-        //         setCode(params[1])
-        //         onCheckUser({ code: params[1] })
-        //     }
-        //     if (params[0] === 'googler') handleGoogler()
-        // }
+        for (const params of queryStr.entries()) {
+            if (params[0] === 'uid') {
+                setCode(params[1])
+                // onCheckUser({ code: params[1] })
+            }
+            if (params[0] === 'googler') handleGoogler()
+        }
     }
 
     /**
@@ -247,40 +195,41 @@ const LandingPage: FC = () => {
      * 提交登入碼登入會場
      * @param e form event
      */
-    // const handleSubmit = useCallback(
-    //     async (e: FormEvent<HTMLFormElement>) => {
-    //         e.preventDefault()
-    //         const loginCode = code.toLocaleLowerCase().trim()
+    const handleSubmit = useCallback(
+        async (e: FormEvent<HTMLFormElement>) => {
+            e.preventDefault()
+            const loginCode = code.toLocaleLowerCase().trim()
 
-    //         const ex = '\\W'
+            const ex = '\\W'
 
-    //         if (loginCode.match(ex)) {
-    //             setModalContent(<div id="login-msg-modal-content">参会码须为英数字</div>)
-    //             setShowModal(true)
+            if (loginCode.match(ex)) {
+                setModalContent(<div id="login-msg-modal-content">参会码须为英数字</div>)
+                setShowModal(true)
 
-    //             return
-    //         }
+                return
+            }
 
-    //         if (!loginCode) {
-    //             setModalContent(
-    //                 <div id="login-msg-modal-content">{intl.formatMessage({ id: 'landingPage.USER_CODE_EMPTY' })}</div>
-    //             )
-    //             setShowModal(true)
-    //             return
-    //         }
+            if (!loginCode) {
+                setModalContent(
+                    <div id="login-msg-modal-content">{intl.formatMessage({ id: 'landingPage.USER_CODE_EMPTY' })}</div>
+                )
+                setShowModal(true)
+                return
+            }
 
-    //         const searchQuery = location.search
+            const searchQuery = location.search
 
-    //         // onUserLogin({ loginCode: xss(loginCode), searchQuery, eventPackage: event, eventSlug, googler })
-    //         setCode('')
-    //     },
-    //     [code, location.search, event]
-    // )
+            // onUserLogin({ loginCode: xss(loginCode), searchQuery, eventPackage: event, eventSlug, googler })
+            setCode('')
+        },
+        [code, location.search]
+    )
 
     /**
      * 提交 walkin 資訊並登入會場
      * @param e form event
      */
+    const handleWalkinSubmit = () => { }
     // const handleWalkinSubmit = useCallback(
     //     async (e: FormEvent<HTMLFormElement>) => {
     //         e.preventDefault()
@@ -316,6 +265,7 @@ const LandingPage: FC = () => {
      * 提交 googler 資訊並登入會場
      * @param e form event
      */
+    const handleGooglerSubmit = () => { }
     // const handleGooglerSubmit = useCallback(
     //     async (e: FormEvent<HTMLFormElement>) => {
     //         e.preventDefault()
@@ -382,39 +332,20 @@ const LandingPage: FC = () => {
                         showMenu={showMenu}
                     />
                     <div className="landing-page-layout-content" id="landing-page-layout-content">
-                        {/* <CustomModal handleCloseModal={handleCloseModal} showModal={showModal}>
+                        <CustomModal handleCloseModal={handleCloseModal} showModal={showModal}>
                             {modalContent}
                         </CustomModal>
                         <Backdrop showBackdrop={showBackdrop} />
+                        <Home
+                            handleSubmit={handleSubmit}
+                            eventOpen={eventOpen}
+                            code={code}
+                            HandleInputChange={HandleInputChange}
+                            eventSlug={eventSlug}
+                        />
 
-                        <Routes>
-                            <Route
-                                path="/*"
-                                element={
-                                    <Home
-                                        handleSubmit={handleSubmit}
-                                        eventOpen={eventOpen}
-                                        code={code}
-                                        HandleInputChange={HandleInputChange}
-                                        eventSlug={eventSlug}
-                                        auth={auth}
-                                        handleWalkinSubmit={handleWalkinSubmit}
-                                        setWalkinName={setWalkinName}
-                                        setWalkinCompany={setWalkinCompany}
-                                        walkinName={walkinName}
-                                        walkinCompany={walkinCompany}
-                                        googler={googler}
-                                        googlerName={googlerName}
-                                        setGooglerName={setGooglerName}
-                                        handleGooglerSubmit={handleGooglerSubmit}
-                                        walkinEmail={walkinEmail}
-                                        setWalkinEmail={setWalkinEmail}
-                                    />
-                                }
-                            />
-                        </Routes>
                         <Agenda eventSlug={eventSlug} />
-                        <FAQ /> */}
+                        <FAQ />
                     </div>
                 </section>
             </section>

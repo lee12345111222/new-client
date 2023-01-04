@@ -14,7 +14,9 @@ const Loader = () => {
                         loop: true,
                         autoplay: true,
                         animationData: LottieJSON.LOADER,
-                        // renderer: 'svg',
+                        rendererSettings: {
+                            preserveAspectRatio: 'xMidYMid slice'
+                        }
                     }}
                 ></Lottie>
             </div>

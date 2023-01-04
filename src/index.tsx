@@ -36,7 +36,9 @@ const Root = () => {
   return <IntlProvider locale={locale} defaultLocale="en" messages={messages}>
     <Provider store={store}>
       <React.StrictMode>
-        <App />
+        <localeContext.Provider value={{ locale, setLocale, jsonData: messages }}>
+          <App />
+        </localeContext.Provider>
       </React.StrictMode>
     </Provider>
   </IntlProvider>

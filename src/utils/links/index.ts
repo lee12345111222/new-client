@@ -1,5 +1,10 @@
 import LUCKY_DRAW from '../json/LuckyDraw.json'
 import LOADER from '../json/loader.json'
+import KV_PC from '../json/Kv_landing.json'
+import KV_MO from '../json/Kv_mobile.json'
+import OPEN_ANIMATION from '../json/open.json'
+import OPEN_ANIMATION_MO from '../json/opening_Mobile.json'
+import SWAG_LUCKY_DRAWING from '../json/CxO_lucky_draw.json'
 
 export const Links = {
     GOOGLE_PLAY_STORE_EXAMPLE: 'https://oss.uppmkt.com/cxo/img/Frame.svg',
@@ -62,9 +67,9 @@ export const LottieJSON = {
     LOADER,
     KV: '/json/kv/LandingKV.json',
     LUCKY_DRAW,
-    SWAG_LUCKY_DRAWING: '/json/drawing/CxO_lucky_draw.json',
-    OPEN_ANIMATION: '/json/open/open.json',
-    OPEN_ANIMATION_MO: '/json/open/opening_Mobile.json',
-    KV_PC: '/json/kv/Kv_landing.json',
-    KV_MO: '/json/kv/Kv_mobile.json',
+    SWAG_LUCKY_DRAWING,
+    OPEN_ANIMATION,
+    OPEN_ANIMATION_MO,
+    KV_PC,
+    KV_MO,
 }

@@ -93,6 +93,6 @@ export type StartDrawingData = {
     payload: { aid: string; currentEventId: string; winners: Winner[] }
 }
 
-// export type LeaderBoardData = {
-//     leaders: LeaderBoardUser[]
-// }
+export type LeaderBoardData = {
+    leaders: any[]
+}

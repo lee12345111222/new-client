@@ -1,11 +1,9 @@
-import React, { FC, useState, useEffect, useCallback, ReactNode, ChangeEvent, FormEvent } from 'react'
-import { useLocation, useNavigate, useParams, Route, Routes } from 'react-router-dom'
+import React, { FC, useState, useEffect, useCallback, ReactNode, ChangeEvent, FormEvent,memo } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useIntl } from 'react-intl'
 import xss from 'xss'
-// import momenttz from 'moment-timezone';
 
 import Backdrop from '../../components/ui/Backdrop'
-// import { useTypedSelector, useActions } from '../../../../client/src/hooks'
 import CustomModal from '../../components/ui/CustomModal'
 import Agenda from './agenda/Agenda'
 import FAQ from './faq/FAQ'
@@ -13,102 +11,46 @@ import Home from './home/Home'
 import HeaderNav from './HeaderNav'
 import '../../styles/landingPage.scss'
 
-const LandingPage: FC = () => {
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchLogin, getLanding } from '../../store/globalSlice'
+
+import { Obj } from '../../store/globalSlice'
+
+const LandingPage: FC = memo(() => {
     const [code, setCode] = useState('')
-    const [eventOpen, setEventOpen] = useState(false)
     const [showModal, setShowModal] = useState(false)
     const [modalContent, setModalContent] = useState<ReactNode | null>(null)
     const [eventSlug, setEventSlug] = useState(process.env.REACT_APP_DEFAULT_EVENT_ID as string)
     const [showBackdrop, setShowBackdrop] = useState(false)
     const [showMenu, setShowMenu] = useState(false)
-    const [walkinName, setWalkinName] = useState('')
-    const [walkinCompany, setWalkinCompany] = useState('')
-    const [walkinEmail, setWalkinEmail] = useState('')
-    const [googler, setGoogler] = useState(false)
-    const [googlerName, setGooglerName] = useState('')
 
-    // const {
-    //     onUserLogin,
-    //     onGetEventDetail,
-    //     removeUserError,
-    //     onUserWalkinLogin,
-    //     initUser,
-    //     onUserGooglerLogin,
-    //     onCheckUser,
-    // } = useActions()
+    const {global}:any = useSelector(state => state)
+    const {setting ={} } = global
 
-    // const {
-    //     user: {
-    //         isWalkin,
-    //         isCreatingGoogler,
-    //         error: userError,
-    //         auth,
-    //         user: { _id, logo },
-    //     },
-    //     event: { error: eventError, event, timeNow },
-    // } = useTypedSelector((state) => state)
+    console.log(setting)
+
+    const dispatch = useDispatch()
+   
 
     const intl = useIntl()
 
     const location = useLocation()
     const navigate = useNavigate()
-    const params = useParams()
+    const search = location.search.replace('?','')
+
 
     /**
      * 獲取資料庫該服務 event id 資料
      */
     useEffect(() => {
-        // onGetEventDetail()
-    }, [])
+        console.log(search, 'search')
 
-    /**
-     * 初始化定時任務，設定倒數至活動開始開啟輸入框
-     */
-    useEffect(() => {
-        setEventOpen(true)
-        // const now = new Date('2020').valueOf()
-        // let timer = 0
+        dispatch(getLanding())
+    }, [dispatch])
 
-        // if (now > 0) {
-        //     if (parseInt(process.env.REACT_APP_EVENT_START_DATE as string) >= now) {
-        //         timer = window.setTimeout(() => {
-        //             return setEventOpen(true)
-        //         }, parseInt(process.env.REACT_APP_EVENT_START_DATE as string) - now)
-        //     } else return setEventOpen(true)
-        // }
+    
 
-        // return () => {
-        //     clearTimeout(timer)
-        // }
-    }, [])
-
-    /**
-     * 根據語言及活動 id 訂定初始畫面
-     */
-    useEffect(() => {
-        if (params) {
-            const param = params['*'] as string
-
-            if (param) {
-                const [, slug] = param.split('/')
-
-                if (slug) {
-                    setEventSlug(slug)
-                } else {
-                    setEventSlug(param)
-                }
-            } else {
-                // navigate('/404', { replace: false })
-            }
-        }
-    }, [params])
-
-    /**
-     * 頁面不存在
-     */
-    useEffect(() => {
-        if (eventSlug !== (process.env.REACT_APP_DEFAULT_EVENT_ID as string)) navigate('/404', { replace: false })
-    }, [params, eventSlug])
+    
 
     /**
      * 判斷是否存在錯誤訊息
@@ -117,24 +59,8 @@ const LandingPage: FC = () => {
     //     if (eventError || userError) return handleMessageModal()
     // }, [eventError, userError])
 
-    /**
-     * 判斷 query string
-     */
-    useEffect(() => {
-        if (location.search) handleCheckSearch(location.search)
-    }, [location.search])
+  
 
-    /**
-     * 判斷 uid 是否成功登入，若 uid 為 walkin，導向至輸入用戶名稱及公司頁面
-     */
-    // useEffect(() => {
-    //     if (auth) navigate(`/main`, { replace: true })
-    //     else {
-    //         if (isWalkin) navigate(`/walkin/${eventSlug}`, { replace: true })
-    //         else if (isCreatingGoogler) navigate(`/g/${eventSlug}`, { replace: true })
-    //         else navigate(`${location.pathname}${location.search}`, { replace: true })
-    //     }
-    // }, [auth, isWalkin, isCreatingGoogler])
 
 
     /**
@@ -167,29 +93,7 @@ const LandingPage: FC = () => {
         // if (userError) removeUserError()
     }
 
-    /**
-     * 判斷 googler and uid query string
-     * @param search query string
-     */
-    const handleCheckSearch = (search: string): void => {
-        const queryStr: any = new URLSearchParams(search)
-
-        for (const params of queryStr.entries()) {
-            if (params[0] === 'uid') {
-                setCode(params[1])
-                // onCheckUser({ code: params[1] })
-            }
-            if (params[0] === 'googler') handleGoogler()
-        }
-    }
-
-    /**
-     * 處理 query string googler 等於 true
-     */
-    const handleGoogler = () => {
-        setGoogler(true)
-        setEventOpen(true)
-    }
+    
 
     /**
      * 提交登入碼登入會場
@@ -200,14 +104,14 @@ const LandingPage: FC = () => {
             e.preventDefault()
             const loginCode = code.toLocaleLowerCase().trim()
 
-            const ex = '\\W'
+            // const ex = '\\W'
 
-            if (loginCode.match(ex)) {
-                setModalContent(<div id="login-msg-modal-content">参会码须为英数字</div>)
-                setShowModal(true)
+            // if (loginCode.match(ex)) {
+            //     setModalContent(<div id="login-msg-modal-content">参会码须为英数字</div>)
+            //     setShowModal(true)
 
-                return
-            }
+            //     return
+            // }
 
             if (!loginCode) {
                 setModalContent(
@@ -217,76 +121,12 @@ const LandingPage: FC = () => {
                 return
             }
 
-            const searchQuery = location.search
-
-            // onUserLogin({ loginCode: xss(loginCode), searchQuery, eventPackage: event, eventSlug, googler })
+            dispatch(fetchLogin(search, code,()=>{navigate('/main')}))
             setCode('')
         },
         [code, location.search]
     )
 
-    /**
-     * 提交 walkin 資訊並登入會場
-     * @param e form event
-     */
-    const handleWalkinSubmit = () => { }
-    // const handleWalkinSubmit = useCallback(
-    //     async (e: FormEvent<HTMLFormElement>) => {
-    //         e.preventDefault()
-    //         const name = walkinName.trim()
-    //         const company = walkinCompany.trim()
-    //         const email = walkinEmail.trim()
-
-    //         if (!_id) {
-    //             setModalContent(
-    //                 <div id="login-msg-modal-content">{intl.formatMessage({ id: 'landingPage.USER_ID_ERROR' })}</div>
-    //             )
-    //             setShowModal(true)
-    //             navigate(`/${process.env.REACT_APP_DEFAULT_EVENT_ID as string}`, { replace: true })
-    //             return
-    //         }
-
-    //         onUserWalkinLogin({
-    //             _id,
-    //             walkinName: name,
-    //             walkinCompany: company,
-    //             walkinEmail: email,
-    //             eventSlug,
-    //             eventPackage: event,
-    //         })
-
-    //         setWalkinName('')
-    //         setWalkinCompany('')
-    //     },
-    //     [_id, walkinName, walkinCompany, walkinEmail, eventSlug]
-    // )
-
-    /**
-     * 提交 googler 資訊並登入會場
-     * @param e form event
-     */
-    const handleGooglerSubmit = () => { }
-    // const handleGooglerSubmit = useCallback(
-    //     async (e: FormEvent<HTMLFormElement>) => {
-    //         e.preventDefault()
-    //         const name = googlerName.trim()
-
-    //         if (!_id) {
-    //             setModalContent(
-    //                 <div id="login-msg-modal-content">{intl.formatMessage({ id: 'landingPage.USER_ID_ERROR' })}</div>
-    //             )
-    //             setShowModal(true)
-    //             navigate(`/${process.env.REACT_APP_DEFAULT_EVENT_ID as string}`, { replace: true })
-    //             return
-    //         }
-
-    //         onUserGooglerLogin({ _id, googlerName: name, eventSlug })
-
-    //         setGooglerName('')
-    //         setWalkinCompany('')
-    //     },
-    //     [_id, googlerName, eventSlug]
-    // )
 
     /**
      * 登入框取值
@@ -338,7 +178,7 @@ const LandingPage: FC = () => {
                         <Backdrop showBackdrop={showBackdrop} />
                         <Home
                             handleSubmit={handleSubmit}
-                            eventOpen={eventOpen}
+                            eventOpen={true}
                             code={code}
                             HandleInputChange={HandleInputChange}
                             eventSlug={eventSlug}
@@ -351,6 +191,6 @@ const LandingPage: FC = () => {
             </section>
         </main>
     )
-}
+})
 
 export default LandingPage

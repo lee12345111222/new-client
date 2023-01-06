@@ -2,6 +2,8 @@ import React, { FC, memo } from 'react'
 
 import { Links } from '../../../utils/links'
 
+// import '../../../styles/_main-pop.scss'
+
 const ScoreRules: FC = () => {
     return (
         <div className="score-rules-wrap">

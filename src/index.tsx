@@ -1,9 +1,9 @@
-import React, { createContext, useEffect, useState, Dispatch, SetStateAction } from 'react';
+import React, { createContext, useEffect, useState, Dispatch, SetStateAction, memo } from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './styles/index.scss'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { store } from './app/store'
+import { store } from './store/store'
 import { Provider } from 'react-redux'
 import { IntlProvider } from 'react-intl'
 
@@ -21,10 +21,9 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-const Root = () => {
+const Root = memo(() => {
   const [locale, setLocale] = useState('zh')
   const [messages, setMessages] = useState(zh)
-
   /**
    * 根據 locale 設定的指標，判斷該讀取哪個語言設定檔
    */
@@ -35,14 +34,13 @@ const Root = () => {
   }, [locale])
   return <IntlProvider locale={locale} defaultLocale="en" messages={messages}>
     <Provider store={store}>
-      <React.StrictMode>
-        <localeContext.Provider value={{ locale, setLocale, jsonData: messages }}>
+      <localeContext.Provider value={{ locale, setLocale, jsonData: messages }}>
           <App />
-        </localeContext.Provider>
-      </React.StrictMode>
+      </localeContext.Provider>
+
     </Provider>
   </IntlProvider>
-}
+})
 root.render(
   <Root />
 );

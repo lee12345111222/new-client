@@ -1,4 +1,4 @@
-import { createContext, memo, useState, useEffect, useRef, lazy, Suspense } from 'react';
+import { createContext, memo, useState, useEffect, useRef, lazy, Suspense, useLayoutEffect } from 'react';
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -7,9 +7,10 @@ import { Socket } from 'socket.io-client'
 import initialSkt from './lib/socket'
 
 import 'antd/dist/reset.css';
+import './styles/App.scss'
 import Loader from './components/ui/Loader'
 import { useDispatch, useSelector } from 'react-redux';
-import { updateState } from './app/globalSlice';
+import { updateState, selectGlobalState } from './store/globalSlice';
 
 const LandingPage = lazy(() => import('./container/landingPage/LandingPage'))
 const Main = lazy(() => import('./container/main/Main'))
@@ -20,16 +21,12 @@ const socket = initialSkt;
 const App = memo(() => {
 
   const dispatch = useDispatch();
-  const { global }: any = useSelector(state => { return state });
-  console.log(global, 'global')
 
-
+  console.log('app')
   useEffect(() => {
-    // fetch('http://localhost:8080/api/tutorials',{method:'post',body:JSON.stringify({title:'test',description:'测试'})})
+    console.log('effect')
     socket.on('connect', () => {
-      console.log({ status: 'socket connected', socketId: socket.id })
 
-      // dispatch(updateState({socket}))
       dispatch(updateState({ key: 'socket', value: socket }))
       dispatch(updateState({ key: 'socketId', value: socket.id }))
       dispatch(updateState({ key: 'socketOn', value: true }))
@@ -45,7 +42,7 @@ const App = memo(() => {
       socket.off('connect');
       socket.off('disconnect');
     };
-  }, [])
+  },[])
 
   return (
     <BrowserRouter>

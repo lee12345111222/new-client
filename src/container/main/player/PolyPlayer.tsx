@@ -4,7 +4,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-class PolyPlayer extends React.Component {
+class PolyPlayer extends React.Component<any,any> {
     constructor(props: any) {
         super(props)
     }

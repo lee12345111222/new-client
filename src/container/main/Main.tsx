@@ -17,7 +17,7 @@ import CustomModal from '../../components/ui/CustomModal'
 import InteractiveSec from './interactiveSec/InteractiveSec'
 import Agenda from './agenda/Agenda'
 // import { useTypedSelector, useActions } from '../../hooks'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { joinInitRoom, getCurrentAgenda, checkGroupChatStatus } from '../../lib/services'
 import { SwitchAgendaPageEventData, GroupChatShowData } from '../../lib/socketDataTypes'
 import HeaderNav from './nav/HeaderNav'
@@ -34,6 +34,7 @@ import { LottieJSON } from '../../utils/links'
 import { handleCheckParams } from '../../lib/fn'
 import 'react-loading-skeleton/dist/skeleton.css'
 import '../../styles/main.scss'
+import { getInitial, getScore, getSurveys } from '../../store/mainSlice'
 
 export type ModalProps = {
     setModalContent: Dispatch<SetStateAction<ReactNode>>
@@ -59,13 +60,17 @@ const Main: FC = () => {
     const [showMain, setShowMain] = useState(false)
 
     const { setLocale } = useContext(localeContext) as LocaleProps
-    const { global }: any = useSelector(state => { return state });
+    const { global, main }: any = useSelector(state => { return state });
 
     const { socket, socketId, socketOn } = global
+    const {mainInitial} = main
 
-   
+    const dispatch = useDispatch()
 
-   
+    console.log(mainInitial,'mainInitial')
+
+
+
 
     const navigate = useNavigate()
 
@@ -73,6 +78,12 @@ const Main: FC = () => {
     const timer5Ref = useRef(0)
     const timer30Ref = useRef(0)
     const drawingTimerRef = useRef(0)
+
+    useEffect(() => {
+        dispatch(getInitial())
+        dispatch(getScore())
+        dispatch(getSurveys())
+    },[dispatch])
 
     /**
      * 加入 event id 所屬房間
@@ -95,46 +106,52 @@ const Main: FC = () => {
     }, [])
 
     useEffect(() => {
-        // 監聽切換 agenda 事件
-        socket.on('switchAgendaPage', (data:any) => handleReceiveSwitchAgendaPageJob(data))
-        // 監聽重複登入事件，登出使用者
-        socket.on('alreadyInRoom', (data:any) => handleLoginDuplicated(data))
-        // 監聽後台 drop 用戶清單，將用戶導向至 landing page
-        socket.on('updateUserList', () => handleUpdateUserList())
-        // 監聽後台重新整理特定用戶頁面
-        socket.on('reload', () => handleReload())
-        // 監聽獲取目前在線人數
-        socket.on('getOnlineCount', (data:any) => handleGetOnlineCount(data))
-        // 監聽接收抽獎獎品
-        socket.on('deliverPrize', (data:any) => handleReceivePrize(data))
-        // 監聽開關群聊視窗
-        socket.on('groupChatOpen', (data:any) => handleGroupChatOpen(data))
+        if (socket) {
+            // 監聽切換 agenda 事件
+            socket.on('switchAgendaPage', (data: any) => handleReceiveSwitchAgendaPageJob(data))
+            // 監聽重複登入事件，登出使用者
+            socket.on('alreadyInRoom', (data: any) => handleLoginDuplicated(data))
+            // 監聽後台 drop 用戶清單，將用戶導向至 landing page
+            socket.on('updateUserList', () => handleUpdateUserList())
+            // 監聽後台重新整理特定用戶頁面
+            socket.on('reload', () => handleReload())
+            // 監聽獲取目前在線人數
+            socket.on('getOnlineCount', (data: any) => handleGetOnlineCount(data))
+            // 監聽接收抽獎獎品
+            socket.on('deliverPrize', (data: any) => handleReceivePrize(data))
+            // 監聽開關群聊視窗
+            socket.on('groupChatOpen', (data: any) => handleGroupChatOpen(data))
+        }
+
 
         return () => {
-            socket.removeListener('switchAgendaPage')
-            socket.removeListener('alreadyInRoom')
-            socket.removeListener('updateUserList')
-            socket.removeListener('reload')
-            socket.removeListener('getOnlineCount')
-            socket.removeListener('deliverPrize')
-            socket.removeListener('groupChatOpen')
+            if (socket) {
+                socket.removeListener('switchAgendaPage')
+                socket.removeListener('alreadyInRoom')
+                socket.removeListener('updateUserList')
+                socket.removeListener('reload')
+                socket.removeListener('getOnlineCount')
+                socket.removeListener('deliverPrize')
+                socket.removeListener('groupChatOpen')
+            }
+
         }
-    }, [])
+    }, [socket])
 
-    useEffect(() => {
-        const timer1 = window.setTimeout(() => {
-            setOpenAnimation(false)
-        }, 5000)
+    // useEffect(() => {
+    //     const timer1 = window.setTimeout(() => {
+    //         setOpenAnimation(false)
+    //     }, 5000)
 
-        const timer2 = window.setTimeout(() => {
-            setShowMain(true)
-        }, 500)
+    //     const timer2 = window.setTimeout(() => {
+    //         setShowMain(true)
+    //     }, 500)
 
-        return () => {
-            window.clearTimeout(timer1)
-            window.clearTimeout(timer2)
-        }
-    }, [])
+    //     return () => {
+    //         window.clearTimeout(timer1)
+    //         window.clearTimeout(timer2)
+    //     }
+    // }, [])
 
     /**
      * 確認群聊視窗開啟狀態
@@ -204,6 +221,8 @@ const Main: FC = () => {
     //     getAgenda()
     // }, [])
 
+
+
     /**
      * 獲取裝置高度
      */
@@ -211,6 +230,15 @@ const Main: FC = () => {
         const vh = window.innerHeight * 0.01
         document.documentElement.style.setProperty('--vh', `${vh}px`)
     }, [])
+
+
+    /**
+     * 点播初始化完成
+     */
+    const playerComplete = () => {
+        setOpenAnimation(false)
+        setShowMain(true)
+    }
 
     /**
      * 監聽後台重新 reload 特定使用者頁面
@@ -227,7 +255,7 @@ const Main: FC = () => {
     /**
      * 處理接收目前在線人數事件的 callback
      */
-    const handleGetOnlineCount = (data:any) => {
+    const handleGetOnlineCount = (data: any) => {
         const { online } = data
         setOnlineUsers(online)
     }
@@ -235,7 +263,7 @@ const Main: FC = () => {
     /**
      * 處理接收抽獎獎品事件的 callback
      */
-    const handleReceivePrize = (data:any) => {
+    const handleReceivePrize = (data: any) => {
         // const {
         //     payload: { winIds, prize },
         // } = data
@@ -348,6 +376,7 @@ const Main: FC = () => {
                     <div className="main-open-animation-container">
                         <Lottie
                             isClickToPauseDisabled={true}
+                            // speed={0.8}
                             options={{
                                 loop: false,
                                 autoplay: true,
@@ -355,64 +384,69 @@ const Main: FC = () => {
                                 rendererSettings: {
                                     preserveAspectRatio: 'xMidYMid slice'
                                 }
+
                             }}
-                            // id="open-animation"
+                            eventListeners={[
+                                {
+                                    eventName: 'complete',
+                                    callback: () => setOpenAnimation(false),
+                                },
+                            ]}
+                        // id="open-animation"
                         ></Lottie>
                     </div>
-                    <div className="main-open-animation-container-mo">
+                    {/* <div className="main-open-animation-container-mo">
                         <Lottie
                             isClickToPauseDisabled={true}
                             options={{
-                                loop: false,
+                                loop: true,
                                 autoplay: true,
                                 animationData: LottieJSON.OPEN_ANIMATION_MO,
                                 rendererSettings: {
                                     preserveAspectRatio: 'xMidYMid slice'
                                 }
                             }}
-                            // id="open-animation"
+                        // id="open-animation"
                         ></Lottie>
-                    </div>
+                    </div> */}
                 </div>
             )}
-            {showMain && (
-                <ModalContext.Provider value={{ setShowModal, setModalContent }}>
-                    <HeaderNav
-                        changeEvent={changeEvent}
-                        setChangeEvent={setChangeEvent}
-                        handleClickSharedWalkin={handleClickSharedWalkin}
-                        onlineUsers={onlineUsers}
-                        setModalContent={setModalContent}
-                        setShowModal={setShowModal}
-                        handleClickScoreRules={handleClickScoreRules}
-                        handleClickGroupChatDescription={handleClickGroupChatDescription}
-                    />
+            <ModalContext.Provider value={{ setShowModal, setModalContent }}>
+                <HeaderNav
+                    changeEvent={changeEvent}
+                    setChangeEvent={setChangeEvent}
+                    handleClickSharedWalkin={handleClickSharedWalkin}
+                    onlineUsers={onlineUsers}
+                    setModalContent={setModalContent}
+                    setShowModal={setShowModal}
+                    handleClickScoreRules={handleClickScoreRules}
+                    handleClickGroupChatDescription={handleClickGroupChatDescription}
+                />
 
-                    <div className="main-body">
-                        {showCustomAvtBtn && (
-                            <CustomAvatarButton
-                                handleClickCustomAvatar={handleClickCustomAvatar}
-                                setShowCustomAvtBtn={setShowCustomAvtBtn}
-                            />
-                        )}
-                        <div className="main-body-left">
-                            <div className="main-left-player-mask">
-                                {/* {groupChatShow ? <GroupChatView /> : <PolyPlayer />} */}
-                                 <PolyPlayer /> 
-                            </div>
-                            <div className="main-agenda-container">
-                                <Agenda sliderRef={sliderRef} />
-                            </div>
+                <div className="main-body">
+                    {showCustomAvtBtn && (
+                        <CustomAvatarButton
+                            handleClickCustomAvatar={handleClickCustomAvatar}
+                            setShowCustomAvtBtn={setShowCustomAvtBtn}
+                        />
+                    )}
+                    <div className="main-body-left">
+                        <div className="main-left-player-mask">
+                            {/* {groupChatShow ? <GroupChatView /> : <PolyPlayer />} */}
+                            <PolyPlayer playerComplete={playerComplete} />
                         </div>
-
-                        {!socketOn ? (
-                            <DisconnectedSkeleton showReload={showReload} handleReload={handleReload} />
-                        ) : (
-                            <InteractiveSec setChangeEvent={setChangeEvent} />
-                        )}
+                        <div className="main-agenda-container">
+                            <Agenda sliderRef={sliderRef} />
+                        </div>
                     </div>
-                </ModalContext.Provider>
-            )}
+
+                    {!socketOn ? (
+                        <DisconnectedSkeleton showReload={showReload} handleReload={handleReload} />
+                    ) : (
+                        <InteractiveSec setChangeEvent={setChangeEvent} />
+                    )}
+                </div>
+            </ModalContext.Provider>
         </div>
     )
 }

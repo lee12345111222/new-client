@@ -1,4 +1,4 @@
-@mixin main-pop-style {
+// @mixin main-pop-style {
     .ant-modal {
         width: 690px !important;
 
@@ -7,6 +7,7 @@
         .ant-modal-content {
             border-radius: 10px;
             background-color: color(grey100);
+            padding: 0;
 
             .ant-modal-body {
                 padding: 0;
@@ -652,4 +653,4 @@
             }
         }
     }
-}
+// }

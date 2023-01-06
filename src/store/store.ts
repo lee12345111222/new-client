@@ -1,15 +1,17 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, combineReducers } from '@reduxjs/toolkit'
 
 import counterReducer from '../container/counter/countSlice';
 import globalSlice from './globalSlice';
+import mainSlice from './mainSlice';
 
 
 export const store = configureStore({
-  reducer: {
+  reducer: combineReducers({
     counter: counterReducer,
     global: globalSlice,
-  },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({serializableCheck: false})
+    main: mainSlice,
+  }),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
 })
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

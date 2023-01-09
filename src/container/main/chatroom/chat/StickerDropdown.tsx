@@ -3,7 +3,7 @@ import { Dropdown, Button } from 'antd'
 import { icons } from '../../../../lib/icons'
 import gifStickers from '../../../../utils/stickers'
 import emojis from '../../../../utils/emoji'
-import '../../../../../../client/src/styles/sticker-dropdown.scss'
+import '../../../../styles/sticker-dropdown.scss'
 
 type StickerDropdownProps = {
     handleSendSticker: (e: MouseEvent) => void

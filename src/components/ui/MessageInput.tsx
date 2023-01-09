@@ -2,15 +2,15 @@ import React, { FC, useEffect, MouseEvent } from 'react'
 import { useIntl } from 'react-intl'
 
 import SendMessageButton from './SendMessageButton'
-// import { MessageAndQuestionProps } from '../main/interactiveSec/InteractiveSec'
-// import RepliedDetailSec from '../main/chatroom/chat/RepliedDetailSec'
-// import { RepliedDetail } from '../main/interactiveSec/InteractiveSec'
-// import StickerDropdown from '../main/chatroom/chat/StickerDropdown'
+import { MessageAndQuestionProps } from '../../container/main/interactiveSec/InteractiveSec'
+import RepliedDetailSec from '../../container/main/chatroom/chat/RepliedDetailSec'
+import { RepliedDetail } from '../../container/main/interactiveSec/InteractiveSec'
+import StickerDropdown from '../../container/main/chatroom/chat/StickerDropdown'
 
 type MessageInputProps = {
     section: string
     showReply: boolean
-    // replied: RepliedDetail
+    replied: RepliedDetail
     handleRepliedDetailClose: () => void
     handleSendSticker?: (e: MouseEvent) => void
     handleSendEmoji?: (e: MouseEvent) => void
@@ -44,11 +44,11 @@ const MessageInput: any = ({
 
     return (
         <div className="message-box-container">
-            {/* {section === 'chatroom'
+            {section === 'chatroom'
                 ? showReply && (
                       <RepliedDetailSec replied={replied} handleRepliedDetailClose={handleRepliedDetailClose} />
                   )
-                : null} */}
+                : null}
 
             <form autoComplete="off" onSubmit={(e) => e.preventDefault()} className="message-form">
                 <textarea
@@ -66,9 +66,9 @@ const MessageInput: any = ({
                 />
             </form>
 
-            {/* {section === 'chatroom' && handleSendSticker && handleSendEmoji ? (
+            {section === 'chatroom' && handleSendSticker && handleSendEmoji ? (
                 <StickerDropdown handleSendSticker={handleSendSticker} handleSendEmoji={handleSendEmoji} />
-            ) : null} */}
+            ) : null}
 
             <SendMessageButton handleSubmitMessage={handleSubmitMessage} type={type} inputContent={inputContent} />
         </div>

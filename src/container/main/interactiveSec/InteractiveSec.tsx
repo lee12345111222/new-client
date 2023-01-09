@@ -16,9 +16,9 @@ import xss from 'xss'
 import { ObjectID } from 'bson'
 import SwagDrawing from './swag/SwagDrawing'
 import { useIntl } from 'react-intl'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 
-// import { useTypedSelector, useActions } from '../../../hooks'
+import { getScore, getSurveys} from '../../../store/mainSlice'
 import Chatroom from '../chatroom/Chatroom'
 // import QuestionSec from '../questionSec/QuestionSec'
 import NavigateBar from './NavigateBar'
@@ -148,6 +148,14 @@ const InteractiveSec: FC<InteractiveSecProps> = ({ setChangeEvent }) => {
 
 
     const navigate = useNavigate()
+
+    const dispatch = useDispatch()
+
+    //获取积分 排行 抽奖等
+    useEffect(() => {
+        dispatch(getScore)
+        dispatch(getSurveys())
+    },[])
 
     /**
      * 確認會後問卷開啟狀態

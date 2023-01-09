@@ -7,7 +7,6 @@ const axiosInstance = axios.create({
             :'https://mock.apifox.cn/m1/2059601-0-default/',
 })
 
-console.log('axiosInstance')
 // http request拦截器 添加一个请求拦截器
 axiosInstance.interceptors.request.use(function (config: any) {
     let token = window.localStorage.getItem("Authorization")

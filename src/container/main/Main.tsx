@@ -69,9 +69,6 @@ const Main: FC = () => {
 
     console.log(mainInitial,'mainInitial')
 
-
-
-
     const navigate = useNavigate()
 
     const sliderRef = useRef<any>(null)

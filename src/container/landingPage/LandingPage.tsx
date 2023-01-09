@@ -17,6 +17,7 @@ import { fetchLogin, getLanding } from '../../store/globalSlice'
 import { Obj } from '../../store/globalSlice'
 
 const LandingPage: FC = memo(() => {
+    const [eventOpen, setEventOpen] = useState(true)
     const [code, setCode] = useState('')
     const [showModal, setShowModal] = useState(false)
     const [modalContent, setModalContent] = useState<ReactNode | null>(null)
@@ -26,6 +27,8 @@ const LandingPage: FC = memo(() => {
 
     const {global}:any = useSelector(state => state)
     const {setting ={} } = global
+    
+    const {main:{openTime}} = setting
 
     console.log(setting)
 
@@ -47,6 +50,16 @@ const LandingPage: FC = memo(() => {
 
         dispatch(getLanding())
     }, [dispatch])
+
+    /**
+     * 初始化定時任務，設定倒數至活動開始開啟輸入框
+     */
+    useEffect(() => {
+        const now = new Date().getTime()
+            if (new Date(openTime).getTime() >= now) {
+                setEventOpen(true)
+            } 
+    }, [openTime])
 
     
 
@@ -120,7 +133,7 @@ const LandingPage: FC = memo(() => {
                 setShowModal(true)
                 return
             }
-
+            localStorage.setItem('code',code)
             dispatch(fetchLogin(search, code,()=>{navigate('/main')}))
             setCode('')
         },
@@ -178,7 +191,7 @@ const LandingPage: FC = memo(() => {
                         <Backdrop showBackdrop={showBackdrop} />
                         <Home
                             handleSubmit={handleSubmit}
-                            eventOpen={true}
+                            eventOpen={eventOpen}
                             code={code}
                             HandleInputChange={HandleInputChange}
                             eventSlug={eventSlug}

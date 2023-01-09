@@ -1,5 +1,7 @@
 import React, { FC, memo, useState } from 'react'
 import { Collapse } from 'antd'
+import { useSelector } from 'react-redux'
+import { Obj } from '../../../store/globalSlice'
 
 // import { useTypedSelector } from '../../../hooks/useTypedSelector'
 
@@ -7,6 +9,7 @@ const { Panel } = Collapse
 
 const PersonalScore: FC = () => {
     const { scoreDetail={detail:[]}, awards={} }:any = {}
+    const main:Obj = useSelector((state: any) => { return state.main });
 
     const [collapseOpened, setCollapseOpened] = useState(true)
 

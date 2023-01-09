@@ -7,6 +7,8 @@ import { useIntl } from 'react-intl'
 import { handleTimestampToString } from '../../../../lib/fn'
 import { icons } from '../../../../lib/icons'
 import { RepliedDetail } from '../../interactiveSec/InteractiveSec'
+import { useSelector } from 'react-redux'
+import { Obj } from '../../../../store/mainSlice'
 
 type MessageListProps = {
     scrollRef: RefObject<HTMLDivElement>
@@ -19,8 +21,14 @@ const MessageList: FC<MessageListProps> = ({ handleReplyMessageClick, scrollRef,
         user: {
             user: { _id },
         },
-        chat: { messages, loading },
+        chat: { loading },
     }:any = {user:{user:{}},chat:{messages:[],loading:false}}
+
+    const main:Obj = useSelector((state: any) => { return state.main });
+
+    const {mainInitial:{chat={}}} = main
+    const {messages=[]}:Obj = chat
+
 
     const intl = useIntl()
 
@@ -29,7 +37,7 @@ const MessageList: FC<MessageListProps> = ({ handleReplyMessageClick, scrollRef,
     return (
         <div className="message-list scroll-Control" onScroll={handleScroll}>
             <div className="message-list-loading">{loading && <Spin indicator={antIcon} />}</div>
-            {messages.map((message:any) => {
+            {[].map((message:any) => {
                 return (
                     <Fragment key={message._id}>
                         {message.to === null ? null : (

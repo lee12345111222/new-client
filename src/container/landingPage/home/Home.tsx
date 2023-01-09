@@ -59,7 +59,6 @@ const Home: FC<LoginFormProps> = ({
                                 {intl.formatMessage({ id: 'landingPage.event_title2' })}
                             </div>
                             <Google eventSlug={eventSlug} />
-                            123
                         </div>
                     </div>
                     <a className="landing-page-home-calendarBtn-mo" target="_blank" href="https://googleads.link/2212cxoc" rel="noreferrer">

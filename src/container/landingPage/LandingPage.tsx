@@ -28,9 +28,8 @@ const LandingPage: FC = memo(() => {
     const {global}:any = useSelector(state => state)
     const {setting ={} } = global
     
-    const {main:{openTime}} = setting
-
-    console.log(setting)
+    const {main = {}} = setting
+    const {openTime} = main
 
     const dispatch = useDispatch()
    

@@ -1,6 +1,6 @@
 import { createContext, memo, useState, useEffect, useRef, lazy, Suspense, useLayoutEffect } from 'react';
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import { Socket } from 'socket.io-client'
 
@@ -22,9 +22,7 @@ const App = memo(() => {
 
   const dispatch = useDispatch();
 
-  console.log('app')
   useEffect(() => {
-    console.log('effect')
     socket.on('connect', () => {
 
       dispatch(updateState({ key: 'socket', value: socket }))
@@ -50,6 +48,7 @@ const App = memo(() => {
         <Routes>
           <Route path="/landingPage" element={<LandingPage />} />
           <Route path="/main/*" element={<Main />} />
+          <Route path="/" element={<Navigate to='/landingPage'/>} />
         </Routes>
       </Suspense>
 

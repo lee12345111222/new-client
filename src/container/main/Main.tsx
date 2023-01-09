@@ -135,20 +135,6 @@ const Main: FC = () => {
         }
     }, [socket])
 
-    // useEffect(() => {
-    //     const timer1 = window.setTimeout(() => {
-    //         setOpenAnimation(false)
-    //     }, 5000)
-
-    //     const timer2 = window.setTimeout(() => {
-    //         setShowMain(true)
-    //     }, 500)
-
-    //     return () => {
-    //         window.clearTimeout(timer1)
-    //         window.clearTimeout(timer2)
-    //     }
-    // }, [])
 
     /**
      * 確認群聊視窗開啟狀態

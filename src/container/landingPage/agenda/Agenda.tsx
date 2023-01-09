@@ -130,7 +130,7 @@ const Agenda: FC<AgendaProps> = ({ eventSlug }) => {
                         tabBarStyle={{
                             color: '#000',
                         }}
-                        destroyInactiveTabPane={true}
+                        destroyInactiveTabPane={false}
                     >
                         <TabPane
                             tab={intl.formatMessage({ id: 'landingPage.speaker_category1' })}

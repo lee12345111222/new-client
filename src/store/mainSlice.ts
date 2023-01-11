@@ -86,3 +86,17 @@ export const getSurveys: any = () => async (dispatch: any) => {
         console.log('error', error)
     }
 }
+//向上滑动获取聊天记录
+export const onGetRestHistoryMessages: any = () => async (dispatch: any) => {
+    try {
+        let res = await axiosInstance.get('messages?apifoxApiId=54484406', {})
+        if (res.status === 200) {
+            let data = res.data;
+        } else {
+            console.log('res err', res)
+        }
+    } catch (error) {
+        console.log('error', error)
+    }
+}
+

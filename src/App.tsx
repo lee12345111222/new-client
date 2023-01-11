@@ -20,40 +20,40 @@ const socket = initialSkt;
 
 const App = memo(() => {
 
-  const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-  useEffect(() => {
-    socket.on('connect', () => {
+    useEffect(() => {
+        socket.on('connect', () => {
 
-      dispatch(updateState({ key: 'socket', value: socket }))
-      dispatch(updateState({ key: 'socketId', value: socket.id }))
-      dispatch(updateState({ key: 'socketOn', value: true }))
-    })
+            dispatch(updateState({ key: 'socket', value: socket }))
+            dispatch(updateState({ key: 'socketId', value: socket.id }))
+            dispatch(updateState({ key: 'socketOn', value: true }))
+        })
 
-    socket.on('disconnect', () => {
-      dispatch(updateState({ key: 'socket', value: null }))
-      dispatch(updateState({ key: 'socketId', value: '' }))
-      dispatch(updateState({ key: 'socketOn', value: false }))
-    })
+        socket.on('disconnect', () => {
+            dispatch(updateState({ key: 'socket', value: null }))
+            dispatch(updateState({ key: 'socketId', value: '' }))
+            dispatch(updateState({ key: 'socketOn', value: false }))
+        })
 
-    return () => {
-      socket.off('connect');
-      socket.off('disconnect');
-    };
-  },[])
+        return () => {
+            socket.off('connect');
+            socket.off('disconnect');
+        };
+    }, [])
 
-  return (
-    <BrowserRouter>
-      <Suspense fallback={<Loader />}>
-        <Routes>
-          <Route path="/landingPage" element={<LandingPage />} />
-          <Route path="/main/*" element={<Main />} />
-          <Route path="/" element={<Navigate to='/landingPage'/>} />
-        </Routes>
-      </Suspense>
+    return (
+        <BrowserRouter>
+            <Suspense fallback={<Loader />}>
+                <Routes>
+                    <Route path="/landingPage" element={<LandingPage />} />
+                    <Route path="/main/*" element={<Main />} />
+                    <Route path="/" element={<Navigate to='/landingPage' />} />
+                </Routes>
+            </Suspense>
 
-    </BrowserRouter>
-  );
+        </BrowserRouter>
+    );
 })
 
 export default App;

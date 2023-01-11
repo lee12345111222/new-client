@@ -121,7 +121,35 @@ const Agenda: FC<AgendaProps> = ({ eventSlug }) => {
     return (
         <div className="landing-page-agenda-background" id="agenda">
             <div className="landing-page-agenda-wrap">
-                <h1 className="page-title">{intl.formatMessage({ id: 'landingPage.nav_agenda' })}</h1>
+                <div className='agenda-page-top'>
+                    <h1 className="page-title">{intl.formatMessage({ id: 'landingPage.nav_agenda' })}</h1>
+                    <div className='page-top-right'>
+                        <Tabs
+                            defaultActiveKey="1"
+                            size="large"
+                            animated={{ inkBar: false, tabPane: false }}
+                            tabBarStyle={{
+                                color: '#000',
+                            }}
+                            destroyInactiveTabPane={false}
+                        >
+                            <TabPane
+                                tab={intl.formatMessage({ id: 'landingPage.speaker_category1' })}
+                                key="1"
+                                className="landing-page-agenda-slide"
+                            >
+                            </TabPane>
+                            <TabPane
+                                tab={intl.formatMessage({ id: 'landingPage.speaker_category2' })}
+                                key="2"
+                                className="landing-page-agenda-slide"
+                            >
+                            </TabPane>
+                        </Tabs>
+                    </div>
+
+                </div>
+
                 <div className="landing-page-agenda-slide-container">
                     <Tabs
                         defaultActiveKey="1"

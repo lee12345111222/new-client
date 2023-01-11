@@ -5,6 +5,13 @@
     margin: 0 auto;
     padding: 0 0 0px;
     position: relative;
+    .agenda-page-top{
+        display: flex;
+        .page-top-right{
+            width: 200px;
+            margin-left: 20px
+        }
+    }
 
     .page-title {
         @include title-main(color(grey800));
@@ -28,7 +35,7 @@
                 }
 
                 .ant-tabs-nav-wrap {
-                    display: none;
+                    // display: none;
 
                     .ant-tabs-nav-list {
                         padding: 10px 0;

@@ -6,6 +6,8 @@ import MessageList from './chat/MessageList'
 import MessageInput from '../../../components/ui/MessageInput'
 import { MessageAndQuestionProps } from '../interactiveSec/InteractiveSec'
 import { localeContext, LocaleProps } from '../../../index'
+import { onGetRestHistoryMessages } from '../../../store/mainSlice'
+import { useDispatch } from 'react-redux'
 
 type ChatroomProps = {
     handleReplyMessageClick: (pkg: RepliedDetail) => void
@@ -31,6 +33,7 @@ const Chatroom: FC<MessageAndQuestionProps & ChatroomProps> = ({
     handleSendSticker,
     handleSendEmoji,
 }) => {
+    const dispatch = useDispatch();
     const scrollRef = useRef<HTMLDivElement>(null)
 
     const {
@@ -68,6 +71,7 @@ const Chatroom: FC<MessageAndQuestionProps & ChatroomProps> = ({
 
         if ($scroll.scrollTop === 0 && $scroll.scrollHeight > $scroll.clientHeight && comingData) {
             // onGetRestHistoryMessages({ _id, localMessageCount: messages.length, room: eventId })
+            dispatch(onGetRestHistoryMessages())
         }
     }
 

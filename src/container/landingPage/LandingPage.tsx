@@ -55,7 +55,7 @@ const LandingPage: FC = memo(() => {
      */
     useEffect(() => {
         const now = new Date().getTime()
-            if (new Date(openTime).getTime() >= now) {
+            if (new Date(openTime).getTime() <= now) {
                 setEventOpen(true)
             } 
     }, [openTime])

@@ -1,13 +1,15 @@
-import React, { FC, memo } from 'react'
+import React, { FC, memo } from 'react';
 
 type BackdropProps = {
-    showBackdrop: boolean
-}
+    showBackdrop: boolean;
+};
 
 const Backdrop: FC<BackdropProps> = ({ showBackdrop }) => {
-    const classes = ['Backdrop']
+    const classes = ['Backdrop'];
 
-    return showBackdrop ? <button className={classes.join(' ')}></button> : null
-}
+    return showBackdrop ? (
+        <button className={classes.join(' ')}></button>
+    ) : null;
+};
 
-export default memo(Backdrop)
+export default memo(Backdrop);

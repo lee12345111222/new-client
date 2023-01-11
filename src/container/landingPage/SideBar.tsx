@@ -1,18 +1,22 @@
-import React, { FC } from 'react'
-import { useIntl } from 'react-intl'
-import AnchorLink from 'react-anchor-link-smooth-scroll'
+import React, { FC } from 'react';
+import { useIntl } from 'react-intl';
+import AnchorLink from 'react-anchor-link-smooth-scroll';
 
-import { icons } from '../../lib/icons'
+import { icons } from '../../lib/icons';
 
 type SideBarProps = {
-    eventSlug: string
-    handleBackdropShow?: () => void
-    handleBackdropRemove?: () => void
-    showMenu: boolean
-}
+    eventSlug: string;
+    handleBackdropShow?: () => void;
+    handleBackdropRemove?: () => void;
+    showMenu: boolean;
+};
 
-const SideBar: FC<SideBarProps> = ({ showMenu, handleBackdropRemove, handleBackdropShow }) => {
-    const intl = useIntl()
+const SideBar: FC<SideBarProps> = ({
+    showMenu,
+    handleBackdropRemove,
+    handleBackdropShow,
+}) => {
+    const intl = useIntl();
 
     return (
         <nav className="sidebar-nav">
@@ -39,7 +43,9 @@ const SideBar: FC<SideBarProps> = ({ showMenu, handleBackdropRemove, handleBackd
                         tabIndex={0}
                     >
                         {icons.home_icon()}
-                        <p className="sidebar-menu-item-text">{intl.formatMessage({ id: 'landingPage.nav_home' })}</p>
+                        <p className="sidebar-menu-item-text">
+                            {intl.formatMessage({ id: 'landingPage.nav_home' })}
+                        </p>
                     </div>
                 </AnchorLink>
                 <AnchorLink href="#agenda" className="link-a">
@@ -51,7 +57,11 @@ const SideBar: FC<SideBarProps> = ({ showMenu, handleBackdropRemove, handleBackd
                         tabIndex={0}
                     >
                         {icons.agenda_icon()}
-                        <p className="sidebar-menu-item-text">{intl.formatMessage({ id: 'landingPage.nav_agenda' })}</p>
+                        <p className="sidebar-menu-item-text">
+                            {intl.formatMessage({
+                                id: 'landingPage.nav_agenda',
+                            })}
+                        </p>
                     </div>
                 </AnchorLink>
 
@@ -64,12 +74,14 @@ const SideBar: FC<SideBarProps> = ({ showMenu, handleBackdropRemove, handleBackd
                         tabIndex={0}
                     >
                         {icons.faq_icon()}
-                        <p className="sidebar-menu-item-text">{intl.formatMessage({ id: 'landingPage.nav_faq' })}</p>
+                        <p className="sidebar-menu-item-text">
+                            {intl.formatMessage({ id: 'landingPage.nav_faq' })}
+                        </p>
                     </div>
                 </AnchorLink>
             </div>
         </nav>
-    )
-}
+    );
+};
 
-export default SideBar
+export default SideBar;

@@ -1,25 +1,31 @@
-import React, { FC, useEffect, useContext, Fragment, RefObject, memo } from 'react'
-import Slider from 'react-slick'
+import React, {
+    FC,
+    useEffect,
+    useContext,
+    Fragment,
+    RefObject,
+    memo,
+} from 'react';
+import Slider from 'react-slick';
 
 // import { useTypedSelector, useActions } from '../../../hooks'
-import { localeContext, LocaleProps } from '../../../index'
-import { handleGetTopics, handleGetSymbols } from '../../../lib/fn'
-import AgendaItem from './AgendaItem'
+import { localeContext, LocaleProps } from '../../../index';
+import { handleGetTopics, handleGetSymbols } from '../../../lib/fn';
+import AgendaItem from './AgendaItem';
 
 type AgendaProps = {
-    sliderRef: RefObject<HTMLDivElement>
-}
+    sliderRef: RefObject<HTMLDivElement>;
+};
 
 const Agenda: FC<AgendaProps> = ({ sliderRef }) => {
-    const { jsonData } = useContext(localeContext) as LocaleProps
+    const { jsonData } = useContext(localeContext) as LocaleProps;
 
     const {
         user: {
             user: { eventId },
         },
-        agenda: { agenda=[], symbols, current },
-    }:any = {user:{user:{}},agenda:{}}
-
+        agenda: { agenda = [], symbols, current },
+    }: any = { user: { user: {} }, agenda: {} };
 
     /**
      * 初始化 agenda 清單
@@ -27,14 +33,14 @@ const Agenda: FC<AgendaProps> = ({ sliderRef }) => {
     useEffect(() => {
         if (eventId) {
             if (!agenda || agenda.length <= 0) {
-                const topicVals = handleGetTopics(eventId, jsonData)
+                const topicVals = handleGetTopics(eventId, jsonData);
                 // initAgenda({ agenda: [...new Set(topicVals)] })
             }
 
-            const symbols = handleGetSymbols(eventId, jsonData)
+            const symbols = handleGetSymbols(eventId, jsonData);
             // initSymbols({ symbols: [...new Set(symbols)] })
-        } else return
-    }, [eventId, agenda.length])
+        } else return;
+    }, [eventId, agenda.length]);
 
     // slick config
     const settings = {
@@ -82,26 +88,28 @@ const Agenda: FC<AgendaProps> = ({ sliderRef }) => {
                 },
             },
         ],
-    }
+    };
 
     return (
         <Slider {...settings} className="main-agenda-slide" ref={sliderRef}>
             {agenda && agenda.length > 0
-                ? ['1', '2', '3', '4', '5', '6', '7', '8', '9'].map((topic, i) => {
-                      return (
-                          <Fragment key={topic}>
-                              <AgendaItem
-                                  symbols={symbols}
-                                  topic={topic as string}
-                                  eventId={eventId}
-                                  current={i === current ? 'current' : null}
-                              />
-                          </Fragment>
-                      )
-                  })
+                ? ['1', '2', '3', '4', '5', '6', '7', '8', '9'].map(
+                      (topic, i) => {
+                          return (
+                              <Fragment key={topic}>
+                                  <AgendaItem
+                                      symbols={symbols}
+                                      topic={topic as string}
+                                      eventId={eventId}
+                                      current={i === current ? 'current' : null}
+                                  />
+                              </Fragment>
+                          );
+                      },
+                  )
                 : null}
         </Slider>
-    )
-}
+    );
+};
 
-export default memo(Agenda)
+export default memo(Agenda);

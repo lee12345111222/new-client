@@ -1,20 +1,29 @@
-import React, { FC } from 'react'
+import React, { FC } from 'react';
 
-import SideBar from './SideBar'
-import { LandingPageImages } from '../../utils/links'
+import SideBar from './SideBar';
+import { LandingPageImages } from '../../utils/links';
 
 type HeaderNavProps = {
-    handleBackdropShow?: () => void
-    handleBackdropRemove?: () => void
-    showMenu: boolean
-    eventSlug: string
-}
+    handleBackdropShow?: () => void;
+    handleBackdropRemove?: () => void;
+    showMenu: boolean;
+    eventSlug: string;
+};
 
-const HeaderNav: FC<HeaderNavProps> = ({ showMenu, handleBackdropShow, eventSlug, handleBackdropRemove }) => {
+const HeaderNav: FC<HeaderNavProps> = ({
+    showMenu,
+    handleBackdropShow,
+    eventSlug,
+    handleBackdropRemove,
+}) => {
     return (
         <nav className="landing-page-layout-header">
             <div className="landing-page-header-logo">
-                <img className="google-svg" src="https://oss.uppmkt.com/cxo/img/kv/google.svg" alt="Google" />
+                <img
+                    className="google-svg"
+                    src="https://oss.uppmkt.com/cxo/img/kv/google.svg"
+                    alt="Google"
+                />
             </div>
             <div className="landing-page-header-lang-selector-container">
                 <div>
@@ -27,7 +36,7 @@ const HeaderNav: FC<HeaderNavProps> = ({ showMenu, handleBackdropShow, eventSlug
                 </div>
             </div>
         </nav>
-    )
-}
+    );
+};
 
-export default HeaderNav
+export default HeaderNav;

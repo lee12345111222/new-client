@@ -1,18 +1,18 @@
-import React, { FC, useEffect, useRef, UIEvent, useContext } from 'react'
+import React, { FC, useEffect, useRef, UIEvent, useContext } from 'react';
 
-import { MessageAndQuestionProps } from '../interactiveSec/InteractiveSec'
-import MessageInput from '../../../components/ui/MessageInput'
-import QuestionList from './question/QuestionList'
+import { MessageAndQuestionProps } from '../interactiveSec/InteractiveSec';
+import MessageInput from '../../../components/ui/MessageInput';
+import QuestionList from './question/QuestionList';
 // import { useTypedSelector, useActions } from '../../../hooks'
-import { localeContext, LocaleProps } from '../../../index'
-import { RepliedDetail } from '../interactiveSec/InteractiveSec'
+import { localeContext, LocaleProps } from '../../../index';
+import { RepliedDetail } from '../interactiveSec/InteractiveSec';
 
 type QuestionSecProps = {
-    showReply: boolean
-    replied: RepliedDetail
-    handleRepliedDetailClose: () => void
-    handleResponseSubmit: any
-}
+    showReply: boolean;
+    replied: RepliedDetail;
+    handleRepliedDetailClose: () => void;
+    handleResponseSubmit: any;
+};
 
 const QuestionSec: FC<MessageAndQuestionProps & QuestionSecProps> = ({
     messageInputRef,
@@ -27,41 +27,45 @@ const QuestionSec: FC<MessageAndQuestionProps & QuestionSecProps> = ({
     replied,
     handleResponseSubmit,
 }) => {
-    const scrollRef = useRef<HTMLDivElement>(null)
+    const scrollRef = useRef<HTMLDivElement>(null);
 
     const {
         user: {
             user: { _id, eventId },
         },
         question: { questions, comingData },
-    }:any = {}
+    }: any = {};
 
     // const { onGetRestHistoryQuestions, onGetHistoryQuestions } = useActions()
 
-    const { locale } = useContext(localeContext) as LocaleProps
+    const { locale } = useContext(localeContext) as LocaleProps;
 
     useEffect(() => {
         // 取得歷史問題清單
         // onGetHistoryQuestions({ _id, room: eventId })
-    }, [eventId, locale])
+    }, [eventId, locale]);
 
     /**
      * 監聽問題發出時回到視窗底部
      */
     useEffect(() => {
         if (scrollRef && scrollRef.current) {
-            scrollRef.current.scrollIntoView({ block: 'end' })
+            scrollRef.current.scrollIntoView({ block: 'end' });
         }
-    }, [questions.length])
+    }, [questions.length]);
 
     /**
      * @param e
      * 處理問題表單 scroll lazy loading
      */
     async function handleScroll(e: UIEvent<HTMLDivElement>) {
-        const $scroll = e.target as HTMLDivElement
+        const $scroll = e.target as HTMLDivElement;
 
-        if ($scroll.scrollTop === 0 && $scroll.scrollHeight > $scroll.clientHeight && comingData) {
+        if (
+            $scroll.scrollTop === 0 &&
+            $scroll.scrollHeight > $scroll.clientHeight &&
+            comingData
+        ) {
             // onGetRestHistoryQuestions({ _id, localQuestionCount: questions.length, room: eventId })
         }
     }
@@ -87,7 +91,7 @@ const QuestionSec: FC<MessageAndQuestionProps & QuestionSecProps> = ({
                 handleRepliedDetailClose={handleRepliedDetailClose}
             />
         </div>
-    )
-}
+    );
+};
 
-export default QuestionSec
+export default QuestionSec;

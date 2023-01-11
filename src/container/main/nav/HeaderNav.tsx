@@ -6,31 +6,29 @@ import React, {
     useEffect,
     useRef,
     ReactNode /* , MutableRefObject  */,
-} from 'react'
-import { /* Select,  */ Button } from 'antd'
-import { /* useNavigate,  */ useLocation } from 'react-router-dom'
-import { useIntl } from 'react-intl'
-import {useSelector} from 'react-redux'
+} from 'react';
+import { /* Select,  */ Button } from 'antd';
+import { /* useNavigate,  */ useLocation } from 'react-router-dom';
+import { useIntl } from 'react-intl';
+import { useSelector } from 'react-redux';
 
-import { userLocate } from '../../../lib/services'
-import SocketHint from '../../../components/ui/SocketHint'
+import { userLocate } from '../../../lib/services';
+import SocketHint from '../../../components/ui/SocketHint';
 
-import { icons } from '../../../lib/icons'
-import { LandingPageImages } from '../../../utils/links'
-import FAQ from '../../landingPage/faq/FAQ'
-
-
+import { icons } from '../../../lib/icons';
+import { LandingPageImages } from '../../../utils/links';
+import FAQ from '../../landingPage/faq/FAQ';
 
 type HeaderNavProps = {
-    changeEvent: boolean
-    setChangeEvent: Dispatch<SetStateAction<boolean>>
-    setShowModal: Dispatch<SetStateAction<boolean>>
-    handleClickSharedWalkin(): void
-    onlineUsers: number
-    setModalContent: Dispatch<SetStateAction<ReactNode>>
-    handleClickScoreRules(): void
-    handleClickGroupChatDescription(): void
-}
+    changeEvent: boolean;
+    setChangeEvent: Dispatch<SetStateAction<boolean>>;
+    setShowModal: Dispatch<SetStateAction<boolean>>;
+    handleClickSharedWalkin(): void;
+    onlineUsers: number;
+    setModalContent: Dispatch<SetStateAction<ReactNode>>;
+    handleClickScoreRules(): void;
+    handleClickGroupChatDescription(): void;
+};
 
 const HeaderNav: FC<HeaderNavProps> = ({
     changeEvent,
@@ -41,21 +39,23 @@ const HeaderNav: FC<HeaderNavProps> = ({
     handleClickScoreRules,
     handleClickGroupChatDescription,
 }) => {
-    const location = useLocation()
+    const location = useLocation();
 
-    const intl = useIntl()
+    const intl = useIntl();
 
-    const { global }: any = useSelector(state => { return state });
+    const { global }: any = useSelector(state => {
+        return state;
+    });
 
-    const { socket, socketId, socketOn } = global
+    const { socket, socketId, socketOn } = global;
 
     const {
         user: {
             user: { eventId, name, avatar, code, _id, admin },
         },
-    }:any = {user:{user:{}}}
+    }: any = { user: { user: {} } };
 
-    const eventRef = useRef(eventId)
+    const eventRef = useRef(eventId);
 
     // const { onPostSwitchEventId, initAgenda, initSymbols, switchEvent } = useActions()
 
@@ -66,24 +66,24 @@ const HeaderNav: FC<HeaderNavProps> = ({
         // changeEvent 為 false 表示單純在同個會場內做頁面切換
         if (!changeEvent) {
             if (location.pathname === '/main') {
-                userLocate(eventId, socketId, code, 'chatroom')
+                userLocate(eventId, socketId, code, 'chatroom');
             } else if (location.pathname === '/main/qs') {
-                userLocate(eventId, socketId, code, 'qs')
+                userLocate(eventId, socketId, code, 'qs');
             } else if (location.pathname === '/main/post') {
-                userLocate(eventId, socketId, code, 'post')
+                userLocate(eventId, socketId, code, 'post');
             }
         } else {
             // changeEvent 為 true 表示會場切換
-            userLocate(eventRef.current, socketId, code, 'changeEvent')
+            userLocate(eventRef.current, socketId, code, 'changeEvent');
         }
-    }, [location.pathname, changeEvent])
+    }, [location.pathname, changeEvent]);
 
     /**
      * 紀錄更換會場前的 event id，用戶更換會場時使用
      */
     useEffect(() => {
-        eventRef.current = eventId
-    }, [eventId])
+        eventRef.current = eventId;
+    }, [eventId]);
 
     /**
      * 從 event 物件返回該場活動的 channel id
@@ -145,18 +145,24 @@ const HeaderNav: FC<HeaderNavProps> = ({
     // }
 
     const handleFaqShow = () => {
-        setModalContent(<FAQ />)
-        setShowModal(true)
-    }
+        setModalContent(<FAQ />);
+        setShowModal(true);
+    };
 
     return (
         <nav className="main-layout-header">
             <SocketHint socketOn={socketOn} />
             <div className="main-header-logo">
-                <img className="google-svg" src={LandingPageImages.EVENT_GOOGLE_TITLE} alt="Google" />
+                <img
+                    className="google-svg"
+                    src={LandingPageImages.EVENT_GOOGLE_TITLE}
+                    alt="Google"
+                />
             </div>
             <div className="main-header-right">
-                <div style={{ display: 'none' }}>目前同时在线人数 {onlineUsers}</div>
+                <div style={{ display: 'none' }}>
+                    目前同时在线人数 {onlineUsers}
+                </div>
                 <div className="main-header-user-detail">
                     <div className="main-header-user-avatar">
                         <img src={avatar} alt="user-avatar" />
@@ -167,12 +173,18 @@ const HeaderNav: FC<HeaderNavProps> = ({
                     {icons.faq_icon()}
                     {intl.formatMessage({ id: 'landingPage.nav_faq' })}
                 </Button>
-                <Button className="main-header-faqBtn" onClick={handleClickScoreRules}>
+                <Button
+                    className="main-header-faqBtn"
+                    onClick={handleClickScoreRules}
+                >
                     {icons.rule_icon()}
                     {intl.formatMessage({ id: 'landingPage.nav_score_rules' })}
                 </Button>
 
-                <Button className="main-header-faqBtn" onClick={handleClickGroupChatDescription}>
+                <Button
+                    className="main-header-faqBtn"
+                    onClick={handleClickGroupChatDescription}
+                >
                     {icons.chat_icon()}
                     {intl.formatMessage({ id: 'landingPage.nav_groupchat' })}
                 </Button>
@@ -223,7 +235,7 @@ const HeaderNav: FC<HeaderNavProps> = ({
                 )} */}
             </div>
         </nav>
-    )
-}
+    );
+};
 
-export default HeaderNav
+export default HeaderNav;

@@ -1,13 +1,13 @@
-import React, { FC, useEffect, memo } from 'react'
+import React, { FC, useEffect, memo } from 'react';
 
-import { deliverWaitingOnlineCount } from '../../../lib/services'
+import { deliverWaitingOnlineCount } from '../../../lib/services';
 // import { useTypedSelector } from '../../../hooks/useTypedSelector'
-import Countdown from '../Countdown'
-import { icons } from '../../../lib/icons'
+import Countdown from '../Countdown';
+import { icons } from '../../../lib/icons';
 
 type CountdownViewProps = {
-    onlineCount: number
-}
+    onlineCount: number;
+};
 
 const CountdownView: FC<CountdownViewProps> = ({ onlineCount }) => {
     // const {
@@ -29,12 +29,16 @@ const CountdownView: FC<CountdownViewProps> = ({ onlineCount }) => {
         <div className="landing-page-countdownView-background">
             <div className="landing-page-home-title">{icons.main_title()}</div>
             <div className="landing-page-countdownView-waiting-online">
-                <h2 className="landing-page-countdownView-waitingNum">{onlineCount}</h2>
-                <h3 className="landing-page-countdownView-waitingText">People are waiting online</h3>
+                <h2 className="landing-page-countdownView-waitingNum">
+                    {onlineCount}
+                </h2>
+                <h3 className="landing-page-countdownView-waitingText">
+                    People are waiting online
+                </h3>
             </div>
             <Countdown classes={'landing-page-countdownView-count-down'} />
         </div>
-    )
-}
+    );
+};
 
-export default memo(CountdownView)
+export default memo(CountdownView);

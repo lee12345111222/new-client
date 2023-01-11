@@ -32,13 +32,19 @@
     "typescript": "^4.9.3",
     "web-vitals": "^2.1.4",
     "webpack-bundle-analyzer": "^4.7.0",
-    "xss": "^1.0.14"
+    "xss": "^1.0.14",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-react-hooks": "4.3.0",
+    "prettier": "2.5.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "eslint": "eslint --ext js,ts,tsx",
+    "lint:fix": "yarn run eslint --fix src"
   },
   "eslintConfig": {
     "extends": [

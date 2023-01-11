@@ -1,31 +1,38 @@
-import React, { FC, /*  Fragment, */ useContext, useEffect, useState } from 'react'
-import { Tabs } from 'antd'
-import { useIntl } from 'react-intl'
-import { useLocation } from 'react-router-dom'
+import React, {
+    FC,
+    /*  Fragment, */ useContext,
+    useEffect,
+    useState,
+} from 'react';
+import { Tabs } from 'antd';
+import { useIntl } from 'react-intl';
+import { useLocation } from 'react-router-dom';
 // import Slider from 'react-slick';
-import { localeContext, LocaleProps } from '../../../index'
+import { localeContext, LocaleProps } from '../../../index';
 // import AgendaItem from './AgendaItem';
 // import { LandingPageImages } from '../../../utils/links';
-import DayOne from './DayOne'
-import DayTwo from './DayTwo'
+import DayOne from './DayOne';
+import DayTwo from './DayTwo';
 
-const { TabPane } = Tabs
+const { TabPane } = Tabs;
 
-type AgendaProps = { eventSlug: string }
+type AgendaProps = { eventSlug: string };
 
 const Agenda: FC<AgendaProps> = ({ eventSlug }) => {
-    const { jsonData } = useContext(localeContext) as LocaleProps
+    const { jsonData } = useContext(localeContext) as LocaleProps;
 
-    const intl = useIntl()
+    const intl = useIntl();
 
-    const location = useLocation()
+    const location = useLocation();
 
     // 該會場 agenda 數量  ([1, 2, 3 ...])
     // const [topics,  setTopics] = useState<string[]>([]);
     // agenda 標示 ([1_1, 1_2 ...])
-    const [symbols, setSymbols] = useState<string[]>([])
+    const [symbols, setSymbols] = useState<string[]>([]);
     // agenda 代碼 (T1S2...)
-    const [venue, setVenue] = useState<string>(process.env.REACT_APP_DEFAULT_EVENT_ID as string)
+    const [venue, setVenue] = useState<string>(
+        process.env.REACT_APP_DEFAULT_EVENT_ID as string,
+    );
 
     /**
      * 判斷是否帶上 event id
@@ -33,17 +40,19 @@ const Agenda: FC<AgendaProps> = ({ eventSlug }) => {
      */
     useEffect(() => {
         if (eventSlug) {
-            const symbols = handleGetSymbolAndTopics(eventSlug)
+            const symbols = handleGetSymbolAndTopics(eventSlug);
 
-            setVenue(eventSlug)
-            setSymbols(symbols)
+            setVenue(eventSlug);
+            setSymbols(symbols);
         } else {
-            const symbols = handleGetSymbolAndTopics(process.env.REACT_APP_DEFAULT_EVENT_ID as string)
+            const symbols = handleGetSymbolAndTopics(
+                process.env.REACT_APP_DEFAULT_EVENT_ID as string,
+            );
 
-            setVenue(process.env.REACT_APP_DEFAULT_EVENT_ID as string)
-            setSymbols(symbols)
+            setVenue(process.env.REACT_APP_DEFAULT_EVENT_ID as string);
+            setSymbols(symbols);
         }
-    }, [location, venue, eventSlug])
+    }, [location, venue, eventSlug]);
 
     /**
      * @param ve 活動 event id
@@ -51,18 +60,18 @@ const Agenda: FC<AgendaProps> = ({ eventSlug }) => {
      * 整理 agenda 標示
      */
     const handleGetSymbolAndTopics = (ve: string): string[] => {
-        const keys = Object.keys(jsonData)
-        const topics = keys.filter((key) => {
-            return key.includes(ve) && key.includes('#topic')
-        })
+        const keys = Object.keys(jsonData);
+        const topics = keys.filter(key => {
+            return key.includes(ve) && key.includes('#topic');
+        });
 
-        const spks = keys.filter((key) => {
-            return key.includes(ve) && key.includes('#spk')
-        })
+        const spks = keys.filter(key => {
+            return key.includes(ve) && key.includes('#spk');
+        });
 
         const symbols = topics.map((topic, i) => {
-            return `${jsonData[topic]}_${jsonData[spks[i]]}`
-        })
+            return `${jsonData[topic]}_${jsonData[spks[i]]}`;
+        });
 
         // const topicVals = topics.map((topic) => {
         //     return `${jsonData[topic]}`;
@@ -70,8 +79,8 @@ const Agenda: FC<AgendaProps> = ({ eventSlug }) => {
 
         // setTopics([...new Set(topicVals)]);
 
-        return symbols
-    }
+        return symbols;
+    };
 
     // slick config
     // const settings = {
@@ -121,9 +130,11 @@ const Agenda: FC<AgendaProps> = ({ eventSlug }) => {
     return (
         <div className="landing-page-agenda-background" id="agenda">
             <div className="landing-page-agenda-wrap">
-                <div className='agenda-page-top'>
-                    <h1 className="page-title">{intl.formatMessage({ id: 'landingPage.nav_agenda' })}</h1>
-                    <div className='page-top-right'>
+                <div className="agenda-page-top">
+                    <h1 className="page-title">
+                        {intl.formatMessage({ id: 'landingPage.nav_agenda' })}
+                    </h1>
+                    <div className="page-top-right">
                         <Tabs
                             defaultActiveKey="1"
                             size="large"
@@ -134,20 +145,21 @@ const Agenda: FC<AgendaProps> = ({ eventSlug }) => {
                             destroyInactiveTabPane={false}
                         >
                             <TabPane
-                                tab={intl.formatMessage({ id: 'landingPage.speaker_category1' })}
+                                tab={intl.formatMessage({
+                                    id: 'landingPage.speaker_category1',
+                                })}
                                 key="1"
                                 className="landing-page-agenda-slide"
-                            >
-                            </TabPane>
+                            ></TabPane>
                             <TabPane
-                                tab={intl.formatMessage({ id: 'landingPage.speaker_category2' })}
+                                tab={intl.formatMessage({
+                                    id: 'landingPage.speaker_category2',
+                                })}
                                 key="2"
                                 className="landing-page-agenda-slide"
-                            >
-                            </TabPane>
+                            ></TabPane>
                         </Tabs>
                     </div>
-
                 </div>
 
                 <div className="landing-page-agenda-slide-container">
@@ -161,24 +173,36 @@ const Agenda: FC<AgendaProps> = ({ eventSlug }) => {
                         destroyInactiveTabPane={false}
                     >
                         <TabPane
-                            tab={intl.formatMessage({ id: 'landingPage.speaker_category1' })}
+                            tab={intl.formatMessage({
+                                id: 'landingPage.speaker_category1',
+                            })}
                             key="1"
                             className="landing-page-agenda-slide"
                         >
-                            <DayOne symbols={symbols} jsonData={jsonData} venue={eventSlug} />
+                            <DayOne
+                                symbols={symbols}
+                                jsonData={jsonData}
+                                venue={eventSlug}
+                            />
                         </TabPane>
                         <TabPane
-                            tab={intl.formatMessage({ id: 'landingPage.speaker_category2' })}
+                            tab={intl.formatMessage({
+                                id: 'landingPage.speaker_category2',
+                            })}
                             key="2"
                             className="landing-page-agenda-slide"
                         >
-                            <DayTwo symbols={symbols} jsonData={jsonData} venue={eventSlug} />
+                            <DayTwo
+                                symbols={symbols}
+                                jsonData={jsonData}
+                                venue={eventSlug}
+                            />
                         </TabPane>
                     </Tabs>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Agenda
+export default Agenda;

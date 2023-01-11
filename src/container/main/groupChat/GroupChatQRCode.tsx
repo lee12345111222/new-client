@@ -1,11 +1,11 @@
-import React, { FC } from 'react'
-import { Button } from 'antd'
+import React, { FC } from 'react';
+import { Button } from 'antd';
 
-import { Links } from '../../../utils/links'
+import { Links } from '../../../utils/links';
 
 type GroupChatQRCodeProps = {
-    group: any
-}
+    group: any;
+};
 
 const GroupChatQRCode: FC<GroupChatQRCodeProps> = ({ group }) => {
     return (
@@ -26,7 +26,7 @@ const GroupChatQRCode: FC<GroupChatQRCodeProps> = ({ group }) => {
                 </Button>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default GroupChatQRCode
+export default GroupChatQRCode;

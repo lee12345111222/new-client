@@ -1,6 +1,6 @@
-import React, { FC, memo } from 'react'
+import React, { FC, memo } from 'react';
 
-import { Links } from '../../../utils/links'
+import { Links } from '../../../utils/links';
 
 const GroupChatDesc: FC = () => {
     return (
@@ -37,7 +37,10 @@ const GroupChatDesc: FC = () => {
                         <div>腾讯会议登入方式</div>
                         <div>
                             PC端：请确保您的电脑已安装腾讯会议应用，如还没有安装请
-                            <a href="https://meeting.tencent.com/download/" target="blank">
+                            <a
+                                href="https://meeting.tencent.com/download/"
+                                target="blank"
+                            >
                                 点击这里
                             </a>
                             下载并安装手机端：请使用以下方式登录如果您在登录腾讯会议过程中有任何问题，请在聊天窗口告诉我们，会议小助手将尽快协助您解决
@@ -58,14 +61,16 @@ const GroupChatDesc: FC = () => {
                                 <div>Android 应用下载</div>
                             </div>
                         </div>
-                        <div>如果您在登录过程中有任何问题，请在聊天窗口告诉我们，会议小助手将尽快协助您解决</div>
+                        <div>
+                            如果您在登录过程中有任何问题，请在聊天窗口告诉我们，会议小助手将尽快协助您解决
+                        </div>
                     </li>
                 </ol>
             </div>
         </div>
-    )
-}
+    );
+};
 
 //     微信小程序                      iOS应用下载                   Android应用下载
 
-export default memo(GroupChatDesc)
+export default memo(GroupChatDesc);

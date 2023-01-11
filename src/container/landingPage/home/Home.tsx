@@ -1,26 +1,29 @@
-import React, { FC, FormEvent, ChangeEvent, Dispatch, SetStateAction } from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Lottie from 'react-lottie'
-import { useIntl } from 'react-intl'
+import React, {
+    FC,
+    FormEvent,
+    ChangeEvent,
+    Dispatch,
+    SetStateAction,
+} from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Lottie from 'react-lottie';
+import { useIntl } from 'react-intl';
 
-import LoginForm from './LoginForm'
-import Google from './Google'
-import '../../../styles/homeTransition.scss'
+import LoginForm from './LoginForm';
+import Google from './Google';
+import '../../../styles/homeTransition.scss';
 
-import Countdown from '../Countdown'
-import { icons } from '../../../lib/icons'
-import { LottieJSON } from '../../../utils/links'
-
-
+import Countdown from '../Countdown';
+import { icons } from '../../../lib/icons';
+import { LottieJSON } from '../../../utils/links';
 
 export type LoginFormProps = {
-    handleSubmit(e: FormEvent<HTMLFormElement>): void
-    eventOpen: boolean
-    code: string
-    HandleInputChange(e: ChangeEvent<HTMLInputElement>): void
-    eventSlug: string
-}
-
+    handleSubmit(e: FormEvent<HTMLFormElement>): void;
+    eventOpen: boolean;
+    code: string;
+    HandleInputChange(e: ChangeEvent<HTMLInputElement>): void;
+    eventSlug: string;
+};
 
 const Home: FC<LoginFormProps> = ({
     handleSubmit,
@@ -29,8 +32,7 @@ const Home: FC<LoginFormProps> = ({
     HandleInputChange,
     eventSlug,
 }) => {
-
-    const intl = useIntl()
+    const intl = useIntl();
 
     return (
         <div className="landing-page-home-background" id="home">
@@ -42,8 +44,8 @@ const Home: FC<LoginFormProps> = ({
                         autoplay: true,
                         animationData: LottieJSON.KV_PC,
                         rendererSettings: {
-                            preserveAspectRatio: 'xMidYMid slice'
-                        }
+                            preserveAspectRatio: 'xMidYMid slice',
+                        },
                     }}
                 ></Lottie>
             </div>
@@ -53,17 +55,28 @@ const Home: FC<LoginFormProps> = ({
                     <div className="landing-page-home-title">
                         <div className="landing-page-home-title-box">
                             <div className="landing-page-home-title-box-title">
-                                {intl.formatMessage({ id: 'landingPage.event_title' })}
+                                {intl.formatMessage({
+                                    id: 'landingPage.event_title',
+                                })}
                             </div>
                             <div className="landing-page-home-title-box-title">
-                                {intl.formatMessage({ id: 'landingPage.event_title2' })}
+                                {intl.formatMessage({
+                                    id: 'landingPage.event_title2',
+                                })}
                             </div>
                             <Google eventSlug={eventSlug} />
                         </div>
                     </div>
-                    <a className="landing-page-home-calendarBtn-mo" target="_blank" href="https://googleads.link/2212cxoc" rel="noreferrer">
+                    <a
+                        className="landing-page-home-calendarBtn-mo"
+                        target="_blank"
+                        href="https://googleads.link/2212cxoc"
+                        rel="noreferrer"
+                    >
                         <div className="calendarIconBox">{icons.bell()}</div>
-                        {intl.formatMessage({ id: 'landingPage.calendar_btn_google' })}
+                        {intl.formatMessage({
+                            id: 'landingPage.calendar_btn_google',
+                        })}
                     </a>
                     <div className="landing-page-home-kv-lottie-mo">
                         <Lottie
@@ -73,28 +86,44 @@ const Home: FC<LoginFormProps> = ({
                                 autoplay: true,
                                 animationData: LottieJSON.KV_MO,
                                 rendererSettings: {
-                                    preserveAspectRatio: 'xMidYMid slice'
-                                }
+                                    preserveAspectRatio: 'xMidYMid slice',
+                                },
                             }}
                         ></Lottie>
                     </div>
                     <label className="landing-page-home-add-to-calendar-dropdown">
                         <div className="dd-button">
-                            <div className="calendarIconBox">{icons.bell()}</div>
-                            {intl.formatMessage({ id: 'landingPage.calendar_btn' })}
+                            <div className="calendarIconBox">
+                                {icons.bell()}
+                            </div>
+                            {intl.formatMessage({
+                                id: 'landingPage.calendar_btn',
+                            })}
                         </div>
 
                         <input type="checkbox" className="dd-input" id="test" />
 
                         <ul className="dd-menu">
                             <li>
-                                <a target="_blank" href="https://googleads.link/2212cxoc" rel="noreferrer">
-                                    {intl.formatMessage({ id: 'landingPage.calendar_btn_google' })}
+                                <a
+                                    target="_blank"
+                                    href="https://googleads.link/2212cxoc"
+                                    rel="noreferrer"
+                                >
+                                    {intl.formatMessage({
+                                        id: 'landingPage.calendar_btn_google',
+                                    })}
                                 </a>
                             </li>
                             <li>
-                                <a target="_blank" href="https://googleads.link/2212cxoci" rel="noreferrer">
-                                    {intl.formatMessage({ id: 'landingPage.calendar_btn_ics' })}
+                                <a
+                                    target="_blank"
+                                    href="https://googleads.link/2212cxoci"
+                                    rel="noreferrer"
+                                >
+                                    {intl.formatMessage({
+                                        id: 'landingPage.calendar_btn_ics',
+                                    })}
                                 </a>
                             </li>
                         </ul>
@@ -109,14 +138,11 @@ const Home: FC<LoginFormProps> = ({
                         HandleInputChange={HandleInputChange}
                         eventSlug={eventSlug}
                     />
-
-
                 </div>
-                <div className="landing-page-home-content-right">
-                </div>
+                <div className="landing-page-home-content-right"></div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Home
+export default Home;

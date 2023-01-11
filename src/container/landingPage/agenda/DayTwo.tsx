@@ -1,16 +1,16 @@
-import React, { FC, memo } from 'react'
-import { useIntl } from 'react-intl'
-import Slider from 'react-slick'
+import React, { FC, memo } from 'react';
+import { useIntl } from 'react-intl';
+import Slider from 'react-slick';
 
 // import { LandingPageImages } from '../../../utils/links'
 
 type AgendaItemProps = {
-    venue: string
-    symbols: string[]
-    jsonData: any
-}
+    venue: string;
+    symbols: string[];
+    jsonData: any;
+};
 const DayTwo: FC<AgendaItemProps> = ({ symbols, venue, jsonData }) => {
-    const intl = useIntl()
+    const intl = useIntl();
 
     const settings = {
         infinite: false,
@@ -64,14 +64,21 @@ const DayTwo: FC<AgendaItemProps> = ({ symbols, venue, jsonData }) => {
                 },
             },
         ],
-    }
+    };
 
     const cards =
         symbols && symbols.length > 0
             ? symbols.map((symbol: string) => {
-                  if (jsonData[`${venue}_agenda_${symbol}.Team`].trim().toLowerCase() === 'day2') {
+                  if (
+                      jsonData[`${venue}_agenda_${symbol}.Team`]
+                          .trim()
+                          .toLowerCase() === 'day2'
+                  ) {
                       return (
-                          <div key={`${symbol}`} className="landing-page-agenda-slide-item">
+                          <div
+                              key={`${symbol}`}
+                              className="landing-page-agenda-slide-item"
+                          >
                               <div className="landing-page-agenda-slide-item-time">
                                   <span>
                                       {intl.formatMessage({
@@ -122,16 +129,16 @@ const DayTwo: FC<AgendaItemProps> = ({ symbols, venue, jsonData }) => {
                                   </div>
                               </div>
                           </div>
-                      )
+                      );
                   }
               })
-            : null
+            : null;
 
     return (
         <div>
             <Slider {...settings}>{cards}</Slider>
         </div>
-    )
-}
+    );
+};
 
-export default memo(DayTwo)
+export default memo(DayTwo);

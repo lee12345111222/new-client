@@ -1,18 +1,35 @@
-import React, { FC, memo } from 'react'
-import { useIntl } from 'react-intl'
+import React, { FC, memo } from 'react';
+import { useIntl } from 'react-intl';
 
 type AgendaItemProps = {
-    symbols: string[]
-    eventId: string
-    current: 'current' | null
-    topic: string
-}
-const AgendaItem: FC<AgendaItemProps> = ({ current, eventId, symbols, topic }) => {
-    const intl = useIntl()
+    symbols: string[];
+    eventId: string;
+    current: 'current' | null;
+    topic: string;
+};
+const AgendaItem: FC<AgendaItemProps> = ({
+    current,
+    eventId,
+    symbols,
+    topic,
+}) => {
+    const intl = useIntl();
 
     return (
-        <div className={current ? 'main-agenda-slide-item-current' : 'main-agenda-slide-item'}>
-            <div className={current ? 'main-agenda-slide-item-time-current' : 'main-agenda-slide-item-time'}>
+        <div
+            className={
+                current
+                    ? 'main-agenda-slide-item-current'
+                    : 'main-agenda-slide-item'
+            }
+        >
+            <div
+                className={
+                    current
+                        ? 'main-agenda-slide-item-time-current'
+                        : 'main-agenda-slide-item-time'
+                }
+            >
                 <span>
                     {intl.formatMessage({
                         id: `${eventId}_agenda_${`${topic}_1`}.Local Time From`,
@@ -111,7 +128,7 @@ const AgendaItem: FC<AgendaItemProps> = ({ current, eventId, symbols, topic }) =
                 )}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default memo(AgendaItem)
+export default memo(AgendaItem);

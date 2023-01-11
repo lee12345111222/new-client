@@ -1,11 +1,11 @@
-import React, { FC, memo } from 'react'
-import { useIntl } from 'react-intl'
-import Slider from 'react-slick'
-import { SpeakerChildrenProps } from './Speaker'
-import { LandingPageImages } from '../../../utils/links'
+import React, { FC, memo } from 'react';
+import { useIntl } from 'react-intl';
+import Slider from 'react-slick';
+import { SpeakerChildrenProps } from './Speaker';
+import { LandingPageImages } from '../../../utils/links';
 
 const KeyNote: FC<SpeakerChildrenProps> = ({ symbols, jsonData, venue }) => {
-    const intl = useIntl()
+    const intl = useIntl();
 
     const settings = {
         infinite: false,
@@ -60,7 +60,7 @@ const KeyNote: FC<SpeakerChildrenProps> = ({ symbols, jsonData, venue }) => {
                 },
             },
         ],
-    }
+    };
 
     const cards =
         symbols && symbols.length > 0
@@ -69,34 +69,46 @@ const KeyNote: FC<SpeakerChildrenProps> = ({ symbols, jsonData, venue }) => {
                       return (
                           <div className="speaker-card" key={symbol}>
                               <div className="landing-page-slide-item-topdeco">
-                                  <img className="card-dot" src={LandingPageImages.AGENDA_SPEAKER_CARD_DOT} alt="" />
+                                  <img
+                                      className="card-dot"
+                                      src={
+                                          LandingPageImages.AGENDA_SPEAKER_CARD_DOT
+                                      }
+                                      alt=""
+                                  />
                               </div>
                               <div className="speaker-photoBox">
                                   <img
                                       className="speaker-photoImg"
-                                      src={intl.formatMessage({ id: `${venue}_agenda_${symbol}.Img Url` })}
+                                      src={intl.formatMessage({
+                                          id: `${venue}_agenda_${symbol}.Img Url`,
+                                      })}
                                       alt={symbol}
                                   />
                               </div>
                               <div>
                                   <div className="speaker-name">
-                                      {intl.formatMessage({ id: `${venue}_agenda_${symbol}.Speaker Name` })}
+                                      {intl.formatMessage({
+                                          id: `${venue}_agenda_${symbol}.Speaker Name`,
+                                      })}
                                   </div>
                                   <div className="speaker-title">
-                                      {intl.formatMessage({ id: `${venue}_agenda_${symbol}.Speaker Title` })}
+                                      {intl.formatMessage({
+                                          id: `${venue}_agenda_${symbol}.Speaker Title`,
+                                      })}
                                   </div>
                               </div>
                           </div>
-                      )
+                      );
                   }
               })
-            : null
+            : null;
 
     return (
         <div>
             <Slider {...settings}>{cards}</Slider>
         </div>
-    )
-}
+    );
+};
 
-export default memo(KeyNote)
+export default memo(KeyNote);

@@ -1,13 +1,17 @@
-import React, { FC } from 'react'
-import { Modal } from 'antd'
+import React, { FC } from 'react';
+import { Modal } from 'antd';
 
 type CustomModalProps = {
-    handleCloseModal: () => void
-    showModal: boolean
-    children: React.ReactNode
-}
+    handleCloseModal: () => void;
+    showModal: boolean;
+    children: React.ReactNode;
+};
 
-const CustomModal: FC<CustomModalProps> = ({ handleCloseModal, showModal, children }) => {
+const CustomModal: FC<CustomModalProps> = ({
+    handleCloseModal,
+    showModal,
+    children,
+}) => {
     return (
         <>
             <Modal
@@ -27,7 +31,7 @@ const CustomModal: FC<CustomModalProps> = ({ handleCloseModal, showModal, childr
                 {children}
             </Modal>
         </>
-    )
-}
+    );
+};
 
-export default CustomModal
+export default CustomModal;

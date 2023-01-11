@@ -1,29 +1,30 @@
-import React, { FC, useState, MouseEvent, memo } from 'react'
-import { Button } from 'antd'
+import React, { FC, useState, MouseEvent, memo } from 'react';
+import { Button } from 'antd';
 
 // import { useTypedSelector, useActions } from '../../../hooks'
-import { Links } from '../../../utils/links'
+import { Links } from '../../../utils/links';
 
 type customAvatarProps = {
-    handleCloseModal(): void
-}
+    handleCloseModal(): void;
+};
 
 const customAvatar: FC<customAvatarProps> = ({ handleCloseModal }) => {
     // const [avatarLink, setAvatarLink] = useState(Links.AVATAR_1)
-    const avatarLink = Links.AVATAR_1
-    const { _id }:any = {}
+    const avatarLink = Links.AVATAR_1;
+    const { _id }: any = {};
     // const { updateChatroomAvatar, onPostUserAvatar } = useActions()
 
     const handleSelectAvatar = (e: MouseEvent) => {
-        const avatar = 'AVATAR_' + (e.currentTarget as HTMLButtonElement).dataset.avatar
+        const avatar =
+            'AVATAR_' + (e.currentTarget as HTMLButtonElement).dataset.avatar;
         // setAvatarLink(Links[avatar])
-    }
+    };
 
     const handleConfirmSelectAvatar = () => {
         // onPostUserAvatar({ _id, avatar: avatarLink })
         // updateChatroomAvatar({ _id, avatar: avatarLink })
-        handleCloseModal()
-    }
+        handleCloseModal();
+    };
 
     return (
         <div className="custom-avatar-wrap">
@@ -36,33 +37,47 @@ const customAvatar: FC<customAvatarProps> = ({ handleCloseModal }) => {
                     <img src={avatarLink} alt="avatar" />
                 </div>
                 <div className="custom-avatar-options">
-                    <button onClick={(e) => handleSelectAvatar(e)} data-avatar="1">
+                    <button
+                        onClick={e => handleSelectAvatar(e)}
+                        data-avatar="1"
+                    >
                         <div className="custom-avatar-option">
                             <img src={Links.AVATAR_1} alt="avatar" />
                         </div>
                     </button>
-                    <button onClick={(e) => handleSelectAvatar(e)} data-avatar="2">
+                    <button
+                        onClick={e => handleSelectAvatar(e)}
+                        data-avatar="2"
+                    >
                         <div className="custom-avatar-option">
                             <img src={Links.AVATAR_2} alt="avatar" />
                         </div>
                     </button>
-                    <button onClick={(e) => handleSelectAvatar(e)} data-avatar="3">
+                    <button
+                        onClick={e => handleSelectAvatar(e)}
+                        data-avatar="3"
+                    >
                         <div className="custom-avatar-option">
                             <img src={Links.AVATAR_3} alt="avatar" />
                         </div>
                     </button>
-                    <button onClick={(e) => handleSelectAvatar(e)} data-avatar="4">
+                    <button
+                        onClick={e => handleSelectAvatar(e)}
+                        data-avatar="4"
+                    >
                         <div className="custom-avatar-option">
                             <img src={Links.AVATAR_4} alt="avatar" />
                         </div>
                     </button>
                 </div>
                 <div className="custom-avatar-btn">
-                    <Button onClick={handleConfirmSelectAvatar}>确认更换头像</Button>
+                    <Button onClick={handleConfirmSelectAvatar}>
+                        确认更换头像
+                    </Button>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default memo(customAvatar)
+export default memo(customAvatar);

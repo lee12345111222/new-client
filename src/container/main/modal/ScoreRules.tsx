@@ -1,6 +1,6 @@
-import React, { FC, memo } from 'react'
+import React, { FC, memo } from 'react';
 
-import { Links } from '../../../utils/links'
+import { Links } from '../../../utils/links';
 
 // import '../../../styles/_main-pop.scss'
 
@@ -24,7 +24,10 @@ const ScoreRules: FC = () => {
                     <li>您可参与如下互动获得相应能量值：</li>
                     <li>参与会前提问 + 2,000 能量值</li>
                     <li>参与现场互动答题（共 4 次）+ 1,000 能量值</li>
-                    <li>聊天窗口参与提问互动（每次 + 1,000 能量值，2,000 能量值封顶）+ 2,000 能量</li>
+                    <li>
+                        聊天窗口参与提问互动（每次 + 1,000 能量值，2,000
+                        能量值封顶）+ 2,000 能量
+                    </li>
                     <li>填写活动调研问卷 + 1,000 能量值</li>
                 </ol>
             </div>
@@ -38,8 +41,10 @@ const ScoreRules: FC = () => {
                 <ol>
                     <li>累计达到 3,000 能量值，即可获得抽奖资格</li>
                     <li>
-                        达到 3,000 能量值后，每增加 1,000 能量值，中奖几率增加一倍（即 4,000 能量值中奖几率为 2
-                        倍，5,000 能量值中奖几率为 3 倍，6,000 能量值中奖几率为 4 倍）
+                        达到 3,000 能量值后，每增加 1,000
+                        能量值，中奖几率增加一倍（即 4,000 能量值中奖几率为 2
+                        倍，5,000 能量值中奖几率为 3 倍，6,000 能量值中奖几率为
+                        4 倍）
                     </li>
                     <li>抽奖时间：抽奖将在活动期间抽奖环节进行抽取</li>
                     <li>奖品发放：活动结束后，将由主办方进行统一发放</li>
@@ -67,7 +72,7 @@ const ScoreRules: FC = () => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default memo(ScoreRules)
+export default memo(ScoreRules);

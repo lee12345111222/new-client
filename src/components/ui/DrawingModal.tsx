@@ -1,14 +1,19 @@
-import React, { FC } from 'react'
-import { Modal } from 'antd'
+import React, { FC } from 'react';
+import { Modal } from 'antd';
 
 type DrawingModalProps = {
-    handleCloseModal: () => void
-    showModal: boolean
-    drawingModalClosable: boolean
-    children: React.ReactNode
-}
+    handleCloseModal: () => void;
+    showModal: boolean;
+    drawingModalClosable: boolean;
+    children: React.ReactNode;
+};
 
-const DrawingModal: FC<DrawingModalProps> = ({ drawingModalClosable, handleCloseModal, showModal, children }) => {
+const DrawingModal: FC<DrawingModalProps> = ({
+    drawingModalClosable,
+    handleCloseModal,
+    showModal,
+    children,
+}) => {
     return (
         <>
             <Modal
@@ -29,7 +34,7 @@ const DrawingModal: FC<DrawingModalProps> = ({ drawingModalClosable, handleClose
                 {children}
             </Modal>
         </>
-    )
-}
+    );
+};
 
-export default DrawingModal
+export default DrawingModal;

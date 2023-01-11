@@ -1,14 +1,18 @@
-import React, { FC } from 'react'
+import React, { FC } from 'react';
 
-import { icons } from '../../lib/icons'
+import { icons } from '../../lib/icons';
 
 interface SendMessageButtonProps {
-    handleSubmitMessage: (type: string) => void
-    inputContent: string
-    type: string
+    handleSubmitMessage: (type: string) => void;
+    inputContent: string;
+    type: string;
 }
 
-const SendMessageButton: FC<SendMessageButtonProps> = ({ handleSubmitMessage, inputContent, type }) => {
+const SendMessageButton: FC<SendMessageButtonProps> = ({
+    handleSubmitMessage,
+    inputContent,
+    type,
+}) => {
     return (
         <button
             onClick={() => handleSubmitMessage(type)}
@@ -18,7 +22,7 @@ const SendMessageButton: FC<SendMessageButtonProps> = ({ handleSubmitMessage, in
         >
             {icons.paperPlane()}
         </button>
-    )
-}
+    );
+};
 
-export default SendMessageButton
+export default SendMessageButton;

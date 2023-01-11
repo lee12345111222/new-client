@@ -1,10 +1,10 @@
-import React, { FC, memo } from 'react'
+import React, { FC, memo } from 'react';
 
 // import { CurrentAwards } from '../../drawing/DrawingView'
 
 type DrawingAwardPageProps = {
-    currentAward: any
-}
+    currentAward: any;
+};
 
 const DrawingAwardPage: FC<DrawingAwardPageProps> = ({ currentAward }) => {
     return (
@@ -18,7 +18,7 @@ const DrawingAwardPage: FC<DrawingAwardPageProps> = ({ currentAward }) => {
                 <span>{currentAward.prize}</span>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default memo(DrawingAwardPage)
+export default memo(DrawingAwardPage);

@@ -1,23 +1,23 @@
-import React, { FC, useEffect, useState } from 'react'
-import { Collapse } from 'antd'
-import Lottie from 'react-lottie'
+import React, { FC, useEffect, useState } from 'react';
+import { Collapse } from 'antd';
+import Lottie from 'react-lottie';
 
-import AddressSelector from './AddressSelector'
+import AddressSelector from './AddressSelector';
 // import { useTypedSelector, useActions } from '../../../../hooks'
-import { LottieJSON } from '../../../../utils/links'
-import { Links } from '../../../../utils/links'
+import { LottieJSON } from '../../../../utils/links';
+import { Links } from '../../../../utils/links';
 
-const { Panel } = Collapse
+const { Panel } = Collapse;
 
 const SwagDrawing: FC = () => {
-    const [thanks, setThanks] = useState(false)
+    const [thanks, setThanks] = useState(false);
     // const { onGetUserSwagPrize, updateSwagFinish } = useActions()
 
     const {
         awards,
         user: { _id },
         swag: { prizeFinished },
-    }:any = {user:{},swag:{},awards:{}}
+    }: any = { user: {}, swag: {}, awards: {} };
 
     useEffect(() => {
         if (prizeFinished) {
@@ -25,7 +25,7 @@ const SwagDrawing: FC = () => {
             //     updateSwagFinish()
             // }, 3000)
         }
-    }, [prizeFinished])
+    }, [prizeFinished]);
 
     const handleSwagDrawing = () => {
         if (!awards['swag']) {
@@ -33,11 +33,19 @@ const SwagDrawing: FC = () => {
             //     onGetUserSwagPrize({ uid: _id })
             // }, 4000)
         }
-    }
+    };
 
     return (
-        <Collapse defaultActiveKey={['0']} className="swag-collapse" onChange={handleSwagDrawing}>
-            <Panel className="swag-panel" header="点击领取谷歌乘风破浪参会礼品！" key="1">
+        <Collapse
+            defaultActiveKey={['0']}
+            className="swag-collapse"
+            onChange={handleSwagDrawing}
+        >
+            <Panel
+                className="swag-panel"
+                header="点击领取谷歌乘风破浪参会礼品！"
+                key="1"
+            >
                 <div className="swag-collapse-body">
                     {!awards['swag'] ? (
                         <div className="swag-collapse-drawing">
@@ -47,10 +55,12 @@ const SwagDrawing: FC = () => {
                                     options={{
                                         loop: false,
                                         autoplay: true,
-                                        animationData: LottieJSON.SWAG_LUCKY_DRAWING,
+                                        animationData:
+                                            LottieJSON.SWAG_LUCKY_DRAWING,
                                         rendererSettings: {
-                                            preserveAspectRatio: 'xMidYMid slice'
-                                        }
+                                            preserveAspectRatio:
+                                                'xMidYMid slice',
+                                        },
                                     }}
                                     // id="swag-drawing-lottie"
                                 ></Lottie>
@@ -74,7 +84,9 @@ const SwagDrawing: FC = () => {
                                 ) : (
                                     <>
                                         <div>填写成功 敬请期待</div>
-                                        <div>我们将把礼物寄送至您填写的地址</div>
+                                        <div>
+                                            我们将把礼物寄送至您填写的地址
+                                        </div>
                                     </>
                                 )}
                             </div>
@@ -100,7 +112,9 @@ const SwagDrawing: FC = () => {
                                         <span>{awards['swag'].prizeName}</span>
                                     </div>
                                 </div>
-                                <p>请填写收件人信息，我们将把礼物寄送至您填写的地址</p>
+                                <p>
+                                    请填写收件人信息，我们将把礼物寄送至您填写的地址
+                                </p>
                             </div>
                             <AddressSelector setThanks={setThanks} />
                         </div>
@@ -108,7 +122,7 @@ const SwagDrawing: FC = () => {
                 </div>
             </Panel>
         </Collapse>
-    )
-}
+    );
+};
 
-export default SwagDrawing
+export default SwagDrawing;

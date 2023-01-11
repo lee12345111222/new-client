@@ -1,14 +1,17 @@
-import React, { FC, SetStateAction, Dispatch } from 'react'
+import React, { FC, SetStateAction, Dispatch } from 'react';
 
-import { icons } from '../../lib/icons'
-import { Links } from '../../utils/links'
+import { icons } from '../../lib/icons';
+import { Links } from '../../utils/links';
 
 type CustomAvatarButtonProps = {
-    handleClickCustomAvatar(): void
-    setShowCustomAvtBtn: Dispatch<SetStateAction<boolean>>
-}
+    handleClickCustomAvatar(): void;
+    setShowCustomAvtBtn: Dispatch<SetStateAction<boolean>>;
+};
 
-const CustomAvatarButton: FC<CustomAvatarButtonProps> = ({ handleClickCustomAvatar, setShowCustomAvtBtn }) => {
+const CustomAvatarButton: FC<CustomAvatarButtonProps> = ({
+    handleClickCustomAvatar,
+    setShowCustomAvtBtn,
+}) => {
     // const handleMouse = () => {
     //     const btn = document.getElementById('main-custom-avatar-btn')
 
@@ -26,9 +29,9 @@ const CustomAvatarButton: FC<CustomAvatarButtonProps> = ({ handleClickCustomAvat
             >
                 <button
                     className="main-custom-avatar-btn-close"
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        setShowCustomAvtBtn(false)
+                    onClick={e => {
+                        e.stopPropagation();
+                        setShowCustomAvtBtn(false);
                     }}
                 >
                     {icons.close()}
@@ -36,7 +39,7 @@ const CustomAvatarButton: FC<CustomAvatarButtonProps> = ({ handleClickCustomAvat
                 <img src={Links.AVATAR_BTN} alt="icon" />
             </div>
         </>
-    )
-}
+    );
+};
 
-export default CustomAvatarButton
+export default CustomAvatarButton;

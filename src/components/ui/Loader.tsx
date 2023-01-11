@@ -1,8 +1,8 @@
-import React from 'react'
-import { LottieJSON } from '../../utils/links'
-import Lottie from 'react-lottie'
+import React from 'react';
+import { LottieJSON } from '../../utils/links';
+import Lottie from 'react-lottie';
 
-import '../../styles/loader.scss'
+import '../../styles/loader.scss';
 
 const Loader = () => {
     return (
@@ -15,13 +15,13 @@ const Loader = () => {
                         autoplay: true,
                         animationData: LottieJSON.LOADER,
                         rendererSettings: {
-                            preserveAspectRatio: 'xMidYMid slice'
-                        }
+                            preserveAspectRatio: 'xMidYMid slice',
+                        },
                     }}
                 ></Lottie>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Loader
+export default Loader;

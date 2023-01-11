@@ -1,11 +1,9 @@
 /* craco.config.js */
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer'); 
-const path = require('path')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const path = require('path');
 module.exports = {
     webpack: {
-        plugins: [
-            new BundleAnalyzerPlugin(),
-        ],
+        plugins: [new BundleAnalyzerPlugin()],
         configure: (webpackConfig, { env: webpackEnv, paths }) => {
             webpackConfig.optimization.splitChunks = {
                 ...webpackConfig.optimization.splitChunks,
@@ -33,6 +31,5 @@ module.exports = {
             };
             return webpackConfig;
         },
-    }
-}
-
+    },
+};

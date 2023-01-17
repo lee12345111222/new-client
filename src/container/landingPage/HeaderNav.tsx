@@ -2,18 +2,22 @@ import React, { FC } from 'react';
 
 import SideBar from './SideBar';
 import { LandingPageImages } from '../../utils/links';
+import { getOssUrl } from '../../lib/fn';
+import { Obj } from '../../store/globalSlice';
 
 type HeaderNavProps = {
     handleBackdropShow?: () => void;
     handleBackdropRemove?: () => void;
     showMenu: boolean;
     eventSlug: string;
+    menuObj: Obj;
 };
 
 const HeaderNav: FC<HeaderNavProps> = ({
     showMenu,
     handleBackdropShow,
     eventSlug,
+    menuObj,
     handleBackdropRemove,
 }) => {
     return (
@@ -21,7 +25,7 @@ const HeaderNav: FC<HeaderNavProps> = ({
             <div className="landing-page-header-logo">
                 <img
                     className="google-svg"
-                    src="https://oss.uppmkt.com/cxo/img/kv/google.svg"
+                    src={getOssUrl('logo.png')}
                     alt="Google"
                 />
             </div>
@@ -30,6 +34,7 @@ const HeaderNav: FC<HeaderNavProps> = ({
                     <SideBar
                         showMenu={showMenu}
                         eventSlug={eventSlug}
+                        menuObj={menuObj}
                         handleBackdropRemove={handleBackdropRemove}
                         handleBackdropShow={handleBackdropShow}
                     />

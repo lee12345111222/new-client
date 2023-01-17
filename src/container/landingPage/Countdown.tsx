@@ -3,13 +3,14 @@ import Ctd from 'react-countdown';
 
 type CountdownProps = {
     classes: string;
+    startTime: string;
     setNavigateSlug?: Dispatch<SetStateAction<string>>;
 };
 
-const Countdown: FC<CountdownProps> = ({ classes }) => {
+const Countdown: FC<CountdownProps> = ({ classes, startTime = '' }) => {
     return (
         <Ctd
-            date={parseInt(process.env.REACT_APP_EVENT_COUNTDOWN as string)}
+            date={parseInt(startTime as string)}
             intervalDelay={0}
             renderer={({ days, hours, minutes, seconds }) => {
                 return (

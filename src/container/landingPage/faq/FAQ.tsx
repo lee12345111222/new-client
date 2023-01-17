@@ -6,6 +6,7 @@ import RegistryProblems from './RegistryProblems';
 import LivestreamTroubleShooting from './LivestreamTroubleShooting';
 import GeneralProblems from './GeneralProblems';
 import OtherProblems from './OtherProblems';
+import { getOssUrl } from '../../../lib/fn';
 
 const { TabPane } = Tabs;
 
@@ -13,7 +14,11 @@ const FAQ: FC = () => {
     const intl = useIntl();
 
     return (
-        <div className="landing-page-faq-background" id="faq">
+        <div
+            className="landing-page-faq-background"
+            id="faq"
+            style={{ backgroundImage: `url(${getOssUrl('faq.png')})` }}
+        >
             <div className="landing-page-faq-wrap">
                 <h1 className="page-title">
                     {intl.formatMessage({ id: 'landingPage.nav_faq' })}

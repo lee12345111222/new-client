@@ -16,11 +16,14 @@ import '../../../styles/homeTransition.scss';
 import Countdown from '../Countdown';
 import { icons } from '../../../lib/icons';
 import { LottieJSON } from '../../../utils/links';
+import { Obj } from '../../../store/globalSlice';
+import { getOssUrl } from '../../../lib/fn';
 
 export type LoginFormProps = {
     handleSubmit(e: FormEvent<HTMLFormElement>): void;
     eventOpen: boolean;
     code: string;
+    main?: Obj;
     HandleInputChange(e: ChangeEvent<HTMLInputElement>): void;
     eventSlug: string;
 };
@@ -29,10 +32,12 @@ const Home: FC<LoginFormProps> = ({
     handleSubmit,
     eventOpen,
     code,
+    main = {},
     HandleInputChange,
     eventSlug,
 }) => {
     const intl = useIntl();
+    const { title, subTitle, startTime } = main;
 
     return (
         <div className="landing-page-home-background" id="home">
@@ -55,16 +60,12 @@ const Home: FC<LoginFormProps> = ({
                     <div className="landing-page-home-title">
                         <div className="landing-page-home-title-box">
                             <div className="landing-page-home-title-box-title">
-                                {intl.formatMessage({
-                                    id: 'landingPage.event_title',
-                                })}
+                                {title}
                             </div>
                             <div className="landing-page-home-title-box-title">
-                                {intl.formatMessage({
-                                    id: 'landingPage.event_title2',
-                                })}
+                                {subTitle}
                             </div>
-                            <Google eventSlug={eventSlug} />
+                            <Google eventSlug={eventSlug} main={main} />
                         </div>
                     </div>
                     <a
@@ -79,7 +80,8 @@ const Home: FC<LoginFormProps> = ({
                         })}
                     </a>
                     <div className="landing-page-home-kv-lottie-mo">
-                        <Lottie
+                        {/* {<img src={getOssUrl('main.png')} alt="" />} */}
+                        {/* <Lottie
                             isClickToPauseDisabled={true}
                             options={{
                                 loop: true,
@@ -89,7 +91,7 @@ const Home: FC<LoginFormProps> = ({
                                     preserveAspectRatio: 'xMidYMid slice',
                                 },
                             }}
-                        ></Lottie>
+                        ></Lottie> */}
                     </div>
                     <label className="landing-page-home-add-to-calendar-dropdown">
                         <div className="dd-button">
@@ -129,7 +131,10 @@ const Home: FC<LoginFormProps> = ({
                         </ul>
                     </label>
 
-                    <Countdown classes={'landing-page-count-down'} />
+                    <Countdown
+                        classes={'landing-page-count-down'}
+                        startTime={new Date(startTime).getTime().toString()}
+                    />
 
                     <LoginForm
                         handleSubmit={handleSubmit}

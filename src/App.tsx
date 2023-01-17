@@ -31,9 +31,16 @@ const App = memo(() => {
 
     useEffect(() => {
         socket.on('connect', () => {
+            console.log('connect');
             dispatch(updateState({ key: 'socket', value: socket }));
             dispatch(updateState({ key: 'socketId', value: socket.id }));
             dispatch(updateState({ key: 'socketOn', value: true }));
+            socket.emit('room', { roomId: 'SES8888888' }, (res: any) => {
+                console.log(res, 'emit');
+            });
+        });
+        socket.on('message', data => {
+            console.log(data, 'message data');
         });
 
         socket.on('disconnect', () => {
@@ -43,10 +50,11 @@ const App = memo(() => {
         });
 
         return () => {
+            console.log(123)
             socket.off('connect');
             socket.off('disconnect');
         };
-    }, []);
+    }, [dispatch]);
 
     return (
         <BrowserRouter>

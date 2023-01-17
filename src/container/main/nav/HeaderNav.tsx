@@ -64,18 +64,18 @@ const HeaderNav: FC<HeaderNavProps> = ({
      */
     useEffect(() => {
         // changeEvent 為 false 表示單純在同個會場內做頁面切換
-        if (!changeEvent) {
-            if (location.pathname === '/main') {
-                userLocate(eventId, socketId, code, 'chatroom');
-            } else if (location.pathname === '/main/qs') {
-                userLocate(eventId, socketId, code, 'qs');
-            } else if (location.pathname === '/main/post') {
-                userLocate(eventId, socketId, code, 'post');
-            }
-        } else {
-            // changeEvent 為 true 表示會場切換
-            userLocate(eventRef.current, socketId, code, 'changeEvent');
-        }
+        // if (!changeEvent) {
+        //     if (location.pathname === '/main') {
+        //         userLocate(eventId, socketId, code, 'chatroom');
+        //     } else if (location.pathname === '/main/qs') {
+        //         userLocate(eventId, socketId, code, 'qs');
+        //     } else if (location.pathname === '/main/post') {
+        //         userLocate(eventId, socketId, code, 'post');
+        //     }
+        // } else {
+        //     // changeEvent 為 true 表示會場切換
+        //     userLocate(eventRef.current, socketId, code, 'changeEvent');
+        // }
     }, [location.pathname, changeEvent]);
 
     /**
@@ -188,51 +188,6 @@ const HeaderNav: FC<HeaderNavProps> = ({
                     {icons.chat_icon()}
                     {intl.formatMessage({ id: 'landingPage.nav_groupchat' })}
                 </Button>
-                {/* {admin && (
-                    <Button className="main-header-admin-share-walkin-btn" onClick={handleClickSharedWalkin}>
-                        {intl.formatMessage({ id: 'main.ShareWalkin' })}
-                    </Button>
-                )} */}
-
-                {/* {admin && (
-                    <div className="main-header-admin-selector-container">
-                        <Select
-                            dropdownClassName="main-admin-selector"
-                            defaultValue={eventId}
-                            bordered={false}
-                            defaultActiveFirstOption={false}
-                            onChange={(v) => handleChangeEvent(v)}
-                        >
-                            {event.map((e) => {
-                                return (
-                                    <Option key={e.eventId} value={e.eventId}>
-                                        {e.name}
-                                    </Option>
-                                )
-                            })}
-                        </Select>
-                    </div>
-                )} */}
-
-                {/* {!admin && eventId.startsWith('S') && (
-                    <div className="main-header-lang-selector-container">
-                        <Select
-                            dropdownClassName="main-lang-selector"
-                            defaultValue={locale}
-                            bordered={false}
-                            defaultActiveFirstOption={false}
-                            onChange={(v) => handleChangeLang(v)}
-                        >
-                            {SelectorOptions.map((option) => {
-                                return (
-                                    <Option key={option.value} value={option.value}>
-                                        {option.option}
-                                    </Option>
-                                )
-                            })}
-                        </Select>
-                    </div>
-                )} */}
             </div>
         </nav>
     );

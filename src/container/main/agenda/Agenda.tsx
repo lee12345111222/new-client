@@ -11,13 +11,15 @@ import Slider from 'react-slick';
 // import { useTypedSelector, useActions } from '../../../hooks'
 import { localeContext, LocaleProps } from '../../../index';
 import { handleGetTopics, handleGetSymbols } from '../../../lib/fn';
+import { Obj } from '../../../store/globalSlice';
 import AgendaItem from './AgendaItem';
 
 type AgendaProps = {
     sliderRef: RefObject<HTMLDivElement>;
+    agendas: Obj[];
 };
 
-const Agenda: FC<AgendaProps> = ({ sliderRef }) => {
+const Agenda: FC<AgendaProps> = ({ sliderRef, agendas }) => {
     const { jsonData } = useContext(localeContext) as LocaleProps;
 
     const {
@@ -92,22 +94,18 @@ const Agenda: FC<AgendaProps> = ({ sliderRef }) => {
 
     return (
         <Slider {...settings} className="main-agenda-slide" ref={sliderRef}>
-            {agenda && agenda.length > 0
-                ? ['1', '2', '3', '4', '5', '6', '7', '8', '9'].map(
-                      (topic, i) => {
-                          return (
-                              <Fragment key={topic}>
-                                  <AgendaItem
-                                      symbols={symbols}
-                                      topic={topic as string}
-                                      eventId={eventId}
-                                      current={i === current ? 'current' : null}
-                                  />
-                              </Fragment>
-                          );
-                      },
-                  )
-                : null}
+            {agendas.map((ele, i) => {
+                return (
+                    <Fragment key={ele.topic}>
+                        <AgendaItem
+                            symbols={ele}
+                            topic={ele.topic}
+                            eventId={eventId}
+                            current={i === current ? 'current' : null}
+                        />
+                    </Fragment>
+                );
+            })}
         </Slider>
     );
 };

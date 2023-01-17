@@ -1,37 +1,52 @@
-import axios from 'axios'
+import { message } from 'antd';
+import axios from 'axios';
 
 const axiosInstance = axios.create({
     baseURL:
         process.env.NODE_ENV === 'production'
             ? process.env.REACT_APP_API_BASE_URL_PROD
-            :'https://mock.apifox.cn/m1/2059601-0-default/',
-})
-
-// http request拦截器 添加一个请求拦截器
-axiosInstance.interceptors.request.use(function (config: any) {
-    let token = window.localStorage.getItem("Authorization")
-    console.log(token,'token')
-    if (token) {
-        config.headers.Authorization =  "Bearer" + token;
-    }
-    return config;
-}, function (error) {
-    // Do something with request error
-    return Promise.reject(error);
+            : process.env.REACT_APP_API_BASE_URL_DEV,
 });
 
+// http request拦截器 添加一个请求拦截器
+axiosInstance.interceptors.request.use(
+    function (config: any) {
+        let token = localStorage.getItem('Authorization');
+        if (token) {
+            config.headers.Authorization = 'Bearer ' + token;
+        } else {
+            // window.location.href =
+            //     'landingPage?' + localStorage.getItem('session');
+        }
+        return config;
+    },
+    function (error) {
+        // Do something with request error
+        return Promise.reject(error);
+    },
+);
 
 // 添加响应拦截器
 axiosInstance.interceptors.response.use(
     function (response) {
+        console.log(response, 'response');
         // 对响应数据做点什么
         return response;
     },
     function (error) {
+        if (error.config.url === 'login') {
+            return Promise.reject(error);
+        }
+        if (
+            error.response.status === 401 &&
+            error.response.statusText === 'Unauthorized'
+        ) {
+            window.location.href =
+                'landingPage?' + localStorage.getItem('session');
+        }
         // 对响应错误做点什么
         return Promise.reject(error);
-    }
+    },
 );
 
-
-export default axiosInstance
+export default axiosInstance;

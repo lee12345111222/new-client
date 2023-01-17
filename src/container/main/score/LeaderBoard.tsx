@@ -3,9 +3,14 @@ import React, { FC } from 'react';
 // import { useTypedSelector } from '../../../hooks/useTypedSelector'
 import { Links } from '../../../utils/links';
 import { encodeName } from '../../../lib/fn';
+import { useSelector } from 'react-redux';
 
 const LeaderBoard: FC = () => {
-    const leaders: any = [];
+    const { main }: any = useSelector(state => {
+        return state;
+    });
+
+    const { leaders = [] } = main;
 
     const handleRanking = (rank: number) => {
         switch (rank) {
@@ -51,8 +56,8 @@ const LeaderBoard: FC = () => {
                                 {handleRanking(i + 1)}
                             </div>
                             <div className="leader-board-item-info">
-                                <div>{encodeName(leader.uid.name)}</div>
-                                <div>{leader.uid.company}</div>
+                                <div>{encodeName(leader.name)}</div>
+                                <div>{leader.company}</div>
                             </div>
                             <div>{leader.score}</div>
                         </div>

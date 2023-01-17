@@ -177,20 +177,19 @@ const InteractiveSec: FC<InteractiveSecProps> = ({ setChangeEvent }) => {
 
     //获取积分 排行 抽奖等
     useEffect(() => {
-        dispatch(getScore);
-        dispatch(getSurveys());
-    }, []);
+        dispatch(getScore());
+    }, [dispatch]);
 
     /**
      * 確認會後問卷開啟狀態
      */
     useEffect(() => {
-        async function checkStatus() {
-            const data = await checkPostSurveyStatus();
-            setPostSurveyShow(data);
-        }
+        // async function checkStatus() {
+        //     const data = await checkPostSurveyStatus();
+        //     setPostSurveyShow(data);
+        // }
 
-        checkStatus();
+        // checkStatus();
     }, []);
 
     /**
@@ -229,47 +228,48 @@ const InteractiveSec: FC<InteractiveSecProps> = ({ setChangeEvent }) => {
      */
     useEffect(() => {
         // 監聽通過審核的訊息
-        socket.on('deliverPassedSpeech', (data: any) =>
-            receivePassedSpeech(data),
-        );
-        // 監聽通過審核的問題
-        socket.on('deliverPassedQuestion', (data: any) =>
-            receivePassedQuestion(data),
-        );
-        // 監聽定時自動發送訊息
-        socket.on('sendChatbot', (data: any) => handleReceiveChatbotJob(data));
-        // 監聽定時幸運抽獎
-        socket.on('luckyDraw', (data: any) => handleReceiveLuckyDraw(data));
-        // 監聽定時自動導向會後問卷頁面
-        socket.on('postSurveyGuiding', (data: any) =>
-            handleReceivePostSurveyGuiding(data),
-        );
-        // 監聽定時自動發送問卷
-        socket.on('sendSurvey', (data: any) =>
-            handleReceiveRaiseSurveyJob(data),
-        );
-        // 監聽開關會後問卷
-        socket.on('postSurveyOpen', (data: any) => handlePostSurveyOpen(data));
-        // 監聽排行榜更新
-        socket.on('deliverLeaderBoard', (data: any) =>
-            handleLeaderBoardUpdate(data),
-        );
-        // 監聽用戶積極參與互動分數更新
-        socket.on('deliverUserScore', (data: any) =>
-            handleReceiveUserScore(data),
-        );
+        // socket.on('deliverPassedSpeech', (data: any) =>
+        //     receivePassedSpeech(data),
+        // );
+        // // 監聽通過審核的問題
+        // socket.on('deliverPassedQuestion', (data: any) =>
+        //     receivePassedQuestion(data),
+        // );
+        // // 監聽定時自動發送訊息
+        // socket.on('sendChatbot', (data: any) => handleReceiveChatbotJob(data));
+        // // 監聽定時幸運抽獎
+        // socket.on('luckyDraw', (data: any) => handleReceiveLuckyDraw(data));
+        // // 監聽定時自動導向會後問卷頁面
+        // socket.on('postSurveyGuiding', (data: any) =>
+        //     handleReceivePostSurveyGuiding(data),
+        // );
+        // // 監聽定時自動發送問卷
+        // socket.on('sendSurvey', (data: any) =>
+        //     handleReceiveRaiseSurveyJob(data),
+        // );
+        // // 監聽開關會後問卷
+        // socket.on('postSurveyOpen', (data: any) => handlePostSurveyOpen(data));
+        // // 監聽排行榜更新
+        // socket.on('deliverLeaderBoard', (data: any) =>
+        //     handleLeaderBoardUpdate(data),
+        // );
+        // // 監聽用戶積極參與互動分數更新
+        // socket.on('deliverUserScore', (data: any) =>
+        //     handleReceiveUserScore(data),
+        // );
 
-        return () => {
-            socket.removeListener('deliverPassedSpeech');
-            socket.removeListener('deliverPassedQuestion');
-            socket.removeListener('sendChatbot');
-            socket.removeListener('luckyDraw');
-            socket.removeListener('postSurveyGuiding');
-            socket.removeListener('sendSurvey');
-            socket.removeListener('postSurveyOpen');
-            socket.removeListener('deliverLeaderBoard');
-            socket.removeListener('deliverUserScore');
-        };
+        // return () => {
+        //     socket.removeListener('deliverPassedSpeech');
+        //     socket.removeListener('deliverPassedQuestion');
+        //     socket.removeListener('sendChatbot');
+        //     socket.removeListener('luckyDraw');
+        //     socket.removeListener('postSurveyGuiding');
+        //     socket.removeListener('sendSurvey');
+        //     socket.removeListener('postSurveyOpen');
+        //     socket.removeListener('deliverLeaderBoard');
+        //     socket.removeListener('deliverUserScore');
+        // };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     /**

@@ -41,7 +41,13 @@ import { LottieJSON } from '../../utils/links';
 import { handleCheckParams } from '../../lib/fn';
 import 'react-loading-skeleton/dist/skeleton.css';
 import '../../styles/main.scss';
-import { getInitial, getScore, getSurveys } from '../../store/mainSlice';
+import {
+    getInitial,
+    getScore,
+    getSurveys,
+    postMessage,
+} from '../../store/mainSlice';
+import { Obj } from '../../store/globalSlice';
 
 export type ModalProps = {
     setModalContent: Dispatch<SetStateAction<ReactNode>>;
@@ -64,7 +70,9 @@ const Main: FC = () => {
     const [showCustomAvtBtn, setShowCustomAvtBtn] = useState(true);
     const [groupChatShow, setGroupChatShow] = useState(true);
     const [openAnimation, setOpenAnimation] = useState(true);
-    const [showMain, setShowMain] = useState(false);
+    const [showMain, setShowMain] = useState(true);
+
+    const animateRef = useRef<any>(true);
 
     const { setLocale } = useContext(localeContext) as LocaleProps;
     const { global, main }: any = useSelector(state => {
@@ -72,7 +80,8 @@ const Main: FC = () => {
     });
 
     const { socket, socketId, socketOn } = global;
-    const { mainInitial } = main;
+    const { mainInitial = {} } = main;
+    const { lotteryAnimation, video, agendas = [] } = mainInitial;
 
     const dispatch = useDispatch();
 
@@ -87,21 +96,14 @@ const Main: FC = () => {
 
     useEffect(() => {
         dispatch(getInitial());
-        dispatch(getScore());
-        dispatch(getSurveys());
     }, [dispatch]);
 
     /**
      * 加入 event id 所屬房間
      */
-    useEffect(() => {
-        // 未登入
-        // if (!auth) navigate(`/${process.env.REACT_APP_DEFAULT_EVENT_ID as string}`, { replace: true })
-        // // 已登入，加入所屬房間
-        // else joinInitRoom(_id, eventId, socketId, code, channelId)
-
-        return () => window.clearTimeout(drawingTimerRef.current);
-    }, [socket, socketId]);
+    // useEffect(() => {
+    //     if (chat.roomId) joinInitRoom(chat.roomId);
+    // }, [chat.roomId]);
 
     /**
      * 關閉瀏覽器分頁前提醒
@@ -115,27 +117,25 @@ const Main: FC = () => {
     useEffect(() => {
         if (socket) {
             // 監聽切換 agenda 事件
-            socket.on('switchAgendaPage', (data: any) =>
-                handleReceiveSwitchAgendaPageJob(data),
-            );
-            // 監聽重複登入事件，登出使用者
-            socket.on('alreadyInRoom', (data: any) =>
-                handleLoginDuplicated(data),
-            );
-            // 監聽後台 drop 用戶清單，將用戶導向至 landing page
-            socket.on('updateUserList', () => handleUpdateUserList());
-            // 監聽後台重新整理特定用戶頁面
-            socket.on('reload', () => handleReload());
-            // 監聽獲取目前在線人數
-            socket.on('getOnlineCount', (data: any) =>
-                handleGetOnlineCount(data),
-            );
-            // 監聽接收抽獎獎品
-            socket.on('deliverPrize', (data: any) => handleReceivePrize(data));
-            // 監聽開關群聊視窗
-            socket.on('groupChatOpen', (data: any) =>
-                handleGroupChatOpen(data),
-            );
+            // socket.on('switchAgendaPage', (data: any) =>
+            //     handleReceiveSwitchAgendaPageJob(data),
+            // );
+            // // 監聽重複登入事件，登出使用者
+            // socket.on('alreadyInRoom', (data: any) =>
+            //     handleLoginDuplicated(data),
+            // );
+            // // 監聽後台 drop 用戶清單，將用戶導向至 landing page
+            // socket.on('updateUserList', () => handleUpdateUserList());
+            // // 監聽後台重新整理特定用戶頁面
+            // socket.on('reload', () => handleReload());
+            // // 監聽獲取目前在線人數
+            // socket.on('getOnlineCount', (data: any) =>
+            //     handleGetOnlineCount(data),
+            // );
+            // // 監聽接收抽獎獎品
+            // socket.on('deliverPrize', (data: any) => handleReceivePrize(data));
+            // 監聽聊天
+            // socket.on('message', (data: any) => handleMessage(data));
         }
 
         return () => {
@@ -150,18 +150,17 @@ const Main: FC = () => {
             }
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [socket]);
+    }, []);
 
     /**
      * 確認群聊視窗開啟狀態
      */
     useEffect(() => {
-        async function checkGroupChatOpenStatus() {
-            const data = await checkGroupChatStatus();
-            setGroupChatShow(data);
-        }
-
-        checkGroupChatOpenStatus();
+        // async function checkGroupChatOpenStatus() {
+        //     const data = await checkGroupChatStatus();
+        //     setGroupChatShow(data);
+        // }
+        // checkGroupChatOpenStatus();
     }, []);
 
     /**
@@ -232,8 +231,9 @@ const Main: FC = () => {
      * 点播初始化完成
      */
     const playerComplete = () => {
+        console.log('点播初始化完成');
         setOpenAnimation(false);
-        setShowMain(true);
+        animateRef.current = false;
     };
 
     /**
@@ -244,8 +244,8 @@ const Main: FC = () => {
         window.location.reload();
     };
 
-    const handleGroupChatOpen = ({ groupChatShow }: GroupChatShowData) => {
-        setGroupChatShow(groupChatShow);
+    const handleMessage = (data: Obj) => {
+        console.log(data, 'handleMessage');
     };
 
     /**
@@ -363,33 +363,40 @@ const Main: FC = () => {
         setModalContent(<GroupChatDesc />);
         setShowModal(true);
     };
-
+    console.log('openAnimation:' + openAnimation, showMain);
     return (
         <div className="main-wrap" id="main-wrap">
+            <button onClick={() => dispatch(postMessage())}>message</button>
             <CustomModal
                 showModal={showModal}
                 handleCloseModal={handleCloseModal}
             >
                 {modalContent}
             </CustomModal>
-            {openAnimation && (
+            {(openAnimation || showMain) && (
                 <div className="main-open-animation-lottie">
                     <div className="main-open-animation-container">
                         <Lottie
                             isClickToPauseDisabled={true}
                             // speed={0.8}
                             options={{
-                                loop: false,
-                                autoplay: true,
-                                animationData: LottieJSON.OPEN_ANIMATION,
+                                loop: true,
+                                autoplay: false,
+                                animationData:
+                                    !lotteryAnimation ||
+                                    lotteryAnimation === 'default'
+                                        ? LottieJSON.OPEN_ANIMATION
+                                        : lotteryAnimation,
                                 rendererSettings: {
                                     preserveAspectRatio: 'xMidYMid slice',
                                 },
                             }}
                             eventListeners={[
                                 {
-                                    eventName: 'complete',
-                                    callback: () => setOpenAnimation(false),
+                                    eventName: 'loopComplete',
+                                    callback: () =>
+                                        !animateRef.current &&
+                                        setShowMain(false),
                                 },
                             ]}
                             // id="open-animation"
@@ -435,21 +442,24 @@ const Main: FC = () => {
                     <div className="main-body-left">
                         <div className="main-left-player-mask">
                             {/* {groupChatShow ? <GroupChatView /> : <PolyPlayer />} */}
-                            <PolyPlayer playerComplete={playerComplete} />
+                            <PolyPlayer
+                                playerComplete={playerComplete}
+                                video={video}
+                            />
                         </div>
                         <div className="main-agenda-container">
-                            <Agenda sliderRef={sliderRef} />
+                            <Agenda agendas={agendas} sliderRef={sliderRef} />
                         </div>
                     </div>
 
-                    {!socketOn ? (
+                    {/* {!socketOn ? (
                         <DisconnectedSkeleton
                             showReload={showReload}
                             handleReload={handleReload}
                         />
-                    ) : (
-                        <InteractiveSec setChangeEvent={setChangeEvent} />
-                    )}
+                    ) : ( */}
+                    <InteractiveSec setChangeEvent={setChangeEvent} />
+                    {/* )} */}
                 </div>
             </ModalContext.Provider>
         </div>

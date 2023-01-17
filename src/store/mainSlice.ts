@@ -8,6 +8,7 @@ export interface MainState {
     personScoreData: Obj;
     scoreList: Obj;
     surveysData: Obj;
+    leaders: Obj[];
 }
 export interface Obj {
     [name: string]: any;
@@ -18,6 +19,7 @@ const initialState: MainState = {
     personScoreData: {},
     scoreList: {},
     surveysData: {},
+    leaders: [],
 };
 
 export const mainSlice = createSlice({
@@ -39,12 +41,9 @@ export default mainSlice.reducer;
 //获取main页面信息
 export const getInitial: any = () => async (dispatch: any) => {
     try {
-        let res = await axiosInstance.get(
-            'https://mock.apifox.cn/m1/2059601-0-default/initial',
-            {},
-        );
+        let res = await axiosInstance.get('initial', {});
         if (res.status === 200) {
-            let data = res.data;
+            let data = res.data.data;
             dispatch(updateState({ key: 'mainInitial', value: data || {} }));
         } else {
             console.log('res err', res);
@@ -89,6 +88,20 @@ export const getSurveys: any = () => async (dispatch: any) => {
         console.log('error', error);
     }
 };
+//取得能量排行版
+export const getRank: any = () => async (dispatch: any) => {
+    try {
+        let res = await axiosInstance.get('rank', {});
+        if (res.status === 200) {
+            let data = res.data.data;
+            dispatch(updateState({ key: 'leaders', value: data || [] }));
+        } else {
+            console.log('res err', res);
+        }
+    } catch (error) {
+        console.log('error', error);
+    }
+};
 //向上滑动获取聊天记录
 export const onGetRestHistoryMessages: any = () => async (dispatch: any) => {
     try {
@@ -100,5 +113,13 @@ export const onGetRestHistoryMessages: any = () => async (dispatch: any) => {
         }
     } catch (error) {
         console.log('error', error);
+    }
+};
+
+export const postMessage: any = () => async (dispatch: any) => {
+    try {
+        let res = await axiosInstance.post('message', { content: '123' });
+    } catch (error) {
+        dispatch(updateState({ key: 'userError', value: true }));
     }
 };

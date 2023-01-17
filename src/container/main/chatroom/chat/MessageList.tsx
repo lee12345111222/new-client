@@ -22,11 +22,12 @@ const MessageList: FC<MessageListProps> = ({
     handleScroll,
 }) => {
     const {
-        user: {
-            user: { _id },
-        },
         chat: { loading },
     }: any = { user: { user: {} }, chat: { messages: [], loading: false } };
+
+    const user: Obj = JSON.parse(localStorage.getItem('user') || '{}');
+    const { id } = user;
+    console.log(id , 'id')
 
     const main: Obj = useSelector((state: any) => {
         return state.main;
@@ -46,36 +47,36 @@ const MessageList: FC<MessageListProps> = ({
             <div className="message-list-loading">
                 {loading && <Spin indicator={antIcon} />}
             </div>
-            {[].map((message: any) => {
+            {messages.map((message: any) => {
                 return (
-                    <Fragment key={message._id}>
-                        {message.to === null ? null : (
+                    <Fragment key={message.id}>
+                        {!message.parent?.guest ? null : (
                             <div
                                 className={
-                                    message.from._id === _id
+                                    message.guest.id === id
                                         ? 'message-list-replied-hint-self'
                                         : 'message-list-replied-hint'
                                 }
                             >
-                                {message.from.name +
+                                {message.guest.name +
                                     ' ' +
                                     intl.formatMessage({
                                         id: 'main.reply to',
                                     }) +
                                     ' ' +
-                                    (message.to as RepliedDetail).repliedName}
+                                    message.parent.guest.user.name}
                             </div>
                         )}
                         <div
                             className={
-                                message.from._id === _id
-                                    ? message.from.helper
+                                message.guest.id === id
+                                    ? message.guest.helper
                                         ? [
                                               'message-list-item-self',
                                               'googler',
                                           ].join(' ')
                                         : 'message-list-item-self'
-                                    : message.from.helper
+                                    : message.guest.helper
                                     ? ['message-list-item', 'googler'].join(' ')
                                     : 'message-list-item'
                             }
@@ -85,41 +86,40 @@ const MessageList: FC<MessageListProps> = ({
                                     className="message-list-item-dot-btn"
                                     onClick={() =>
                                         handleReplyMessageClick({
-                                            replied_id: message._id,
-                                            repliedAvatar: message.from.avatar,
-                                            repliedName: message.from.name,
+                                            replied_id: message.id,
+                                            repliedAvatar: message.guest.avatar,
+                                            repliedName:
+                                                message.guest.user.name,
                                             repliedContent: message.content,
                                         })
                                     }
                                     role="presentation"
                                 >
-                                    {message.from._id === _id
+                                    {message.guest.id === id
                                         ? icons.arrow_right()
                                         : icons.arrow_left()}
                                 </div>
                             )}
 
                             <div className="message-list-item-user-time">
-                                {handleTimestampToString(message.createTime)}
+                                {handleTimestampToString(message.createdAt)}
                             </div>
 
-                            {message.to === null ? null : (
+                            {message?.content === null ? null : (
                                 <div className="message-list-item-user-replied-content">
-                                    {(message.to as RepliedDetail)
-                                        .repliedContent.length > 100
-                                        ? (
-                                              message.to as RepliedDetail
-                                          ).repliedContent.substring(0, 100) +
-                                          '...'
-                                        : (message.to as RepliedDetail)
-                                              .repliedContent}
+                                    {message?.content?.length > 100
+                                        ? message.repliedContent.substring(
+                                              0,
+                                              100,
+                                          ) + '...'
+                                        : message.contetn}
                                 </div>
                             )}
 
                             <div className="message-list-item-user-main">
                                 <div className="message-list-item-user-container">
                                     <img
-                                        src={message.from.avatar}
+                                        src={message.guest.avatar}
                                         alt="avatar img"
                                         className="message-list-item-user-avatar"
                                     />
@@ -127,11 +127,11 @@ const MessageList: FC<MessageListProps> = ({
                                 <div className="message-list-item-user-right">
                                     <div className="message-list-item-user-detail">
                                         <div className="message-list-item-user-name">
-                                            {message.from.name}
+                                            {message.guest.name}
                                         </div>
-                                        {message.from.googler ? (
+                                        {message.guest.googler ? (
                                             <div className="message-list-item-user-company">
-                                                {message.from.company}
+                                                {message.guest.user.company}
                                             </div>
                                         ) : null}
                                     </div>

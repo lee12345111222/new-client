@@ -254,15 +254,6 @@ const AfterEventSurvey: FC<AfterEventSurveyProps> = ({
 
     return (
         <div className="after-event-survey-wrap scroll-Control">
-            <Button
-                onClick={() => {
-                    document.body.clientWidth > 700
-                        ? navigate('/mergeImg')
-                        : navigate('/phoneMergeImg');
-                }}
-            >
-                合成图片
-            </Button>
             {postSurveyShow && postSurveys && postSurveys.length > 0 ? (
                 <>
                     {userPostSurveys ? (

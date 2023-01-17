@@ -3,11 +3,9 @@ import { useIntl } from 'react-intl';
 import Slider from 'react-slick';
 
 type AgendaItemProps = {
-    venue: string;
     symbols: string[];
-    jsonData: any;
 };
-const DayOne: FC<AgendaItemProps> = ({ symbols, venue, jsonData }) => {
+const DayOne: FC<AgendaItemProps> = ({ symbols }) => {
     const intl = useIntl();
 
     const settings = {
@@ -64,72 +62,55 @@ const DayOne: FC<AgendaItemProps> = ({ symbols, venue, jsonData }) => {
             },
         ],
     };
+    const venue = '';
 
     const cards =
         symbols && symbols.length > 0
-            ? symbols.map((symbol: string) => {
-                  if (
-                      jsonData[`${venue}_agenda_${symbol}.Team`]
-                          .trim()
-                          .toLowerCase() === 'day1'
-                  ) {
-                      return (
-                          <div
-                              key={`${symbol}`}
-                              className="landing-page-agenda-slide-item"
-                          >
-                              <div className="landing-page-agenda-slide-item-time">
-                                  <span>
-                                      {intl.formatMessage({
-                                          id: `${venue}_agenda_${`${symbol}`}.Local Time From`,
+            ? symbols.map((symbol: any) => {
+                  return (
+                      <div
+                          key={`${symbol}`}
+                          className="landing-page-agenda-slide-item"
+                      >
+                          <div className="landing-page-agenda-slide-item-time">
+                              <span>{symbol.startTime}</span>
+                              <span> - </span>
+                              <span>{symbol.endTime}</span>
+                          </div>
+                          <div className="landing-page-agenda-slide-item-topic">
+                              <span>{symbol.topic}</span>
+                          </div>
+                          <div className="landing-page-agenda-slide-item-speaker">
+                              <div className="landing-page-agenda-slide-img-container">
+                                  <img
+                                      className="landing-page-agenda-slide-img"
+                                      src={intl.formatMessage({
+                                          id: `${venue}_agenda_${`${symbol}`}.Img Url`,
                                       })}
-                                  </span>
-                                  <span> - </span>
-                                  <span>
-                                      {intl.formatMessage({
-                                          id: `${venue}_agenda_${`${symbol}`}.Local Time Ends`,
-                                      })}
-                                  </span>
+                                      alt={`${symbol}`}
+                                  />
                               </div>
-                              <div className="landing-page-agenda-slide-item-topic">
-                                  <span>
+                              <div className="landing-page-agenda-slide-content">
+                                  <div className="landing-page-agenda-slide-content-name">
                                       {intl.formatMessage({
-                                          id: `${venue}_agenda_${`${symbol}`}.Topic`,
+                                          id: `${venue}_agenda_${`${symbol}`}.Speaker Name`,
                                       })}
-                                  </span>
-                              </div>
-                              <div className="landing-page-agenda-slide-item-speaker">
-                                  <div className="landing-page-agenda-slide-img-container">
-                                      <img
-                                          className="landing-page-agenda-slide-img"
-                                          src={intl.formatMessage({
-                                              id: `${venue}_agenda_${`${symbol}`}.Img Url`,
-                                          })}
-                                          alt={`${symbol}`}
-                                      />
                                   </div>
-                                  <div className="landing-page-agenda-slide-content">
-                                      <div className="landing-page-agenda-slide-content-name">
-                                          {intl.formatMessage({
-                                              id: `${venue}_agenda_${`${symbol}`}.Speaker Name`,
-                                          })}
-                                      </div>
 
-                                      <div className="landing-page-agenda-slide-content-title">
-                                          {intl.formatMessage({
-                                              id: `${venue}_agenda_${`${symbol}`}.Company name`,
-                                          })}
-                                      </div>
-                                      <div className="landing-page-agenda-slide-content-title">
-                                          {intl.formatMessage({
-                                              id: `${venue}_agenda_${`${symbol}`}.Speaker Title`,
-                                          })}
-                                      </div>
+                                  <div className="landing-page-agenda-slide-content-title">
+                                      {intl.formatMessage({
+                                          id: `${venue}_agenda_${`${symbol}`}.Company name`,
+                                      })}
+                                  </div>
+                                  <div className="landing-page-agenda-slide-content-title">
+                                      {intl.formatMessage({
+                                          id: `${venue}_agenda_${`${symbol}`}.Speaker Title`,
+                                      })}
                                   </div>
                               </div>
                           </div>
-                      );
-                  }
+                      </div>
+                  );
               })
             : null;
 

@@ -1,7 +1,6 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import axiosInstance from '../lib/axios';
-import axios from 'axios';
 
 export interface GlobalState {
     socket: null | any;
@@ -9,6 +8,7 @@ export interface GlobalState {
     socketOn: boolean;
     setting: Obj;
     userInfo: Obj;
+    userError: boolean;
 }
 export interface Obj {
     [name: string]: any;
@@ -20,6 +20,7 @@ const initialState: GlobalState = {
     socketOn: false,
     setting: {},
     userInfo: {},
+    userError: false,
 };
 
 export const globalSlice = createSlice({
@@ -40,13 +41,11 @@ export default globalSlice.reducer;
 
 //获取排版等页面信息
 export const getLanding: any = () => async (dispatch: any) => {
-    let res = await axiosInstance.get(
-        'https://mock.apifox.cn/m2/2059601-0-default/54914441',
-        {},
-    );
+    let res = await axiosInstance.get('landing/SES8888888', {});
     console.log(res, 'res');
     if (res.status === 200) {
-        let data = res.data;
+        let data = res.data.data || {};
+        localStorage.setItem('eventCode', data.eventCode);
         dispatch(updateState({ key: 'setting', value: data }));
     } else {
     }
@@ -55,17 +54,22 @@ export const getLanding: any = () => async (dispatch: any) => {
 export const fetchLogin: any =
     (session: string, guest: string, callback?: () => void) =>
     async (dispatch: any) => {
-        let res = await axiosInstance.post(
-            'https://mock.apifox.cn/m2/2059601-0-default/56962960',
-            { session, guest },
-        );
-
-        if (res.status === 200) {
-            let data = res.data.user;
-            dispatch(updateState({ key: 'userInfo', value: data }));
-            localStorage.setItem('Authorization', res.data.accessToken);
-            callback?.();
-        } else {
+        try {
+            let res = await axiosInstance.post('login', { session, guest });
+            if (res.status === 200) {
+                dispatch(updateState({ key: 'userError', value: false }));
+                let data = res.data.data.user;
+                dispatch(updateState({ key: 'userInfo', value: data }));
+                localStorage.setItem(
+                    'Authorization',
+                    res.data.data.accessToken,
+                );
+                localStorage.setItem('user', JSON.stringify(data));
+                callback?.();
+            } else {
+            }
+        } catch (error) {
+            dispatch(updateState({ key: 'userError', value: true }));
         }
     };
 

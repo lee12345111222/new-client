@@ -61,6 +61,14 @@ class PolyPlayer extends React.Component<any, any> {
             param1: this.props.user.code,
             param2: this.props.user.name,
         });
+        this.player.on('s2j_onPlayerInitOver', e => {
+            this.props.playerComplete();
+        });
+
+        this.player.on('serverError', e => {
+            console.log(e, 'e serverError');
+            this.props.playerComplete();
+        });
     }
 
     loadScript(src) {

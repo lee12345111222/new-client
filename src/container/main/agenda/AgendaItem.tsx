@@ -1,8 +1,9 @@
 import React, { FC, memo } from 'react';
 import { useIntl } from 'react-intl';
+import { Obj } from '../../../store/globalSlice';
 
 type AgendaItemProps = {
-    symbols: string[];
+    symbols: Obj;
     eventId: string;
     current: 'current' | null;
     topic: string;
@@ -30,24 +31,12 @@ const AgendaItem: FC<AgendaItemProps> = ({
                         : 'main-agenda-slide-item-time'
                 }
             >
-                <span>
-                    {intl.formatMessage({
-                        id: `${eventId}_agenda_${`${topic}_1`}.Local Time From`,
-                    })}
-                </span>
+                <span>{symbols.startTime}</span>
                 <span> - </span>
-                <span>
-                    {intl.formatMessage({
-                        id: `${eventId}_agenda_${`${topic}_1`}.Local Time Ends`,
-                    })}
-                </span>
+                <span>{symbols.endTime}</span>
             </div>
             <div className="main-agenda-slide-item-topic">
-                <span>
-                    {intl.formatMessage({
-                        id: `${eventId}_agenda_${`${topic}_1`}.Topic`,
-                    })}
-                </span>
+                <span>{symbols.topic}</span>
             </div>
             <div className="main-agenda-slide-item-speaker">
                 <div className="main-agenda-slide-img-container">

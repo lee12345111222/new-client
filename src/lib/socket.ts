@@ -1,13 +1,29 @@
-import { io } from 'socket.io-client'
+import { io } from 'socket.io-client';
+
+let token = localStorage.getItem('Authorization');
+
 const skt = io(
     process.env.NODE_ENV === 'production'
-        ? (process.env.REACT_APP_SERVER_BASE_URL_PROD as string)
-        : (process.env.REACT_APP_SERVER_BASE_URL_DEV as string),
+        ? 'https://acliapi.uppmkt.com/amplify-client'
+        : 'https://acliapi.uppmkt.com/amplify-client',
     {
-        transports: ['websocket', 'polling'],
-        auth: { token: process.env.REACT_APP_SOCKET_IO_AUTH_TOKEN as string },
+        transports: ['websocket', 'polling', 'flashsocket'],
+        auth: {
+            token: 'Bearer ' + token,
+            Authorization: 'Bearer ' + token,
+        },
+        extraHeaders: {
+            Authorization: 'Bearer ' + token,
+        },
         reconnection: true,
-    }
-)
+        transportOptions: {
+            polling: {
+                extraHeaders: {
+                    Authorization: 'Bearer ' + token,
+                },
+            },
+        },
+    },
+);
 
-export default skt
+export default skt;

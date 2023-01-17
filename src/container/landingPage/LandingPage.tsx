@@ -21,9 +21,8 @@ import HeaderNav from './HeaderNav';
 import '../../styles/landingPage.scss';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchLogin, getLanding } from '../../store/globalSlice';
-
-import { Obj } from '../../store/globalSlice';
+import { fetchLogin, getLanding, Obj } from '../../store/globalSlice';
+import { joinInitRoom } from '../../lib/services';
 
 const LandingPage: FC = memo(() => {
     const [eventOpen, setEventOpen] = useState(true);
@@ -37,9 +36,13 @@ const LandingPage: FC = memo(() => {
     const [showMenu, setShowMenu] = useState(false);
 
     const { global }: any = useSelector(state => state);
-    const { setting = {} } = global;
+    const { setting = {}, userError } = global;
 
-    const { main = {} } = setting;
+    const { main = {}, navigator = [], schedules = [] } = setting;
+    const navigatorObj: Obj = {};
+    navigator.forEach((ele: Obj) => {
+        navigatorObj[ele.name] = 1;
+    });
     const { openTime } = main;
 
     const dispatch = useDispatch();
@@ -54,10 +57,9 @@ const LandingPage: FC = memo(() => {
      * 獲取資料庫該服務 event id 資料
      */
     useEffect(() => {
-        console.log(search, 'search');
-
         dispatch(getLanding());
-    }, [dispatch]);
+        localStorage.setItem('session', search);
+    }, [dispatch, search]);
 
     /**
      * 初始化定時任務，設定倒數至活動開始開啟輸入框
@@ -72,9 +74,10 @@ const LandingPage: FC = memo(() => {
     /**
      * 判斷是否存在錯誤訊息
      */
-    // useEffect(() => {
-    //     if (eventError || userError) return handleMessageModal()
-    // }, [eventError, userError])
+    useEffect(() => {
+        if (userError) return handleMessageModal();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userError]);
 
     /**
      * 若存在錯誤訊息，顯示提示框。若訊息為重複登入初始化用戶登入資訊。
@@ -82,7 +85,9 @@ const LandingPage: FC = memo(() => {
      */
     const handleMessageModal = () => {
         let errorMessage = '';
-
+        errorMessage = intl.formatMessage({
+            id: 'landingPage.USER_CODE_ERROR',
+        });
         // if (userError) {
         //     if (userError === 'USER_CODE_ERROR') {
         //         errorMessage = intl.formatMessage({ id: 'landingPage.USER_CODE_ERROR' })
@@ -101,8 +106,8 @@ const LandingPage: FC = memo(() => {
         //     }
         // } else errorMessage = intl.formatMessage({ id: 'landingPage.EVENT_ERROR' })
 
-        // setModalContent(<div id="login-msg-modal-content">{errorMessage}</div>)
-        // setShowModal(true)
+        setModalContent(<div id="login-msg-modal-content">{errorMessage}</div>);
+        setShowModal(true);
         // if (userError) removeUserError()
     };
 
@@ -139,11 +144,13 @@ const LandingPage: FC = memo(() => {
             dispatch(
                 fetchLogin(search, code, () => {
                     navigate('/main');
+                    joinInitRoom(search);
                 }),
             );
             setCode('');
         },
-        [code, location.search],
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [code, search],
     );
 
     /**
@@ -183,7 +190,6 @@ const LandingPage: FC = memo(() => {
 
     return (
         <main className="landing-page-wrap">
-            {/* <img src={logo ? logo : 'https://oss.uppmkt.com/cxo/img/GOOGLE.svg'} alt="" style={{ display: 'none' }} /> */}
             <section className="landing-page-layout" id="landing-page-layout">
                 <section className="landing-page-layout-main">
                     <HeaderNav
@@ -191,6 +197,7 @@ const LandingPage: FC = memo(() => {
                         handleBackdropRemove={handleBackdropRemove}
                         eventSlug={eventSlug}
                         showMenu={showMenu}
+                        menuObj={navigatorObj}
                     />
                     <div
                         className="landing-page-layout-content"
@@ -203,16 +210,23 @@ const LandingPage: FC = memo(() => {
                             {modalContent}
                         </CustomModal>
                         <Backdrop showBackdrop={showBackdrop} />
-                        <Home
-                            handleSubmit={handleSubmit}
-                            eventOpen={eventOpen}
-                            code={code}
-                            HandleInputChange={HandleInputChange}
-                            eventSlug={eventSlug}
-                        />
+                        {navigatorObj.home ? (
+                            <Home
+                                handleSubmit={handleSubmit}
+                                eventOpen={eventOpen}
+                                main={main}
+                                code={code}
+                                HandleInputChange={HandleInputChange}
+                                eventSlug={eventSlug}
+                            />
+                        ) : null}
 
-                        <Agenda eventSlug={eventSlug} />
-                        <FAQ />
+                        {navigatorObj.schedules ? (
+                            <Agenda schedules={schedules} />
+                        ) : (
+                            ''
+                        )}
+                        {navigatorObj.faqs ? <FAQ /> : null}
                     </div>
                 </section>
             </section>

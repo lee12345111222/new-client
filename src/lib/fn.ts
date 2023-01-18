@@ -1,12 +1,12 @@
 import { Dispatch, SetStateAction } from 'react';
-import socket from './socket';
+import getSocket from './socket';
 
 export function sktFetch<T = any>(
     event: string,
     data = {},
 ): Promise<{ error: string | null; data: T | null }> {
     return new Promise(resolve => {
-        console.log(event, data, 'event, data');
+        const socket = getSocket();
         socket.emit(event, data, ({ error, data }: any) => {
             console.log(error, data, 'pro');
             resolve({ error, data });

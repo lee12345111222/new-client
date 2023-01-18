@@ -41,6 +41,7 @@ axiosInstance.interceptors.response.use(
             error.response.status === 401 &&
             error.response.statusText === 'Unauthorized'
         ) {
+            localStorage.removeItem('Authorization');
             window.location.href =
                 'landingPage?' + localStorage.getItem('session');
         }

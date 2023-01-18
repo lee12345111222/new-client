@@ -36,7 +36,7 @@ const LandingPage: FC = memo(() => {
     const [showMenu, setShowMenu] = useState(false);
 
     const { global }: any = useSelector(state => state);
-    const { setting = {}, userError } = global;
+    const { setting = {}, userError, socket } = global;
 
     const { main = {}, navigator = [], schedules = [] } = setting;
     const navigatorObj: Obj = {};
@@ -52,6 +52,15 @@ const LandingPage: FC = memo(() => {
     const location = useLocation();
     const navigate = useNavigate();
     const search = location.search.replace('?', '');
+    const token = localStorage.getItem('Authorization');
+
+    useEffect(() => {
+        if (token) {
+            navigate('/main');
+        } else if (socket) {
+            socket.disconnect();
+        }
+    }, [navigate, token, socket]);
 
     /**
      * 獲取資料庫該服務 event id 資料
@@ -88,27 +97,8 @@ const LandingPage: FC = memo(() => {
         errorMessage = intl.formatMessage({
             id: 'landingPage.USER_CODE_ERROR',
         });
-        // if (userError) {
-        //     if (userError === 'USER_CODE_ERROR') {
-        //         errorMessage = intl.formatMessage({ id: 'landingPage.USER_CODE_ERROR' })
-        //     } else if (userError === 'USER_EVENT_ID_ERROR') {
-        //         errorMessage = intl.formatMessage({ id: 'landingPage.USER_EVENT_ID_ERROR' })
-        //     } else if (userError === 'USER_LOGIN_IN_DUPLICATE_ERROR') {
-        //         errorMessage = intl.formatMessage({ id: 'landingPage.LoginDuplicated' })
-        //         initUser()
-        //     } else if (userError === 'USER_LIST_DROP') {
-        //         initUser()
-        //         removeUserError()
-        //         return
-        //     } else if (userError === 'USER_LOG_OUT') {
-        //         initUser()
-        //         return
-        //     }
-        // } else errorMessage = intl.formatMessage({ id: 'landingPage.EVENT_ERROR' })
-
         setModalContent(<div id="login-msg-modal-content">{errorMessage}</div>);
         setShowModal(true);
-        // if (userError) removeUserError()
     };
 
     /**
@@ -144,7 +134,6 @@ const LandingPage: FC = memo(() => {
             dispatch(
                 fetchLogin(search, code, () => {
                     navigate('/main');
-                    joinInitRoom(search);
                 }),
             );
             setCode('');

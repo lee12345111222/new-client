@@ -2,13 +2,18 @@ import { sktFetch } from './fn';
 
 /**
  * 加入 event id 所屬房間
- * @param eventId
+ * @param roomId
  * @param socketId
  * @param code
  */
 export function joinInitRoom(roomId: string) {
-    console.log(roomId,'roomId')
-    sktFetch('room', { roomId }).then(res => console.log(res, 'room'));
+    console.log(roomId, 'roomId')
+    sktFetch('room', {
+        action: 'join',
+        data: {
+            roomId,
+        },
+    }).then(res => console.log(res, 'room'));
 }
 
 /**

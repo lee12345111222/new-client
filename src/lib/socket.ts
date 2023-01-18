@@ -1,29 +1,22 @@
 import { io } from 'socket.io-client';
 
-let token = localStorage.getItem('Authorization');
+const getSocket = () => {
+    let token: string = localStorage.getItem('Authorization') || '';
 
-const skt = io(
-    process.env.NODE_ENV === 'production'
-        ? 'https://acliapi.uppmkt.com/amplify-client'
-        : 'https://acliapi.uppmkt.com/amplify-client',
-    {
-        transports: ['websocket', 'polling', 'flashsocket'],
-        auth: {
-            token: 'Bearer ' + token,
-            Authorization: 'Bearer ' + token,
-        },
-        extraHeaders: {
-            Authorization: 'Bearer ' + token,
-        },
-        reconnection: true,
-        transportOptions: {
-            polling: {
-                extraHeaders: {
-                    Authorization: 'Bearer ' + token,
-                },
+    const socket = io(
+        process.env.NODE_ENV === 'production'
+            ? 'https://acliapi.uppmkt.com/amplify-client'
+            : 'https://acliapi.uppmkt.com/amplify-client',
+        {
+            transports: ['websocket', 'polling'],
+            auth: {
+                // token: 'Bearer ' + token,
+                Authorization: token,
             },
+            reconnection: true,
         },
-    },
-);
+    );
+    return socket;
+};
 
-export default skt;
+export default getSocket;

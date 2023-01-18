@@ -48,6 +48,8 @@ import {
     postMessage,
 } from '../../store/mainSlice';
 import { Obj } from '../../store/globalSlice';
+import getSocket from '../../lib/socket';
+import { io } from 'socket.io-client';
 
 export type ModalProps = {
     setModalContent: Dispatch<SetStateAction<ReactNode>>;
@@ -79,9 +81,12 @@ const Main: FC = () => {
         return state;
     });
 
-    const { socket, socketId, socketOn } = global;
     const { mainInitial = {} } = main;
-    const { lotteryAnimation, video, agendas = [] } = mainInitial;
+    const { lotteryAnimation, video, agendas = [], chat = {} } = mainInitial;
+
+    const socketRef: any = useRef();
+
+    const session = localStorage.getItem('session');
 
     const dispatch = useDispatch();
 
@@ -97,13 +102,30 @@ const Main: FC = () => {
     useEffect(() => {
         dispatch(getInitial());
     }, [dispatch]);
+    useEffect(() => {
+        const socket = getSocket();
+        let id = session;
 
-    /**
-     * 加入 event id 所屬房間
-     */
-    // useEffect(() => {
-    //     if (chat.roomId) joinInitRoom(chat.roomId);
-    // }, [chat.roomId]);
+        socket.on('connect', () => {
+            if (id) {
+                joinInitRoom(id)
+            }
+            setShowReload(false);
+        });
+
+        socket.on('disconnect', () => {
+            console.log(session, 'disconnect', socket);
+
+            socket.connect();
+            setShowReload(true);
+        });
+
+        return () => {
+            socket.off('connect');
+            socket.off('disconnect');
+        };
+    }, [dispatch, session]);
+
 
     /**
      * 關閉瀏覽器分頁前提醒
@@ -115,40 +137,39 @@ const Main: FC = () => {
     }, []);
 
     useEffect(() => {
-        if (socket) {
-            // 監聽切換 agenda 事件
-            // socket.on('switchAgendaPage', (data: any) =>
-            //     handleReceiveSwitchAgendaPageJob(data),
-            // );
-            // // 監聽重複登入事件，登出使用者
-            // socket.on('alreadyInRoom', (data: any) =>
-            //     handleLoginDuplicated(data),
-            // );
-            // // 監聽後台 drop 用戶清單，將用戶導向至 landing page
-            // socket.on('updateUserList', () => handleUpdateUserList());
-            // // 監聽後台重新整理特定用戶頁面
-            // socket.on('reload', () => handleReload());
-            // // 監聽獲取目前在線人數
-            // socket.on('getOnlineCount', (data: any) =>
-            //     handleGetOnlineCount(data),
-            // );
-            // // 監聽接收抽獎獎品
-            // socket.on('deliverPrize', (data: any) => handleReceivePrize(data));
-            // 監聽聊天
-            // socket.on('message', (data: any) => handleMessage(data));
-        }
-
-        return () => {
-            if (socket) {
-                socket.removeListener('switchAgendaPage');
-                socket.removeListener('alreadyInRoom');
-                socket.removeListener('updateUserList');
-                socket.removeListener('reload');
-                socket.removeListener('getOnlineCount');
-                socket.removeListener('deliverPrize');
-                socket.removeListener('groupChatOpen');
-            }
-        };
+        // if (socket) {
+        // 監聽切換 agenda 事件
+        // socket.on('switchAgendaPage', (data: any) =>
+        //     handleReceiveSwitchAgendaPageJob(data),
+        // );
+        // // 監聽重複登入事件，登出使用者
+        // socket.on('alreadyInRoom', (data: any) =>
+        //     handleLoginDuplicated(data),
+        // );
+        // // 監聽後台 drop 用戶清單，將用戶導向至 landing page
+        // socket.on('updateUserList', () => handleUpdateUserList());
+        // // 監聽後台重新整理特定用戶頁面
+        // socket.on('reload', () => handleReload());
+        // // 監聽獲取目前在線人數
+        // socket.on('getOnlineCount', (data: any) =>
+        //     handleGetOnlineCount(data),
+        // );
+        // // 監聽接收抽獎獎品
+        // socket.on('deliverPrize', (data: any) => handleReceivePrize(data));
+        // 監聽聊天
+        // socket.on('message', (data: any) => handleMessage(data));
+        // }
+        // return () => {
+        //     if (socket) {
+        //         socket.removeListener('switchAgendaPage');
+        //         socket.removeListener('alreadyInRoom');
+        //         socket.removeListener('updateUserList');
+        //         socket.removeListener('reload');
+        //         socket.removeListener('getOnlineCount');
+        //         socket.removeListener('deliverPrize');
+        //         socket.removeListener('groupChatOpen');
+        //     }
+        // };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -162,34 +183,6 @@ const Main: FC = () => {
         // }
         // checkGroupChatOpenStatus();
     }, []);
-
-    /**
-     * socket 斷線 console.log
-     */
-    useEffect(() => {
-        if (!socketOn) {
-            const timer5 = window.setTimeout(() => {
-                // onDeliverSocketDisconnect({ code, des: '5' })
-            }, 5000);
-
-            const timer30 = window.setTimeout(() => {
-                // onDeliverSocketDisconnect({ code, des: '30' })
-                setShowReload(true);
-            }, 30000);
-
-            timer5Ref.current = timer5;
-            timer30Ref.current = timer30;
-        } else {
-            setShowReload(false);
-            clearTimeout(timer5Ref.current);
-            clearTimeout(timer30Ref.current);
-        }
-
-        return () => {
-            clearTimeout(timer5Ref.current);
-            clearTimeout(timer30Ref.current);
-        };
-    }, [socketOn]);
 
     /**
      * 根據語言及活動 id 訂定初始畫面
@@ -366,7 +359,7 @@ const Main: FC = () => {
     console.log('openAnimation:' + openAnimation, showMain);
     return (
         <div className="main-wrap" id="main-wrap">
-            <button onClick={() => dispatch(postMessage())}>message</button>
+            {/* <button onClick={() => dispatch(postMessage())}>message</button> */}
             <CustomModal
                 showModal={showModal}
                 handleCloseModal={handleCloseModal}
@@ -452,14 +445,14 @@ const Main: FC = () => {
                         </div>
                     </div>
 
-                    {/* {!socketOn ? (
+                    {!showReload ? (
                         <DisconnectedSkeleton
                             showReload={showReload}
                             handleReload={handleReload}
                         />
-                    ) : ( */}
-                    <InteractiveSec setChangeEvent={setChangeEvent} />
-                    {/* )} */}
+                    ) : (
+                        <InteractiveSec setChangeEvent={setChangeEvent} />
+                    )}
                 </div>
             </ModalContext.Provider>
         </div>

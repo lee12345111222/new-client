@@ -8,7 +8,7 @@ export function sktFetch<T = any>(
     return new Promise(resolve => {
         const socket = getSocket();
         socket.emit(event, data, ({ error, data }: any) => {
-            console.log(error, data, 'pro');
+            console.log(event, data, 'event, data');
             resolve({ error, data });
         });
     });
@@ -149,7 +149,7 @@ export const getWeekDay = (date: any) => {
 export const getOssUrl = (key: string) => {
     return (
         'https://oss.uppmkt.com/amplify/' +
-        localStorage.getItem('eventCode') +
+        sessionStorage.getItem('eventCode') +
         '/' +
         key
     );

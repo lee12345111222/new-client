@@ -6,14 +6,13 @@ import { sktFetch } from './fn';
  * @param socketId
  * @param code
  */
-export function joinInitRoom(roomId: string) {
-    console.log(roomId, 'roomId')
-    sktFetch('room', {
+export async function joinInitRoom(roomId: string) {
+    await sktFetch('room', {
         action: 'join',
         data: {
             roomId,
         },
-    }).then(res => console.log(res, 'room'));
+    });
 }
 
 /**
@@ -78,39 +77,23 @@ export async function changeEvent(
 
 /**
  * 傳送訊息或問題至後台做審查
- * @param from 傳送者 id
- * @param to 回覆至的訊息 id
- * @param msgId 該則訊息的 id
- * @param type 訊息類型
- * @param room 傳送的房間， event id
  * @param content 傳送內容
- * @param createTime 創建時間
- * @returns 錯誤訊息
  */
 export async function deliverMessageToConsole<T extends string>(
-    from: T,
-    to: null | {
-        replied_id: T;
-        repliedAvatar: T;
-        repliedName: T;
-        repliedContent: T;
-    },
-    msgId: T,
-    type: T,
-    room: T,
     content: T,
-    createTime: number,
+    parent: T | undefined,
+    type: T | undefined,
 ) {
-    const { error } = await sktFetch('deliverMessageToConsole', {
-        from,
-        to,
-        msgId,
-        type,
-        room,
-        content,
-        createTime,
+    sktFetch('message', {
+        action: 'add',
+        data: {
+            content,
+            // parent: parent || null,
+            // type: type || null,
+        },
     });
-    return error;
+
+    // return err;
 }
 
 /**

@@ -43,6 +43,7 @@ import { ModalContext, ModalProps } from '../Main';
 import AfterEventSurvey from '../afterEventSurvey/AfterEventSurvey';
 // import DuringEventSurvey from '../duringEventSurvey/DuringEventSurvey'
 import { Links } from '../../../utils/links';
+import { Obj } from '../../../store/globalSlice';
 
 import '../../../styles/interactive.scss';
 import '../../../styles/luckyDrawTransition.scss';
@@ -62,6 +63,7 @@ export type MessageAndQuestionProps = {
 
 type InteractiveSecProps = {
     setChangeEvent: Dispatch<SetStateAction<boolean>>;
+    socketOn: boolean;
 };
 
 const INIT_REPLIED_DETAIL = {
@@ -110,7 +112,10 @@ type MessageLocal = {
     response?: any[];
 };
 
-const InteractiveSec: FC<InteractiveSecProps> = ({ setChangeEvent }) => {
+const InteractiveSec: FC<InteractiveSecProps> = ({
+    setChangeEvent,
+    socketOn,
+}) => {
     const messageInputRef = useRef<HTMLTextAreaElement>(null);
     const currentSurveyRef = useRef<any>(null);
     const timerRef = useRef<number>(0);
@@ -129,43 +134,28 @@ const InteractiveSec: FC<InteractiveSecProps> = ({ setChangeEvent }) => {
     );
     const [luckyDrawAnimation, setLuckyDrawAnimation] = useState(false);
 
-    const [restPostSurveyPage, setRestPostSurveyPage] = useState(0);
-    const [selectedOption, setSelectedOption] = useState<any[]>([]);
     const [textAnswer, setTextAnswer] = useState<string>('');
     const [boxChecked, setBoxChecked] = useState<string[]>([]);
     const [showUnlockResult, setShowUnlockResult] = useState(false);
     const [postSurveyShow, setPostSurveyShow] = useState(false);
     const [showReply, setShowReply] = useState(false);
-    // const [middleSurveyStart, setMiddleSurveyStart] = useState(0)
-
-    const {
-        user: {
-            user: {
-                _id,
-                code,
-                name,
-                avatar,
-                company,
-                googler,
-                eventId,
-                helper,
-                admin,
-                whoSharedWalkin,
-            },
-            scoreDetail,
-            swag: { finishSwag },
-        },
-    }: // middleSurvey: { middleSurveys },
-    // result: { middleResult },
-    any = { user: { user: {}, swag: {} } };
 
     const intl = useIntl();
 
-    const { global }: any = useSelector(state => {
+    const { main }: any = useSelector(state => {
         return state;
     });
 
-    const { socket, socketId, socketOn } = global;
+    const {
+        mainInitial: { tabs = [] },
+        socket,
+        postSurveys,
+        middleSurveys = [],
+    } = main;
+    const tabsObj: Obj = {};
+    tabs.forEach((ele: Obj) => {
+        tabsObj[ele.name] = 1;
+    });
 
     const { setShowModal, setModalContent } = useContext(
         ModalContext,
@@ -181,204 +171,32 @@ const InteractiveSec: FC<InteractiveSecProps> = ({ setChangeEvent }) => {
     }, [dispatch]);
 
     /**
-     * 確認會後問卷開啟狀態
+     * 確認會中卷開啟狀態
      */
     useEffect(() => {
-        // async function checkStatus() {
-        //     const data = await checkPostSurveyStatus();
-        //     setPostSurveyShow(data);
-        // }
+        if (middleSurveys.length && middleSurveys[0].category === 'middle') {
+            const { shiftTime = 30 } = middleSurveys[0];
 
-        // checkStatus();
-    }, []);
-
-    /**
-     * 確認會後中卷開啟狀態
-     */
-    // useEffect(() => {
-    //     async function checkStatus() {
-    //         const data = await checkMiddleSurveyStatus()
-
-    //         setMiddleSurveyShow(data.middleSurveyShow)
-    //         setMiddleSurveyStart(data.timeStart)
-
-    //         if (data.middleSurveyShow) {
-    //             if (timerRef.current) window.clearTimeout(timerRef.current)
-    //             const now = new Date().getTime()
-    //             const timer = window.setTimeout(() => {
-    //                 onGetMiddleSurveyResult({ eventId })
-    //             }, data.timeStart + 100000 - now)
-    //             timerRef.current = timer
-    //         }
-    //     }
-
-    //     checkStatus()
-    // }, [])
-
-    /**
-     * 獲取該會場的所有會後問卷內容
-     */
-    useEffect(() => {
-        // onGetAllPostSurvey({ eventId })
-        // onGetAllMiddleSurvey({ eventId })
-    }, [eventId]);
-
-    /**
-     * socket.io 監聽
-     */
-    useEffect(() => {
-        // 監聽通過審核的訊息
-        // socket.on('deliverPassedSpeech', (data: any) =>
-        //     receivePassedSpeech(data),
-        // );
-        // // 監聽通過審核的問題
-        // socket.on('deliverPassedQuestion', (data: any) =>
-        //     receivePassedQuestion(data),
-        // );
-        // // 監聽定時自動發送訊息
-        // socket.on('sendChatbot', (data: any) => handleReceiveChatbotJob(data));
-        // // 監聽定時幸運抽獎
-        // socket.on('luckyDraw', (data: any) => handleReceiveLuckyDraw(data));
-        // // 監聽定時自動導向會後問卷頁面
-        // socket.on('postSurveyGuiding', (data: any) =>
-        //     handleReceivePostSurveyGuiding(data),
-        // );
-        // // 監聽定時自動發送問卷
-        // socket.on('sendSurvey', (data: any) =>
-        //     handleReceiveRaiseSurveyJob(data),
-        // );
-        // // 監聽開關會後問卷
-        // socket.on('postSurveyOpen', (data: any) => handlePostSurveyOpen(data));
-        // // 監聽排行榜更新
-        // socket.on('deliverLeaderBoard', (data: any) =>
-        //     handleLeaderBoardUpdate(data),
-        // );
-        // // 監聽用戶積極參與互動分數更新
-        // socket.on('deliverUserScore', (data: any) =>
-        //     handleReceiveUserScore(data),
-        // );
-
-        // return () => {
-        //     socket.removeListener('deliverPassedSpeech');
-        //     socket.removeListener('deliverPassedQuestion');
-        //     socket.removeListener('sendChatbot');
-        //     socket.removeListener('luckyDraw');
-        //     socket.removeListener('postSurveyGuiding');
-        //     socket.removeListener('sendSurvey');
-        //     socket.removeListener('postSurveyOpen');
-        //     socket.removeListener('deliverLeaderBoard');
-        //     socket.removeListener('deliverUserScore');
-        // };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    /**
-     * 接收用戶分數更新
-     */
-    const handleReceiveUserScore = (data: { userScore: any }) => {
-        const { userScore } = data;
-        // if (userScore) updateUserScoreDetail({ scoreDetail: userScore })
-    };
-
-    /**
-     * 接收分數排行榜更新
-     */
-    const handleLeaderBoardUpdate = (data: LeaderBoardData) => {
-        const { leaders } = data;
-        // updateLeaderBoard({ leaders })
-    };
-
-    /**
-     * 開啟會後問卷
-     */
-    const handlePostSurveyOpen = ({
-        postSurveyShow,
-        postsurveySlug,
-    }: PostSurveyShowData) => {
-        setPostSurveyShow(postSurveyShow);
-        if (postSurveyShow) navigate('/main/' + postsurveySlug);
-    };
-
-    /**
-     * 處理會後問卷彈窗顯示
-     */
-    const handlePostSurveyJob = () => {
-        if (timerRef.current) window.clearTimeout(timerRef.current);
-
-        const timer = window.setTimeout(() => {
-            currentSurveyRef.current = null;
-            setSurveyShow(false);
-        }, parseInt(process.env.REACT_APP_POST_SURVEY_WAITING_TIME as string));
-
-        timerRef.current = timer;
-    };
-
-    /**
-     * 接收問卷定時任務訊息後需觸發事件
-     * @param data 發送問卷資訊物件及該則任務 id
-     */
-    const handleReceiveRaiseSurveyJob = async (data: RaiseSurveyEventData) => {
-        const {
-            payload: { surveyData },
-            message,
-        } = data;
-
-        if (!currentSurveyRef.current && Object.keys(surveyData).length > 0) {
-            console.log({ message });
-
-            currentSurveyRef.current = surveyData;
+            const timer = window.setTimeout(() => {
+                setSurveyShow(false);
+                setThanksShow(null);
+            }, shiftTime * 1000);
             setSurveyShow(true);
-
-            handlePostSurveyJob();
-
-            receiveSurvey({ code, currentEventId: eventId });
-            // onDeliverMiddleSurvey({ code, surveyId: surveyData.surveyId, socketId })
-        } else return;
-    };
-
-    const handleCollectionAnswer = () => {
-        const options = (currentSurveyRef.current as any).options;
-
-        const correct = options
-            .filter((option: any) => {
-                if (option.isAnswer || option.isAnswer === '1') {
-                    return option.option;
-                }
-            })
-            .map((o: any) => o.option);
-        return correct;
-    };
+        }
+    }, [middleSurveys]);
 
     /**
      * 提交問卷選擇項目
      * @param selectedOption 用戶選擇選項陣列
      * @param surveyData { _id: 用戶 id, category: 問卷類型 }
      */
-    const handleSubmitSurveyAnswer = (
-        selectedOption: any[],
-        surveyData: { surveyId: string; category: string },
-    ) => {
-        if (selectedOption.length > 0) {
-            const correct = handleCollectionAnswer();
-            const sendingSurvey = {
-                ...surveyData,
-                selected: selectedOption,
-                correct,
-            };
-
-            // onPostUserSurveyResult({ sendingSurvey, userId: _id, userCode: code, eventId, scoreDetail })
-
-            handleAfterSubmitSurveyAnswer();
-
-            // if (surveyData.category === 'post') handleAfterSubmitSurveyAnswer()
-            // else if (surveyData.category === 'middle') setThanksShow('_middle')
-        }
-    };
-
-    /**
-     * 會後問卷提交後顯示感謝填寫畫面，並設定該畫面自動關閉時間
-     */
-    const handleAfterSubmitSurveyAnswer = () => {
+    const handleSubmitSurveyAnswer = () => {
+        const { id, code, choiceIndexes } = middleSurveys[0];
+        const data = [{ id, code, choiceIndexes }];
+        socket.emit('survey', {
+            action: 'answer',
+            data,
+        });
         if (timerRef.current) window.clearTimeout(timerRef.current);
 
         const timer = window.setTimeout(() => {
@@ -392,20 +210,7 @@ const InteractiveSec: FC<InteractiveSecProps> = ({ setChangeEvent }) => {
     };
 
     /**
-     * 接收聊天室自動訊息定時任務訊息後需觸發事件
-     * @param data chatbot 自動訊息 helper 資訊物件及該則任務 id
-     */
-    const handleReceiveChatbotJob = async (data: ReceiveChatbotEventData) => {
-        const {
-            payload: { helper, helperSpeech_id },
-            message,
-        } = data;
-
-        console.log({ message });
-
-        handleSubmitChatbotMessage(message, helper, helperSpeech_id);
-    };
-
+ 
     /**
      * 接收幸運抽獎定時任務後需觸發事件
      * @param data
@@ -434,112 +239,6 @@ const InteractiveSec: FC<InteractiveSecProps> = ({ setChangeEvent }) => {
     };
 
     /**
-     * 接收導向會後問卷頁面定時任務後需觸發事件
-     * @param data
-     */
-    const handleReceivePostSurveyGuiding = async (
-        data: ReceivePostSurveyGuidingEventData,
-    ) => {
-        const { message } = data;
-
-        console.log({ message });
-
-        navigate('/main/post');
-    };
-
-    /**
-     * 處理通過審核訊息，更新 chat state messages 陣列
-     * @param data 審核通過單則訊息物件
-     */
-    const receivePassedSpeech = (data: { approved: any }) => {
-        const { approved } = data;
-
-        // updateLocalMessage(approved)
-    };
-
-    /**
-     * 處理通過審核問題，更新 question state questions 陣列
-     * @param data 審核通過單則問題物件
-     */
-    const receivePassedQuestion = (data: any) => {
-        // updateLocalQuestion(data)
-    };
-
-    /**
-     * 處理 Chatbot 訊息傳送至後台做審核
-     * @param message 訊息內容
-     * @param helper 是否為自動訊息
-     * @param helperSpeech_id chatbot helper id
-     * @returns
-     */
-    const handleSubmitChatbotMessage = async (
-        message: string,
-        helper: any,
-        helperSpeech_id: string,
-    ) => {
-        if (message.length === 0) return;
-
-        const msgId = new ObjectID(helperSpeech_id).toString();
-        const createTime = Date.now();
-
-        if (helper && helper._id) {
-            const { eventId, _id, name, avatar, company } = helper;
-            const messageLocal = {
-                to: null,
-                type: 'text',
-                content: xss(message),
-                msgId,
-                createTime,
-                eventId,
-                _id,
-                name,
-                avatar,
-                company,
-                googler: true,
-                approved: true,
-                helper: true,
-                response: [],
-            };
-            const addLocal = handleAddToSelf(messageLocal);
-
-            // addLocal(addLocalMessage)
-        }
-    };
-
-    /**
-     * 將輸入訊息加入本地 state
-     */
-    const handleAddToSelf = (messageLocal: MessageLocal) => {
-        // const { to, type, msgId, content, createTime, response, approved } = messageLocal
-        // const from = {
-        //     _id: _id,
-        //     name,
-        //     avatar,
-        //     company,
-        //     googler,
-        //     helper,
-        // }
-        // let pkg: Message | Question
-        // const dispatchPkg = {
-        //     _id: msgId,
-        //     type,
-        //     content,
-        //     createTime,
-        //     approved,
-        //     from,
-        //     room: eventId,
-        //     to,
-        // }
-        // if (type === 'question' || type === 'response') {
-        //     pkg = {
-        //         ...dispatchPkg,
-        //         response,
-        //     } as Question
-        // } else pkg = dispatchPkg as Message
-        // return (addLocal: Dispatch<Message | Question>) => addLocal(pkg)
-    };
-
-    /**
      * 傳送訊息至後台等待驗證
      * @param userId 用戶 id
      * @param to 回覆訊息，null 為全體
@@ -551,52 +250,28 @@ const InteractiveSec: FC<InteractiveSecProps> = ({ setChangeEvent }) => {
      * @returns 訊息 id
      */
     const handleSendMessage = async (
-        userId: string,
-        to: RepliedDetail | null,
-        msgId: string,
-        type: string,
         content: string,
-        createTime: number,
-        eventId: string,
+        parent?: string,
+        type?: string,
     ) => {
-        const error = await deliverMessageToConsole<string>(
-            userId,
-            to,
-            msgId,
-            type,
-            eventId,
+        console.log(socket, 'socket');
+        const data = {
             content,
-            createTime,
-        );
-        if (!error) {
-            const messageLocal = {
-                to,
-                type,
-                content: xss(content),
-                msgId,
-                createTime,
-                eventId,
-                _id,
-                name,
-                avatar,
-                company,
-                googler,
-                approved: false,
-                helper,
-                response: [],
-            };
-            const addLocal = handleAddToSelf(messageLocal);
-
-            // if (type === 'text') addLocal(addLocalMessage)
-            // else if (type === 'sticker') addLocal(addLocalMessage)
-            // else if (type === 'question' || type === 'response') addLocal(addLocalQuestion)
-
-            setReplied(INIT_REPLIED_DETAIL);
-            setShowReply(false);
-        } else {
-            setModalContent(error);
-            setShowModal(true);
+            parent,
+            type,
+        };
+        if (!parent) {
+            delete data.parent;
         }
+        if (!type) {
+            delete data.type;
+        }
+        socket.emit('message', {
+            action: 'add',
+            data,
+        });
+        setReplied(INIT_REPLIED_DETAIL);
+        setShowReply(false);
     };
 
     /**
@@ -620,23 +295,9 @@ const InteractiveSec: FC<InteractiveSecProps> = ({ setChangeEvent }) => {
 
         if (message.length === 0) return;
 
-        const msgId = new ObjectID().toString();
-        const createTime = Date.now();
-
-        let to: null | RepliedDetail = null;
-        if (replied.replied_id.length > 0) to = replied;
-
         message = message.replace(/\n|\r\n/g, '<br>');
 
-        handleSendMessage(
-            _id,
-            to,
-            msgId,
-            type,
-            xss(message),
-            createTime,
-            eventId,
-        );
+        handleSendMessage(message, replied.replied_id, type);
 
         if (type !== 'sticker') {
             if (messageInputRef.current) messageInputRef.current.value = '';
@@ -646,26 +307,6 @@ const InteractiveSec: FC<InteractiveSecProps> = ({ setChangeEvent }) => {
         if (messageInputRef && messageInputRef.current)
             messageInputRef.current.focus();
     };
-
-    /**
-     * 處理輸入框訊息傳送
-     * @param type 提問區
-     */
-    // const handleResponseSubmit = (type: string, response: string, repliedDetail: RepliedDetail) => {
-    //     if (!socketOn) {
-    //         setModalContent(intl.formatMessage({ id: 'main.FAIL_TO_SEND_MSG' }))
-    //         setShowModal(true)
-    //     }
-
-    //     const message = response.trim()
-
-    //     if (message.length === 0) return
-
-    //     const msgId = new ObjectID().toString()
-    //     const createTime = Date.now()
-
-    //     handleSendMessage(_id, repliedDetail, msgId, type, xss(message), createTime, eventId)
-    // }
 
     /**
      * 處理訊息傳送鍵盤事件
@@ -796,76 +437,92 @@ const InteractiveSec: FC<InteractiveSecProps> = ({ setChangeEvent }) => {
                 <>{luckyWinner}</>
             ) : (
                 <>
-                    <NavigateBar setChangeEvent={setChangeEvent} />
+                    <NavigateBar
+                        setChangeEvent={setChangeEvent}
+                        tabsObj={tabsObj}
+                    />
                     <div
                         className="interactive-routers-wrap"
                         style={{ overflow: 'scroll' }}
                     >
-                        {!(helper || admin || googler || whoSharedWalkin) &&
-                            !finishSwag && <SwagDrawing />}
+                        {/* {!(helper || admin || googler || whoSharedWalkin) &&
+                            !finishSwag && <SwagDrawing />} */}
                         {surveyShow && (
                             <SurveySec
                                 thanksShow={thanksShow}
-                                currentSurveyRef={currentSurveyRef}
+                                middleSurveys={middleSurveys}
                                 handleSubmitSurveyAnswer={
                                     handleSubmitSurveyAnswer
                                 }
                             />
                         )}
+
                         <Routes>
-                            <Route
-                                path="/"
-                                element={
-                                    <Chatroom
-                                        messageInputRef={messageInputRef}
-                                        handleSubmitMessage={
-                                            handleSubmitMessage
-                                        }
-                                        handleInputKeyDown={handleInputKeyDown}
-                                        setIsInputtingMandarin={
-                                            setIsInputtingMandarin
-                                        }
-                                        setInputContent={setInputContent}
-                                        inputContent={inputContent}
-                                        type="text"
-                                        handleReplyMessageClick={
-                                            handleReplyMessageClick
-                                        }
-                                        handleRepliedDetailClose={
-                                            handleRepliedDetailClose
-                                        }
-                                        replied={replied}
-                                        showReply={showReply}
-                                        handleSendSticker={handleSendSticker}
-                                        handleSendEmoji={handleSendEmoji}
-                                    />
-                                }
-                            />
-                            <Route
-                                path="/post"
-                                element={
-                                    <AfterEventSurvey
-                                        restPostSurveyPage={restPostSurveyPage}
-                                        setRestPostSurveyPage={
-                                            setRestPostSurveyPage
-                                        }
-                                        setShowUnlockResult={
-                                            setShowUnlockResult
-                                        }
-                                        showUnlockResult={showUnlockResult}
-                                        resultRef={resultRef}
-                                        selectedOption={selectedOption}
-                                        setSelectedOption={setSelectedOption}
-                                        textAnswer={textAnswer}
-                                        setTextAnswer={setTextAnswer}
-                                        boxChecked={boxChecked}
-                                        setBoxChecked={setBoxChecked}
-                                        postSurveyShow={postSurveyShow}
-                                    />
-                                }
-                            />
-                            <Route path="/score" element={<PersonalScore />} />
-                            <Route path="/leaders" element={<LeaderBoard />} />
+                            {tabsObj['chat'] ? (
+                                <Route
+                                    path="/"
+                                    element={
+                                        <Chatroom
+                                            messageInputRef={messageInputRef}
+                                            handleSubmitMessage={
+                                                handleSubmitMessage
+                                            }
+                                            handleInputKeyDown={
+                                                handleInputKeyDown
+                                            }
+                                            setIsInputtingMandarin={
+                                                setIsInputtingMandarin
+                                            }
+                                            setInputContent={setInputContent}
+                                            inputContent={inputContent}
+                                            type="text"
+                                            handleReplyMessageClick={
+                                                handleReplyMessageClick
+                                            }
+                                            handleRepliedDetailClose={
+                                                handleRepliedDetailClose
+                                            }
+                                            replied={replied}
+                                            showReply={showReply}
+                                            handleSendSticker={
+                                                handleSendSticker
+                                            }
+                                            handleSendEmoji={handleSendEmoji}
+                                        />
+                                    }
+                                />
+                            ) : null}
+                            {tabsObj['survey'] ? (
+                                <Route
+                                    path="/post"
+                                    element={
+                                        <AfterEventSurvey
+                                            setShowUnlockResult={
+                                                setShowUnlockResult
+                                            }
+                                            showUnlockResult={showUnlockResult}
+                                            resultRef={resultRef}
+                                            textAnswer={textAnswer}
+                                            setTextAnswer={setTextAnswer}
+                                            boxChecked={boxChecked}
+                                            setBoxChecked={setBoxChecked}
+                                            postSurveyShow={postSurveyShow}
+                                        />
+                                    }
+                                />
+                            ) : null}
+                            {tabsObj['score'] ? (
+                                <Route
+                                    path="/score"
+                                    element={<PersonalScore />}
+                                />
+                            ) : null}
+                            {tabsObj['rank'] ? (
+                                <Route
+                                    path="/leaders"
+                                    element={<LeaderBoard />}
+                                />
+                            ) : null}
                         </Routes>
                     </div>
                 </>

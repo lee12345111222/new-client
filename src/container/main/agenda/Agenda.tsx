@@ -23,26 +23,9 @@ const Agenda: FC<AgendaProps> = ({ sliderRef, agendas }) => {
     const { jsonData } = useContext(localeContext) as LocaleProps;
 
     const {
-        user: {
-            user: { eventId },
-        },
         agenda: { agenda = [], symbols, current },
     }: any = { user: { user: {} }, agenda: {} };
-
-    /**
-     * 初始化 agenda 清單
-     */
-    useEffect(() => {
-        if (eventId) {
-            if (!agenda || agenda.length <= 0) {
-                const topicVals = handleGetTopics(eventId, jsonData);
-                // initAgenda({ agenda: [...new Set(topicVals)] })
-            }
-
-            const symbols = handleGetSymbols(eventId, jsonData);
-            // initSymbols({ symbols: [...new Set(symbols)] })
-        } else return;
-    }, [eventId, agenda.length]);
+    const eventId: string = sessionStorage.getItem('eventCode') || '';
 
     // slick config
     const settings = {

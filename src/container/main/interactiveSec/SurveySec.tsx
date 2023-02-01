@@ -5,20 +5,20 @@ import { useIntl } from 'react-intl';
 // import { SelectedOption, MiddleSurveys } from '../../../state'
 // import { useTypedSelector } from '../../../hooks/useTypedSelector'
 import { Links } from '../../../utils/links';
+import { Obj } from '../../../store/globalSlice';
+import { updateState } from '../../../store/mainSlice';
+import { useDispatch } from 'react-redux';
 
 const { Panel } = Collapse;
 
 type SurveySecProps = {
-    currentSurveyRef: any;
-    handleSubmitSurveyAnswer(
-        selectedOption: any[],
-        surveyData: { surveyId: string; category: string },
-    ): void;
+    middleSurveys: Obj[];
+    handleSubmitSurveyAnswer(): void;
     thanksShow: '_post' | '_middle' | null;
 };
 
 const SurveySec: FC<SurveySecProps> = ({
-    currentSurveyRef,
+    middleSurveys = [],
     thanksShow,
     handleSubmitSurveyAnswer,
 }) => {
@@ -27,43 +27,45 @@ const SurveySec: FC<SurveySecProps> = ({
     const [boxChecked, setBoxChecked] = useState<string[]>([]);
 
     const {
-        result: { result, total, correct },
-    }: any = {};
+        result: { result = [], total, correct },
+    }: any = { result: {} };
+    const currentSurveyRef: any = {};
 
-    const intl = useIntl();
-
-    /**
-     * 判斷選中選項是否大於 0，disable submit button
-     */
-    useEffect(() => {
-        if (selectedOption.length > 0) setSubmitDisabled(false);
-        else setSubmitDisabled(true);
-    }, [selectedOption.length]);
+    const dispatch = useDispatch();
 
     /**
      * 處理點擊選項，將選中項目加入待提交陣列
-     * @param pkg 選中目標資訊物件
+     *
      */
-    const handleOptionClick = (pkg: any) => {
-        if (pkg.type === 'multiple') {
-            if (!boxChecked.includes(pkg.option)) {
-                setBoxChecked(state => [...state, pkg.option]);
-                setSelectedOption(state => [...state, pkg]);
-            } else {
-                setBoxChecked(state => state.filter(s => s !== pkg.option));
-                setSelectedOption(state =>
-                    state.filter(s => s.option !== pkg.option),
+    const handleOptionClick = (idx: string, type: string) => {
+        console.log(idx, type);
+        const newObj: Obj[] = JSON.parse(JSON.stringify(middleSurveys));
+        let { choiceIndexes = [], answer } = newObj[0];
+        if (type === 'multiple') {
+            if (choiceIndexes.includes(idx)) {
+                choiceIndexes = choiceIndexes.filter(
+                    (ele: string) => idx !== ele,
                 );
-            }
-        } else if (pkg.type === 'single') {
-            if (!boxChecked.includes(pkg.option)) {
-                setBoxChecked([pkg.option]);
-                setSelectedOption([pkg]);
             } else {
-                setBoxChecked([]);
-                setSelectedOption([]);
+                choiceIndexes.push(idx);
             }
-        } else return;
+        } else if (type === 'single') {
+            if (choiceIndexes.includes(idx)) {
+                choiceIndexes = choiceIndexes.filter((ele: string) => {
+                    console.log(idx);
+                    return idx !== ele;
+                });
+            } else {
+                choiceIndexes = [idx];
+            }
+        }
+        newObj[0] = {
+            ...newObj[0],
+            choiceIndexes,
+            answer,
+        };
+        console.log(newObj, 'newObj');
+        dispatch(updateState({ key: 'middleSurveys', value: newObj }));
     };
 
     if (result && result.length) {
@@ -127,7 +129,7 @@ const SurveySec: FC<SurveySecProps> = ({
                             </div>
                             <div className="survey-result-unlock-content">
                                 <img src={Links.UNLOCK_LOCK} alt="lock" />
-                                {intl.formatMessage({ id: 'main.Unlock' })}
+                                参与活动内所有问答，并完成提交，即可解锁观看回放及活动精彩内容。
                             </div>
                         </div>
                     </div>
@@ -138,11 +140,7 @@ const SurveySec: FC<SurveySecProps> = ({
 
     return (
         <Collapse defaultActiveKey={['1']} className="survey-collapse">
-            <Panel
-                className="survey-panel"
-                header={intl.formatMessage({ id: 'main.Live Polling' })}
-                key="1"
-            >
+            <Panel className="survey-panel" header="有奖问答" key="1">
                 <h3>
                     {currentSurveyRef.current &&
                         currentSurveyRef.current.subject}
@@ -158,65 +156,51 @@ const SurveySec: FC<SurveySecProps> = ({
                             />
                         </div>
                         {thanksShow === '_post'
-                            ? intl.formatMessage({ id: 'main.Done!' })
-                            : intl.formatMessage({ id: 'main.WaitOtherUser' })}
+                            ? '作答完成'
+                            : '等待其他用户作答 ...'}
                     </div>
                 ) : (
                     <>
                         <div className="survey-options">
-                            {currentSurveyRef.current &&
-                                currentSurveyRef.current.options.map(
-                                    (option: any) => (
-                                        <div key={option.option}>
+                            {middleSurveys[0].choices.map(
+                                (option: any, idx: string) => {
+                                    const { choiceIndexes = [], type } =
+                                        middleSurveys[0];
+                                    return (
+                                        <div key={idx}>
                                             <input
-                                                id={option.option}
+                                                id={option}
                                                 type="checkbox"
                                                 className="survey-options-checkbox"
-                                                checked={boxChecked.includes(
-                                                    option.option,
+                                                checked={choiceIndexes.includes(
+                                                    idx,
                                                 )}
                                                 onChange={() =>
-                                                    handleOptionClick({
-                                                        option: option.option,
-                                                        type: (
-                                                            currentSurveyRef.current as any
-                                                        ).type,
-                                                    })
+                                                    handleOptionClick(idx, type)
                                                 }
                                             />
                                             <label
-                                                htmlFor={option.option}
+                                                htmlFor={option}
                                                 className="survey-options-label"
                                                 onChange={() =>
-                                                    handleOptionClick({
-                                                        option: option.option,
-                                                        type: (
-                                                            currentSurveyRef.current as any
-                                                        ).type,
-                                                    })
+                                                    handleOptionClick(idx, type)
                                                 }
                                                 role="presentation"
                                             >
-                                                {option.option}
+                                                {option}
                                             </label>
                                         </div>
-                                    ),
-                                )}
+                                    );
+                                },
+                            )}
                         </div>
 
                         <Button
                             className="survey-btn"
-                            disabled={submitDisabled}
-                            onClick={() =>
-                                handleSubmitSurveyAnswer(selectedOption, {
-                                    surveyId: (currentSurveyRef.current as any)
-                                        .surveyId,
-                                    category: (currentSurveyRef.current as any)
-                                        .category,
-                                })
-                            }
+                            disabled={!middleSurveys[0].choiceIndexes?.length}
+                            onClick={() => handleSubmitSurveyAnswer()}
                         >
-                            {intl.formatMessage({ id: 'main.Submit' })}
+                            提交
                         </Button>
                     </>
                 )}

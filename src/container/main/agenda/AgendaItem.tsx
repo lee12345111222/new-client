@@ -1,5 +1,7 @@
 import React, { FC, memo } from 'react';
 import { useIntl } from 'react-intl';
+import { getOssUrl } from '../../../lib/fn';
+import moment from 'moment';
 import { Obj } from '../../../store/globalSlice';
 
 type AgendaItemProps = {
@@ -31,90 +33,30 @@ const AgendaItem: FC<AgendaItemProps> = ({
                         : 'main-agenda-slide-item-time'
                 }
             >
-                <span>{symbols.startTime}</span>
+                <span>{moment(symbols.startTime).format('HH:mm')}</span>
                 <span> - </span>
-                <span>{symbols.endTime}</span>
+                <span>{moment(symbols.endTime).format('HH:mm')}</span>
             </div>
             <div className="main-agenda-slide-item-topic">
                 <span>{symbols.topic}</span>
             </div>
             <div className="main-agenda-slide-item-speaker">
-                <div className="main-agenda-slide-img-container">
-                    <img
-                        className="main-agenda-slide-img"
-                        src={intl.formatMessage({
-                            id: `${eventId}_agenda_${`${topic}_1`}.Img Url`,
-                        })}
-                        alt={`${topic}_1`}
-                    />
-                </div>
-                <div className="main-agenda-slide-content">
-                    <div className="main-agenda-slide-content-name">
-                        {intl.formatMessage({
-                            id: `${eventId}_agenda_${`${topic}_1`}.Speaker Name`,
-                        })}
-                    </div>
-                </div>
-                {symbols.includes(`${topic}_2`) && (
+                {symbols.speakers.map((ele: Obj) => (
                     <>
                         <div className="main-agenda-slide-img-container">
                             <img
                                 className="main-agenda-slide-img"
-                                src={intl.formatMessage({
-                                    id: `${eventId}_agenda_${`${topic}_2`}.Img Url`,
-                                })}
-                                alt={`${topic}_2`}
+                                src={getOssUrl(symbols.code + '_icon.png')}
+                                alt={`${topic}_1`}
                             />
                         </div>
                         <div className="main-agenda-slide-content">
                             <div className="main-agenda-slide-content-name">
-                                {intl.formatMessage({
-                                    id: `${eventId}_agenda_${`${topic}_2`}.Speaker Name`,
-                                })}
+                                {ele.name}
                             </div>
                         </div>
                     </>
-                )}
-                {symbols.includes(`${topic}_3`) && (
-                    <>
-                        <div className="main-agenda-slide-img-container">
-                            <img
-                                className="main-agenda-slide-img"
-                                src={intl.formatMessage({
-                                    id: `${eventId}_agenda_${`${topic}_3`}.Img Url`,
-                                })}
-                                alt={`${topic}_3`}
-                            />
-                        </div>
-                        <div className="main-agenda-slide-content">
-                            <div className="main-agenda-slide-content-name">
-                                {intl.formatMessage({
-                                    id: `${eventId}_agenda_${`${topic}_3`}.Speaker Name`,
-                                })}
-                            </div>
-                        </div>
-                    </>
-                )}
-                {symbols.includes(`${topic}_4`) && (
-                    <>
-                        <div className="main-agenda-slide-img-container">
-                            <img
-                                className="main-agenda-slide-img"
-                                src={intl.formatMessage({
-                                    id: `${eventId}_agenda_${`${topic}_4`}.Img Url`,
-                                })}
-                                alt={`${topic}_4`}
-                            />
-                        </div>
-                        <div className="main-agenda-slide-content">
-                            <div className="main-agenda-slide-content-name">
-                                {intl.formatMessage({
-                                    id: `${eventId}_agenda_${`${topic}_4`}.Speaker Name`,
-                                })}
-                            </div>
-                        </div>
-                    </>
-                )}
+                ))}
             </div>
         </div>
     );

@@ -2,7 +2,7 @@ import React, {
     useEffect,
     useRef,
     FC,
-    UIEvent,
+   
     useContext,
     MouseEvent,
 } from 'react';
@@ -13,8 +13,6 @@ import MessageList from './chat/MessageList';
 import MessageInput from '../../../components/ui/MessageInput';
 import { MessageAndQuestionProps } from '../interactiveSec/InteractiveSec';
 import { localeContext, LocaleProps } from '../../../index';
-import { onGetRestHistoryMessages } from '../../../store/mainSlice';
-import { useDispatch } from 'react-redux';
 
 type ChatroomProps = {
     handleReplyMessageClick: (pkg: RepliedDetail) => void;
@@ -40,7 +38,6 @@ const Chatroom: FC<MessageAndQuestionProps & ChatroomProps> = ({
     handleSendSticker,
     handleSendEmoji,
 }) => {
-    const dispatch = useDispatch();
     const scrollRef = useRef<HTMLDivElement>(null);
 
     const {
@@ -68,30 +65,9 @@ const Chatroom: FC<MessageAndQuestionProps & ChatroomProps> = ({
         }
     }, [messages.length]);
 
-    /**
-     * @param e
-     * 處理訊息表單 scroll lazy loading
-     */
-    const handleScroll = async (e: UIEvent<HTMLDivElement>) => {
-        const $scroll = e.target as HTMLDivElement;
-
-        if (
-            $scroll.scrollTop === 0 &&
-            $scroll.scrollHeight > $scroll.clientHeight &&
-            comingData
-        ) {
-            // onGetRestHistoryMessages({ _id, localMessageCount: messages.length, room: eventId })
-            dispatch(onGetRestHistoryMessages());
-        }
-    };
-
     return (
         <div className="chat-wrap">
-            <MessageList
-                scrollRef={scrollRef}
-                handleScroll={handleScroll}
-                handleReplyMessageClick={handleReplyMessageClick}
-            />
+            <MessageList handleReplyMessageClick={handleReplyMessageClick} />
 
             <MessageInput
                 section={'chatroom'}

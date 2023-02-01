@@ -4,21 +4,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-class PolyPlayer extends React.Component<any, any> {
+class PolyPlayer extends React.Component<any, any, any> {
     // eslint-disable-next-line @typescript-eslint/no-useless-constructor
     constructor(props: any) {
         super(props);
     }
 
     componentDidMount() {
-        if (!window.polyvPlayer) {
+        if (!window.polyvPlayer || !window.polyvLivePlayer) {
             // https://player.polyv.net/script/player.js /* 點播 */
             // https://player.polyv.net/resp/live-h5-player/latest/liveplayer.min.js /* 直播 */
-            this.loadScript('https://player.polyv.net/script/player.js').then(
-                () => {
-                    this.loadPlayer();
-                },
-            );
         } else {
             this.loadPlayer();
         }
@@ -30,45 +25,97 @@ class PolyPlayer extends React.Component<any, any> {
     //     }
     // }
 
-    shouldComponentUpdate(nextProps, _nextState) {
-        return nextProps.user.channelId !== this.props.user.channelId;
+    // shouldComponentUpdate(nextProps, _nextState) {
+    // return nextProps.user.channelId !== this.props.user.channelId;
+    // }
+
+    componentDidUpdate(pre) {
+        if (pre.video !== this.props.video) {
+            if (this.props.video.isLive && !window.polyvLivePlayer) {
+                this.loadScript(
+                    'https://player.polyv.net/resp/live-h5-player/latest/liveplayer.min.js',
+                ).then(() => {
+                    this.loadPlayer(true);
+                });
+            } else if (
+                this.props.video.isLive === false &&
+                !window.polyvPlayer
+            ) {
+                this.loadScript(
+                    'https://player.polyv.net/script/player.js',
+                ).then(() => {
+                    this.loadPlayer(false);
+                });
+            }
+        }
     }
 
-    componentDidUpdate() {
-        this.loadPlayer();
-    }
-
-    loadPlayer() {
+    loadPlayer(live) {
+        const { video = {} } = this.props;
+        const { vid, uid } = video;
+        const user = JSON.parse(sessionStorage.getItem('user'));
         //window.polyvPlayer /* 點播 */
         //window.polyvLivePlayer /* 直播 */
-        this.player = window.polyvPlayer({
-            wrap: '.player',
-            uid: process.env.REACT_APP_POLYV_USER_ID,
-            vid: 'a428b9c908a2688369d00bd7b4755712_a',
-            width: '100%',
-            height: '100%',
-            lang: 'en',
-            autoplay: true,
-            audioMode: false,
-            // isAutoChange: true,
-            // 點播
-            // ban_seek: 'on',
-            // ban_seek_by_limit_time: 'on',
-            viewerInfo: {
-                viewerId: this.props.user.code,
-                viewerName: this.props.user.name,
-            },
-            param1: this.props.user.code,
-            param2: this.props.user.name,
-        });
-        this.player.on('s2j_onPlayerInitOver', e => {
-            this.props.playerComplete();
-        });
+        if (live) {
+            this.player = window?.polyvLivePlayer({
+                wrap: '.player',
+                uid,
+                vid,
+                width: '100%',
+                height: '100%',
+                lang: 'en',
+                // audioMode: false,
+                isAutoChange: true,
+                // 點播
+                // ban_seek: 'on',
+                // ban_seek_by_limit_time: 'on',
+                viewerInfo: {
+                    viewerId: user.code,
+                    viewerName: user.name,
+                },
+                param1: user.code,
+                param2: user.name,
+            });
+            // this.player.on('s2j_onInitOver', e => {
+            //     console.log(e, 's2j_onInitOver');
+            //     this.props.playerComplete();
+            // });
+            this.player.on('s2j_onStartPlay', e => {
+                console.log(e, 's2j_onStartPlay');
+                this.props.playerComplete();
+            });
+            
+        } else {
+            this.player = window?.polyvPlayer({
+                wrap: '.player',
+                uid,
+                vid,
+                width: '100%',
+                height: '100%',
+                lang: 'en',
+                autoplay: true,
+                audioMode: false,
+                // isAutoChange: true,
+                // 點播
+                // ban_seek: 'on',
+                // ban_seek_by_limit_time: 'on',
+                viewerInfo: {
+                    viewerId: user.code,
+                    viewerName: user.name,
+                },
+                param1: user.code,
+                param2: user.name,
+            });
 
-        this.player.on('serverError', e => {
-            console.log(e, 'e serverError');
-            this.props.playerComplete();
-        });
+            this.player.on('s2j_onPlayerInitOver', e => {
+                this.props.playerComplete();
+            });
+
+            this.player.on('serverError', e => {
+                console.log(e, 'e serverError');
+                this.props.playerComplete();
+            });
+        }
     }
 
     loadScript(src) {
@@ -97,22 +144,14 @@ class PolyPlayer extends React.Component<any, any> {
     }
 
     render() {
-        console.log(this.props.user.channelId);
         return (
             <div
                 className="player content"
                 id="player"
                 style={{ width: '940px', height: '530px' }}
-                // key={this.props.user.channelId}
             ></div>
         );
     }
 }
 
-const mapStateToPros = state => {
-    return {
-        user: {},
-    };
-};
-
-export default connect(mapStateToPros, null)(PolyPlayer);
+export default PolyPlayer;

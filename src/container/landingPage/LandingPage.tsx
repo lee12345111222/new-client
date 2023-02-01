@@ -36,7 +36,7 @@ const LandingPage: FC = memo(() => {
     const [showMenu, setShowMenu] = useState(false);
 
     const { global }: any = useSelector(state => state);
-    const { setting = {}, userError, socket } = global;
+    const { setting = {}, userError } = global;
 
     const { main = {}, navigator = [], schedules = [] } = setting;
     const navigatorObj: Obj = {};
@@ -52,22 +52,20 @@ const LandingPage: FC = memo(() => {
     const location = useLocation();
     const navigate = useNavigate();
     const search = location.search.replace('?', '');
-    const token = localStorage.getItem('Authorization');
+    const token = sessionStorage.getItem('Authorization');
 
     useEffect(() => {
         if (token) {
             navigate('/main');
-        } else if (socket) {
-            socket.disconnect();
         }
-    }, [navigate, token, socket]);
+    }, [navigate, token]);
 
     /**
      * 獲取資料庫該服務 event id 資料
      */
     useEffect(() => {
-        dispatch(getLanding());
-        localStorage.setItem('session', search);
+        dispatch(getLanding(search));
+        sessionStorage.setItem('session', search);
     }, [dispatch, search]);
 
     /**
@@ -130,7 +128,7 @@ const LandingPage: FC = memo(() => {
                 setShowModal(true);
                 return;
             }
-            localStorage.setItem('code', code);
+            sessionStorage.setItem('code', code);
             dispatch(
                 fetchLogin(search, code, () => {
                     navigate('/main');

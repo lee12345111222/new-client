@@ -1,6 +1,9 @@
+import moment from 'moment';
 import React, { FC, memo } from 'react';
 import { useIntl } from 'react-intl';
 import Slider from 'react-slick';
+import { getOssUrl } from '../../../lib/fn';
+import { Obj } from '../../../store/globalSlice';
 
 type AgendaItemProps = {
     symbols: string[];
@@ -73,41 +76,45 @@ const DayOne: FC<AgendaItemProps> = ({ symbols }) => {
                           className="landing-page-agenda-slide-item"
                       >
                           <div className="landing-page-agenda-slide-item-time">
-                              <span>{symbol.startTime}</span>
+                              <span>
+                                  {moment(symbol.startTime).format('HH:mm')}
+                              </span>
                               <span> - </span>
-                              <span>{symbol.endTime}</span>
+                              <span>
+                                  {moment(symbol.endTime).format('HH:mm')}
+                              </span>
                           </div>
                           <div className="landing-page-agenda-slide-item-topic">
                               <span>{symbol.topic}</span>
                           </div>
                           <div className="landing-page-agenda-slide-item-speaker">
-                              <div className="landing-page-agenda-slide-img-container">
-                                  <img
-                                      className="landing-page-agenda-slide-img"
-                                      src={intl.formatMessage({
-                                          id: `${venue}_agenda_${`${symbol}`}.Img Url`,
-                                      })}
-                                      alt={`${symbol}`}
-                                  />
-                              </div>
-                              <div className="landing-page-agenda-slide-content">
-                                  <div className="landing-page-agenda-slide-content-name">
-                                      {intl.formatMessage({
-                                          id: `${venue}_agenda_${`${symbol}`}.Speaker Name`,
-                                      })}
-                                  </div>
+                              {symbol.speakers.map((ele: Obj) => (
+                                  <>
+                                      <div className="landing-page-agenda-slide-img-container">
+                                          <img
+                                              className="landing-page-agenda-slide-img"
+                                              src={getOssUrl(
+                                                  ele.code + '_icon.png',
+                                              )}
+                                              alt={`${symbol}`}
+                                          />
+                                      </div>
+                                      <div className="landing-page-agenda-slide-content">
+                                          <div className="landing-page-agenda-slide-content-name">
+                                              {ele.name}
+                                          </div>
 
-                                  <div className="landing-page-agenda-slide-content-title">
-                                      {intl.formatMessage({
-                                          id: `${venue}_agenda_${`${symbol}`}.Company name`,
-                                      })}
-                                  </div>
-                                  <div className="landing-page-agenda-slide-content-title">
-                                      {intl.formatMessage({
-                                          id: `${venue}_agenda_${`${symbol}`}.Speaker Title`,
-                                      })}
-                                  </div>
-                              </div>
+                                          <div className="landing-page-agenda-slide-content-title">
+                                              {ele.company.name}
+                                          </div>
+                                          <div className="landing-page-agenda-slide-content-title">
+                                              {intl.formatMessage({
+                                                  id: `${venue}_agenda_${`${symbol}`}.Speaker Title`,
+                                              })}
+                                          </div>
+                                      </div>
+                                  </>
+                              ))}
                           </div>
                       </div>
                   );

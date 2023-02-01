@@ -11,12 +11,12 @@ const axiosInstance = axios.create({
 // http request拦截器 添加一个请求拦截器
 axiosInstance.interceptors.request.use(
     function (config: any) {
-        let token = localStorage.getItem('Authorization');
+        let token = sessionStorage.getItem('Authorization');
         if (token) {
             config.headers.Authorization = 'Bearer ' + token;
         } else {
             // window.location.href =
-            //     'landingPage?' + localStorage.getItem('session');
+            //     'landingPage?' + sessionStorage.getItem('session');
         }
         return config;
     },
@@ -29,7 +29,6 @@ axiosInstance.interceptors.request.use(
 // 添加响应拦截器
 axiosInstance.interceptors.response.use(
     function (response) {
-        console.log(response, 'response');
         // 对响应数据做点什么
         return response;
     },
@@ -41,9 +40,9 @@ axiosInstance.interceptors.response.use(
             error.response.status === 401 &&
             error.response.statusText === 'Unauthorized'
         ) {
-            localStorage.removeItem('Authorization');
+            sessionStorage.removeItem('Authorization');
             window.location.href =
-                'landingPage?' + localStorage.getItem('session');
+                'landingPage?' + sessionStorage.getItem('session');
         }
         // 对响应错误做点什么
         return Promise.reject(error);

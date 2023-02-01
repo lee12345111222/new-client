@@ -3,9 +3,6 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import axiosInstance from '../lib/axios';
 
 export interface GlobalState {
-    socket: null | any;
-    socketId: string;
-    socketOn: boolean;
     setting: Obj;
     userInfo: Obj;
     userError: boolean;
@@ -15,9 +12,6 @@ export interface Obj {
 }
 
 const initialState: GlobalState = {
-    socket: null,
-    socketId: '',
-    socketOn: false,
     setting: {},
     userInfo: {},
     userError: false,
@@ -40,12 +34,11 @@ export const { updateState } = globalSlice.actions;
 export default globalSlice.reducer;
 
 //获取排版等页面信息
-export const getLanding: any = () => async (dispatch: any) => {
-    let res = await axiosInstance.get('landing/SES8888888', {});
-    console.log(res, 'res');
+export const getLanding: any = (search: string) => async (dispatch: any) => {
+    let res = await axiosInstance.get('landing/' + search, {});
     if (res.status === 200) {
         let data = res.data.data || {};
-        localStorage.setItem('eventCode', data.eventCode);
+        sessionStorage.setItem('eventCode', data.eventCode);
         dispatch(updateState({ key: 'setting', value: data }));
     } else {
     }
@@ -60,11 +53,11 @@ export const fetchLogin: any =
                 dispatch(updateState({ key: 'userError', value: false }));
                 let data = res.data.data.user;
                 dispatch(updateState({ key: 'userInfo', value: data }));
-                localStorage.setItem(
+                sessionStorage.setItem(
                     'Authorization',
                     res.data.data.accessToken,
                 );
-                localStorage.setItem('user', JSON.stringify(data));
+                sessionStorage.setItem('user', JSON.stringify(data));
                 callback?.();
             } else {
             }

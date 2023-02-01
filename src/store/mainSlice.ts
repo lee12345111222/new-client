@@ -9,6 +9,13 @@ export interface MainState {
     scoreList: Obj;
     surveysData: Obj;
     leaders: Obj[];
+    socket: null | any;
+    socketId: string;
+    socketOn: boolean;
+    postSurveys: Obj[];
+    middleSurveys: Obj[];
+    userPostSurveys: boolean;
+    restPostSurveyPage: number;
 }
 export interface Obj {
     [name: string]: any;
@@ -20,6 +27,13 @@ const initialState: MainState = {
     scoreList: {},
     surveysData: {},
     leaders: [],
+    socket: null,
+    socketId: '',
+    socketOn: false,
+    postSurveys: [],
+    middleSurveys: [],
+    userPostSurveys: false,
+    restPostSurveyPage: 0,
 };
 
 export const mainSlice = createSlice({
@@ -103,22 +117,52 @@ export const getRank: any = () => async (dispatch: any) => {
     }
 };
 //向上滑动获取聊天记录
-export const onGetRestHistoryMessages: any = () => async (dispatch: any) => {
-    try {
-        let res = await axiosInstance.get('messages?apifoxApiId=54484406', {});
-        if (res.status === 200) {
-            let data = res.data;
-        } else {
-            console.log('res err', res);
-        }
-    } catch (error) {
-        console.log('error', error);
-    }
-};
+export const onGetRestHistoryMessages: any =
+    (createdAt: string) => async (dispatch: any, getState: any) => {
+        try {
+            // const mainInitial
+            let res = await axiosInstance.get('messages', {
+                params: { page: createdAt },
+            });
+            if (res.status === 200) {
+                let data = res.data.data.messages;
 
-export const postMessage: any = () => async (dispatch: any) => {
+                if (data?.length) {
+                    const { mainInitial = {} } = getState().main;
+                    const {
+                        chat: { messages = [] },
+                    } = mainInitial;
+                    if (messages) {
+                        let newMsg = [...data, ...messages];
+
+                        dispatch(
+                            updateState({
+                                key: 'mainInitial',
+                                value: {
+                                    ...mainInitial,
+                                    chat: {
+                                        ...mainInitial.chat,
+                                        messages: newMsg,
+                                    },
+                                },
+                            }),
+                        );
+                    }
+                }
+            } else {
+                console.log('res err', res);
+            }
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
+export const postMessage: any = (after: boolean) => async (dispatch: any) => {
     try {
-        let res = await axiosInstance.post('message', { content: '123' });
+        let res = await axiosInstance.post(
+            '/surveys/' + (after ? 'SUR88-4' : 'SUR88-5'),
+            {},
+        );
     } catch (error) {
         dispatch(updateState({ key: 'userError', value: true }));
     }

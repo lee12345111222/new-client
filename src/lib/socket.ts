@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 
 const getSocket = () => {
-    let token: string = localStorage.getItem('Authorization') || '';
+    let token: string = sessionStorage.getItem('Authorization') || '';
 
     const socket = io(
         process.env.NODE_ENV === 'production'

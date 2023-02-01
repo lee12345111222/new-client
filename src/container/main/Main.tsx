@@ -46,10 +46,10 @@ import {
     getScore,
     getSurveys,
     postMessage,
+    updateState,
 } from '../../store/mainSlice';
 import { Obj } from '../../store/globalSlice';
 import getSocket from '../../lib/socket';
-import { io } from 'socket.io-client';
 
 export type ModalProps = {
     setModalContent: Dispatch<SetStateAction<ReactNode>>;
@@ -62,6 +62,8 @@ const handleCloseWindow = (e: BeforeUnloadEvent) => {
     e.preventDefault();
     e.returnValue = true;
 };
+
+const socket = getSocket();
 
 const Main: FC = () => {
     const [showModal, setShowModal] = useState(false);
@@ -82,11 +84,22 @@ const Main: FC = () => {
     });
 
     const { mainInitial = {} } = main;
-    const { lotteryAnimation, video, agendas = [], chat = {} } = mainInitial;
+    const {
+        lotteryAnimation,
+        video = {},
+        agendas = [],
+        navigator = [],
+        avatarStyle = '',
+        guest = {},
+    } = mainInitial;
+    const navigatorObj: Obj = {};
+    navigator.forEach((ele: Obj) => {
+        navigatorObj[ele.name] = 1;
+    });
 
     const socketRef: any = useRef();
 
-    const session = localStorage.getItem('session');
+    const session = sessionStorage.getItem('session');
 
     const dispatch = useDispatch();
 
@@ -102,76 +115,100 @@ const Main: FC = () => {
     useEffect(() => {
         dispatch(getInitial());
     }, [dispatch]);
-    useEffect(() => {
-        const socket = getSocket();
-        let id = session;
 
-        socket.on('connect', () => {
-            if (id) {
-                joinInitRoom(id)
+    const handleMessage = useCallback(
+        (data: Obj) => {
+            const { chat = {} } = mainInitial;
+            const { messages = [] } = chat;
+            console.log(mainInitial, data, messages, 'messages', chat);
+            if (messages) {
+                let newMsg = [...messages];
+                newMsg.push(data.data);
+
+                dispatch(
+                    updateState({
+                        key: 'mainInitial',
+                        value: {
+                            ...mainInitial,
+                            chat: { ...mainInitial.chat, messages: newMsg },
+                        },
+                    }),
+                );
             }
-            setShowReload(false);
+        },
+        [dispatch, mainInitial],
+    );
+
+    useEffect(() => {
+        let id = session;
+        console.log(id);
+        socket.on('connect', () => {
+            console.log(socket, 'socket');
+            if (id) {
+                socket.emit('room', {
+                    action: 'join',
+                    data: {
+                        roomId: id,
+                    },
+                });
+            }
+            dispatch(updateState({ key: 'socket', value: socket }));
+            dispatch(updateState({ key: 'socketId', value: socket.id }));
+            dispatch(updateState({ key: 'socketOn', value: true }));
+            setShowReload(true);
+        });
+        socket.on('message', (data: any) => handleMessage(data));
+        console.log('receive');
+        socket.on('survey', (res: any) => {
+            //post 会后问卷  middle会中
+            const { data = [] } = res;
+            let post = data.filter((ele: Obj) => ele.category === 'post');
+            let middle = data.filter((ele: Obj) => ele.category === 'middle');
+            dispatch(updateState({ key: 'postSurveys', value: post }));
+            dispatch(updateState({ key: 'middleSurveys', value: middle }));
+
+            socket.emit('survey', {
+                action: 'receive',
+                data: data.map((ele: Obj) => ele.id),
+            });
+            navigate('/main/post');
         });
 
         socket.on('disconnect', () => {
-            console.log(session, 'disconnect', socket);
-
-            socket.connect();
-            setShowReload(true);
+            dispatch(updateState({ key: 'socket', value: null }));
+            dispatch(updateState({ key: 'socketId', value: '' }));
+            dispatch(updateState({ key: 'socketOn', value: false }));
+            setShowReload(false);
         });
 
         return () => {
             socket.off('connect');
             socket.off('disconnect');
         };
-    }, [dispatch, session]);
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, navigate, session]);
 
     /**
      * 關閉瀏覽器分頁前提醒
      */
     useEffect(() => {
         window.addEventListener('beforeunload', handleCloseWindow);
+        window.addEventListener('error', () => {
+            console.log('error');
+            setOpenAnimation(false);
+        });
         return () =>
             window.removeEventListener('beforeunload', handleCloseWindow);
     }, []);
 
     useEffect(() => {
-        // if (socket) {
-        // 監聽切換 agenda 事件
-        // socket.on('switchAgendaPage', (data: any) =>
-        //     handleReceiveSwitchAgendaPageJob(data),
-        // );
-        // // 監聽重複登入事件，登出使用者
-        // socket.on('alreadyInRoom', (data: any) =>
-        //     handleLoginDuplicated(data),
-        // );
-        // // 監聽後台 drop 用戶清單，將用戶導向至 landing page
-        // socket.on('updateUserList', () => handleUpdateUserList());
-        // // 監聽後台重新整理特定用戶頁面
-        // socket.on('reload', () => handleReload());
-        // // 監聽獲取目前在線人數
-        // socket.on('getOnlineCount', (data: any) =>
-        //     handleGetOnlineCount(data),
-        // );
-        // // 監聽接收抽獎獎品
-        // socket.on('deliverPrize', (data: any) => handleReceivePrize(data));
-        // 監聽聊天
-        // socket.on('message', (data: any) => handleMessage(data));
-        // }
-        // return () => {
-        //     if (socket) {
-        //         socket.removeListener('switchAgendaPage');
-        //         socket.removeListener('alreadyInRoom');
-        //         socket.removeListener('updateUserList');
-        //         socket.removeListener('reload');
-        //         socket.removeListener('getOnlineCount');
-        //         socket.removeListener('deliverPrize');
-        //         socket.removeListener('groupChatOpen');
-        //     }
-        // };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        if (animateRef.current)
+            console.log(animateRef.current.addEventListener);
+
+        // animateRef.current.addEventListener('data_failed', () => {
+        //     console.log('data_failed');
+        // });
+    }, [animateRef]);
 
     /**
      * 確認群聊視窗開啟狀態
@@ -235,10 +272,6 @@ const Main: FC = () => {
     const handleReload = () => {
         window.removeEventListener('beforeunload', handleCloseWindow);
         window.location.reload();
-    };
-
-    const handleMessage = (data: Obj) => {
-        console.log(data, 'handleMessage');
     };
 
     /**
@@ -356,10 +389,12 @@ const Main: FC = () => {
         setModalContent(<GroupChatDesc />);
         setShowModal(true);
     };
-    console.log('openAnimation:' + openAnimation, showMain);
     return (
         <div className="main-wrap" id="main-wrap">
-            {/* <button onClick={() => dispatch(postMessage())}>message</button> */}
+            <button onClick={() => dispatch(postMessage(false))}>
+                会中sur
+            </button>
+            <button onClick={() => dispatch(postMessage(true))}>会后sur</button>
             <CustomModal
                 showModal={showModal}
                 handleCloseModal={handleCloseModal}
@@ -371,6 +406,7 @@ const Main: FC = () => {
                     <div className="main-open-animation-container">
                         <Lottie
                             isClickToPauseDisabled={true}
+                            ref={animateRef}
                             // speed={0.8}
                             options={{
                                 loop: true,
@@ -387,15 +423,33 @@ const Main: FC = () => {
                             eventListeners={[
                                 {
                                     eventName: 'loopComplete',
-                                    callback: () =>
+                                    callback: () => {
+                                        console.log('loopComplete');
                                         !animateRef.current &&
-                                        setShowMain(false),
+                                            setShowMain(false);
+                                    },
+                                },
+                                {
+                                    eventName: 'enterFrame',
+                                    callback: () => {
+                                        console.log('enterFrame');
+                                        // setOpenAnimation(true);
+                                        // setShowMain(true);
+                                    },
+                                },
+                                {
+                                    eventName: 'data_ready',
+                                    callback: () => {
+                                        console.log('data_ready');
+                                        // setOpenAnimation(true);
+                                        // setShowMain(true);
+                                    },
                                 },
                             ]}
                             // id="open-animation"
                         ></Lottie>
                     </div>
-                    {/* <div className="main-open-animation-container-mo">
+                    <div className="main-open-animation-container-mo">
                         <Lottie
                             isClickToPauseDisabled={true}
                             options={{
@@ -403,20 +457,21 @@ const Main: FC = () => {
                                 autoplay: true,
                                 animationData: LottieJSON.OPEN_ANIMATION_MO,
                                 rendererSettings: {
-                                    preserveAspectRatio: 'xMidYMid slice'
-                                }
+                                    preserveAspectRatio: 'xMidYMid slice',
+                                },
                             }}
-                        // id="open-animation"
+                            // id="open-animation"
                         ></Lottie>
-                    </div> */}
+                    </div>
                 </div>
             )}
+
             <ModalContext.Provider value={{ setShowModal, setModalContent }}>
                 <HeaderNav
-                    changeEvent={changeEvent}
-                    setChangeEvent={setChangeEvent}
-                    handleClickSharedWalkin={handleClickSharedWalkin}
-                    onlineUsers={onlineUsers}
+                    socketOn={showReload}
+                    guest={guest}
+                    avatarStyle={avatarStyle}
+                    navigatorObj={navigatorObj}
                     setModalContent={setModalContent}
                     setShowModal={setShowModal}
                     handleClickScoreRules={handleClickScoreRules}
@@ -451,7 +506,10 @@ const Main: FC = () => {
                             handleReload={handleReload}
                         />
                     ) : (
-                        <InteractiveSec setChangeEvent={setChangeEvent} />
+                        <InteractiveSec
+                            setChangeEvent={setChangeEvent}
+                            socketOn={showReload}
+                        />
                     )}
                 </div>
             </ModalContext.Provider>

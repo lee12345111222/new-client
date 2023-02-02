@@ -12,21 +12,13 @@ type AddressSelectorProps = {
 // type CityName = keyof typeof cityData
 
 const AddressSelector: FC<AddressSelectorProps> = ({ setThanks }) => {
-    // const [province, setProvince] = useState(provinceData[0].name)
-    // const [cities, setCities] = useState(cityData[provinceData[0].id])
-    // const [cityValue, setCityValue] = useState(cityData[provinceData[0].id][0].name)
-    // const [cityCode, setCityCode] = useState('')
-    // const [area, setArea] = useState<{ city: string; name: string; id: string }[]>([])
-    // const [areaValue, setAreaValue] = useState('')
     const [inputName, setInputName] = useState('');
     const [inputPhone, setInputPhone] = useState('');
     const [inputAddress, setInputAddress] = useState('');
 
     // const { onPostUserReceiptInfo, updateSwagFinish } = useActions()
 
-    const {
-        user: { _id, name },
-    }: any = {};
+    const name = '';
 
     const handleInputName = debounce((val: string) => setInputName(val));
     const handleInputPhone = debounce((val: string) => setInputPhone(val));
@@ -42,11 +34,7 @@ const AddressSelector: FC<AddressSelectorProps> = ({ setThanks }) => {
         const phone = xss(inputPhone);
         setThanks(true);
 
-        setTimeout(() => {
-            // onPostUserReceiptInfo({ uid: _id, address, name, phone })
-            // updateSwagFinish()
-            setThanks(false);
-        }, 3000);
+        
     };
 
     return (

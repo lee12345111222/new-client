@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, memo, useEffect, useState } from 'react';
 import { Collapse } from 'antd';
 import Lottie from 'react-lottie';
 
@@ -6,11 +6,24 @@ import AddressSelector from './AddressSelector';
 // import { useTypedSelector, useActions } from '../../../../hooks'
 import { LottieJSON } from '../../../../utils/links';
 import { Links } from '../../../../utils/links';
+import { Obj } from '../../../../store/globalSlice';
+import { updateState } from '../../../../store/mainSlice';
+import { useDispatch } from 'react-redux';
 
 const { Panel } = Collapse;
 
-const SwagDrawing: FC = () => {
+interface Props {
+    lottery: Obj;
+    socket: any;
+}
+
+const SwagDrawing = memo((props: Props) => {
+    const { lottery, socket } = props;
+
+    const dispatch = useDispatch();
+
     const [thanks, setThanks] = useState(false);
+    const [during, setDuring] = useState(false);
     // const { onGetUserSwagPrize, updateSwagFinish } = useActions()
 
     const {
@@ -28,11 +41,26 @@ const SwagDrawing: FC = () => {
     }, [prizeFinished]);
 
     const handleSwagDrawing = () => {
-        if (!awards['swag']) {
-            // window.setTimeout(() => {
-            //     onGetUserSwagPrize({ uid: _id })
-            // }, 4000)
-        }
+        setDuring(true);
+    };
+    const handleCommit = (status: boolean) => {
+        setThanks(status);
+        socket.emit(
+            'lottery',
+            {
+                action: 'draw',
+                data: {
+                    id: lottery.id,
+                },
+            },
+            (res: any) => {
+                console.log(res, 'res');
+            },
+        );
+        setTimeout(() => {
+            dispatch(updateState({ key: 'lottery', value: {} }));
+            setThanks(false);
+        }, 3000);
     };
 
     return (
@@ -47,7 +75,7 @@ const SwagDrawing: FC = () => {
                 key="1"
             >
                 <div className="swag-collapse-body">
-                    {!awards['swag'] ? (
+                    {during ? (
                         <div className="swag-collapse-drawing">
                             <div className="swag-collapse-drawing-animation">
                                 <Lottie
@@ -62,6 +90,14 @@ const SwagDrawing: FC = () => {
                                                 'xMidYMid slice',
                                         },
                                     }}
+                                    eventListeners={[
+                                        {
+                                            eventName: 'complete',
+                                            callback: () => {
+                                                setDuring(false);
+                                            },
+                                        },
+                                    ]}
                                     // id="swag-drawing-lottie"
                                 ></Lottie>
                             </div>
@@ -95,7 +131,7 @@ const SwagDrawing: FC = () => {
                         <div className="swag-collapse-add-receipt">
                             <div className="swag-collapse-add-receipt-img">
                                 <img
-                                    src={`https://oss.uppmkt.com/cxo/img/swag/Swag_${awards['swag'].prizeName}.png`}
+                                    // src={`https://oss.uppmkt.com/cxo/img/swag/Swag_${awards['swag'].prizeName}.png`}
                                     alt=""
                                 />
                             </div>
@@ -109,20 +145,20 @@ const SwagDrawing: FC = () => {
                                             </>
                                         )}
 
-                                        <span>{awards['swag'].prizeName}</span>
+                                        <span>{lottery.awardName}</span>
                                     </div>
                                 </div>
                                 <p>
                                     请填写收件人信息，我们将把礼物寄送至您填写的地址
                                 </p>
                             </div>
-                            <AddressSelector setThanks={setThanks} />
+                            <AddressSelector setThanks={handleCommit} />
                         </div>
                     )}
                 </div>
             </Panel>
         </Collapse>
     );
-};
+});
 
 export default SwagDrawing;

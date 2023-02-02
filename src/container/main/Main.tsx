@@ -103,7 +103,7 @@ const Main: FC = () => {
 
     const dispatch = useDispatch();
 
-    console.log(mainInitial, 'mainInitial');
+    console.log(main, 'main');
 
     const navigate = useNavigate();
 
@@ -138,6 +138,31 @@ const Main: FC = () => {
         },
         [dispatch, mainInitial],
     );
+    const handleSurvey = useCallback(
+        (res: Obj) => {
+            //post 会后问卷  middle会中
+            const { data = [] } = res;
+            let post = data.filter((ele: Obj) => ele.category === 'post');
+            let middle = data.filter((ele: Obj) => ele.category === 'middle');
+            dispatch(updateState({ key: 'postSurveys', value: post }));
+            dispatch(updateState({ key: 'middleSurveys', value: middle }));
+
+            socket.emit('survey', {
+                action: 'receive',
+                data: data.map((ele: Obj) => ele.id),
+            });
+            navigate('/main/post');
+        },
+        [dispatch, navigate],
+    );
+    const handleLottery = useCallback(
+        (res: Obj) => {
+            const data: Obj = res.data;
+
+            dispatch(updateState({ key: 'lottery', value: data }));
+        },
+        [dispatch],
+    );
 
     useEffect(() => {
         let id = session;
@@ -157,22 +182,9 @@ const Main: FC = () => {
             dispatch(updateState({ key: 'socketOn', value: true }));
             setShowReload(true);
         });
-        socket.on('message', (data: any) => handleMessage(data));
-        console.log('receive');
-        socket.on('survey', (res: any) => {
-            //post 会后问卷  middle会中
-            const { data = [] } = res;
-            let post = data.filter((ele: Obj) => ele.category === 'post');
-            let middle = data.filter((ele: Obj) => ele.category === 'middle');
-            dispatch(updateState({ key: 'postSurveys', value: post }));
-            dispatch(updateState({ key: 'middleSurveys', value: middle }));
-
-            socket.emit('survey', {
-                action: 'receive',
-                data: data.map((ele: Obj) => ele.id),
-            });
-            navigate('/main/post');
-        });
+        socket.on('message', handleMessage);
+        socket.on('survey', handleSurvey);
+        socket.on('lottery', handleLottery);
 
         socket.on('disconnect', () => {
             dispatch(updateState({ key: 'socket', value: null }));

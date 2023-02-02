@@ -151,6 +151,7 @@ const InteractiveSec: FC<InteractiveSecProps> = ({
         socket,
         postSurveys,
         middleSurveys = [],
+        lottery = {},
     } = main;
     const tabsObj: Obj = {};
     tabs.forEach((ele: Obj) => {
@@ -430,6 +431,7 @@ const InteractiveSec: FC<InteractiveSecProps> = ({
             </div>
         </div>
     );
+    console.log(lottery, 'lottery.id');
 
     return (
         <div className="interactive-wrap">
@@ -445,8 +447,9 @@ const InteractiveSec: FC<InteractiveSecProps> = ({
                         className="interactive-routers-wrap"
                         style={{ overflow: 'scroll' }}
                     >
-                        {/* {!(helper || admin || googler || whoSharedWalkin) &&
-                            !finishSwag && <SwagDrawing />} */}
+                        {lottery.id ? (
+                            <SwagDrawing lottery={lottery} socket={socket} />
+                        ) : null}
                         {surveyShow && (
                             <SurveySec
                                 thanksShow={thanksShow}

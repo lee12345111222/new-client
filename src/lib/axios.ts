@@ -42,7 +42,7 @@ axiosInstance.interceptors.response.use(
         ) {
             sessionStorage.removeItem('Authorization');
             window.location.href =
-                'landingPage?' + sessionStorage.getItem('session');
+                '/landingPage?' + sessionStorage.getItem('session');
         }
         // 对响应错误做点什么
         return Promise.reject(error);

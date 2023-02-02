@@ -16,6 +16,7 @@ export interface MainState {
     middleSurveys: Obj[];
     userPostSurveys: boolean;
     restPostSurveyPage: number;
+    lottery: Obj;
 }
 export interface Obj {
     [name: string]: any;
@@ -34,6 +35,7 @@ const initialState: MainState = {
     middleSurveys: [],
     userPostSurveys: false,
     restPostSurveyPage: 0,
+    lottery: {},
 };
 
 export const mainSlice = createSlice({
